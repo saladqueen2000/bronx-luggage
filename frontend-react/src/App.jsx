@@ -5,18 +5,18 @@ import { useEffect } from 'react'
 import axios from 'axios';
 import './App.css'
 
-const findProduct = async () => {
+const find = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/products');
+    const response = await axios.get('http://localhost:8000/api/galleries');
     
-    console.log('Product:', response?.data);
+    console.log('Result:', response?.data);
   } catch (error) {
-    console.error('Error creating product:', error.response?.data);
+    console.error('Error:', error.response?.data);
   }
 };
 
 function App() {
-  findProduct();
+  find();
   const [count, setCount] = useState(0);
   return (
     <>
