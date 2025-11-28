@@ -8,6 +8,8 @@ import './App.css'
 const createProduct = async () => {
   try {
     const response = await axios.post('http://localhost:8000/api/products', {
+      category_id: 1,
+      brand_id: 1,
       name: 'Sample T-Shirt',
       description: 'A comfortable t-shirt',
       price: 199.99,
