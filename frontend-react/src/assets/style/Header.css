@@ -1,0 +1,45 @@
+.header {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 230px;
+    font-family: "poppins";
+}
+
+.header-upper {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 40px;
+    padding: 15px 0px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
+    color: black
+}
+
+.header-middle {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 50px;
+    padding: 20px 0px;
+    background-color: #003F62;
+    display: flex;
+    flex-direction: row;
+}
+
+.header-lower {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 70px;
+    background-color: #F4F4F4;
+    display: flex;
+    flex-direction: row;
+    gap: 50px
+}

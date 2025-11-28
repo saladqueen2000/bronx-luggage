@@ -1,0 +1,107 @@
+.footer {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #E2F4FF;
+    width: 100%;
+    height: 450px;
+    font-family: "poppins";
+    padding-top: 37.5px;
+}
+
+.footer__subscribe {
+    margin: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: white;
+    width: 1275px;
+    height: 77.5px;
+    border-radius: 15px;
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.footer__about {
+    margin-top: 37.5px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.footer__about-location {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-left: 75px;
+}
+
+.footer__about-location--icons {
+    color: #4F5253;
+}
+
+.footer-list {
+    margin: 0px 75px 0px 162.5px;
+}
+
+.footer-list h3 {
+    font-family: "Poppins";
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #1B5A7D;
+    margin-bottom: 10px;
+}
+
+.footer-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-list li {
+    font-family: "Poppins";
+    color: #1B5A7D;
+    font-size: 1.125rem;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-list li::before {
+    content: "●";
+    color: #D9D9D9;
+    font-size: 14px;
+}
+
+.ticker-container {
+    width: 100%;
+    overflow: hidden;
+    background: #003F62;
+    color: white;
+    padding: 10px 0;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.ticker-track {
+    display: inline-flex;
+    gap: 50px;
+    animation: tickerAnimation 20s linear infinite;
+}
+
+.ticker-track span {
+    padding-right: 50px;
+}
+
+@keyframes tickerAnimation {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-33.33%);
+        /* CHUẨN CHỈNH */
+    }
+}
