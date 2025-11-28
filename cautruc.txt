@@ -1,0 +1,39 @@
+bronx-luggage
+│
+├── backend-laravel/           ← Toàn bộ backend API (Laravel)
+│   │
+│   ├── app/                   ← Code chính của Laravel (Models, Controllers, Middleware)
+│   │   ├── Http/
+│   │   │   │── Api/           ← REST API controllers (Products, Categories,…)
+│   │   │   ├── Controllers/   
+│   │   │   └── Middleware/
+│   │   └── Models/            ← Eloquent Models (Product, Category, Brand,…)
+│   │
+│   ├── config/                ← Cấu hình (cors.php, database.php, etc.)
+│   ├── database/
+│   │   ├── migrations/        ← File tạo bảng database
+│   │   └── seeders/           ← Seed dữ liệu mẫu
+│   │
+│   ├── routes/
+│   │   ├── api.php            ← Khai báo API cho React
+│   │   └── web.php
+│   │
+│   ├── public/                ← Nơi Laravel serve ảnh / file tĩnh
+│   ├── storage/               
+│   └── vite.config.js
+│
+│
+├── frontend-react/            ← App ReactJS dùng Vite (SPA)
+│   │
+│   ├── src/                   ← Toàn bộ code React chính
+│   │   ├── components/        ← Component UI (Navbar, Card,…)
+│   │   ├── pages/             ← Các trang (Home, Products,…)
+│   │   ├── services/          ← axios API kết nối tới Laravel
+│   │   ├── routes/            ← React Router
+│   │   └── App.jsx / main.jsx ← Root của React App
+│   │
+│   ├── public/                ← file favicon, ảnh tĩnh
+│   ├── index.html             
+│   └── vite.config.js         ← Cấu hình dev server (5173)
+│
+└── README.md
