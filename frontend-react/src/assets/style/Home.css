@@ -1,0 +1,50 @@
+.home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.home__content {
+    flex: 1;
+}
+
+.home__introduction {
+    display: flex;
+    flex-direction: column;
+}
+
+.home__introduction-cat {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    margin-left: 100px;
+}
+
+.home__introduction-cat-card {
+    width: 250px;
+    height: 100px;
+    padding: 20px 75px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #A5A5A5;
+    border-radius: 25px;
+}
+
+.home__popular {
+    margin-top: 75px;
+    display: flex;
+    flex-direction: column;
+}
+
+.home__sale {
+    background-image: url("../images/Bags_background_img.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% auto; 
+    width: 90%;
+    height: 400px;
+    margin: auto;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    padding-top: 100px;
+}
