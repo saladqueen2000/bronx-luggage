@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" href="#">Add Color</a>
+        <a class="btn btn-primary" href="/admin/colors/create">Add Color</a>
     </div>
 
     <div class="card-body">
@@ -18,7 +18,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Color Name</th>
-                    <th width="100px">Action</th>
+                    <th width="120px">Action</th>
                 </tr>
             </thead>
 

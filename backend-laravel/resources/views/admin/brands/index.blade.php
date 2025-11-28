@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" href="#">Add Brand</a>
+        <a class="btn btn-primary" href="/admin/brands/create">Add Brand</a>
     </div>
 
     <div class="card-body">
@@ -18,13 +18,22 @@
                 <tr>
                     <th>ID</th>
                     <th>Brand Name</th>
-                    <th width="100px">Action</th>
+                    <th width="150px">Action</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr>
-                    <td colspan="3" class="text-center">No data yet</td>
+                    <td>1</td>
+                    <td>Sample Brand</td>
+                    <td>
+                        <a href="/admin/brands/edit" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="text-center">No more data</td>
                 </tr>
             </tbody>
         </table>

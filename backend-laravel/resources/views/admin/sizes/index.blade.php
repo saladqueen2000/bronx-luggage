@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" href="#">Add Size</a>
+        <a class="btn btn-primary" href="/admin/sizes/create">Add Size</a>
     </div>
 
     <div class="card-body">
@@ -18,7 +18,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Size Name</th>
-                    <th width="100px">Action</th>
+                    <th width="120px">Action</th>
                 </tr>
             </thead>
 
