@@ -143,4 +143,53 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Product deleted successfully']);
     }
+
+    public function filter(Request $request)
+{
+    $products = Product::query();
+
+    // Filter by brand
+    if ($request->brand_id) {
+        $products->where('brand_id', $request->brand_id);
+    }
+
+    // Filter by category
+    if ($request->category_id) {
+        $products->where('category_id', $request->category_id);
+    }
+
+    // Filter by price range
+    if ($request->min_price) {
+        $products->where('price', '>=', $request->min_price);
+    }
+
+    if ($request->max_price) {
+        $products->where('price', '<=', $request->max_price);
+    }
+
+    // Filter by multiple colors
+    if ($request->color_ids) {
+        $products->whereHas('colors', function ($q) use ($request) {
+            $q->whereIn('colors.id', $request->color_ids);
+        });
+    }
+
+    // Filter by multiple sizes
+    if ($request->size_ids) {
+        $products->whereHas('sizes', function ($q) use ($request) {
+            $q->whereIn('sizes.id', $request->size_ids);
+        });
+    }
+
+    // Search by product name
+    if ($request->keyword) {
+        $products->where('name', 'LIKE', '%' . $request->keyword . '%');
+    }
+
+    // Load relationships
+    $products = $products->with(['brand', 'category', 'colors', 'sizes', 'gallery'])->get();
+
+    return response()->json($products);
+}
+
 }
