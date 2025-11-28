@@ -1,34 +1,23 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { useEffect } from 'react'
+import { useEffect  } from 'react'
 import axios from 'axios';
 import './App.css'
 
-const createProduct = async () => {
+const find = async () => {
   try {
-    const response = await axios.post('http://localhost:8000/api/products', {
-      name: 'Sample T-Shirt',
-      description: 'A comfortable t-shirt',
-      price: 199.99,
-      gender: 'Unisex',
-      colors: [1, 2],
-      sizes: [1, 2, 3],
-      gallery: [
-        'https://example.com/image1.jpg',
-        'https://example.com/image2.jpg'
-      ]
-    });
+    const response = await axios.get('http://localhost:8000/api/products',);
     
-    console.log('Product created:', response.data);
+    console.log('Result:', response?.data);
   } catch (error) {
-    console.error('Error creating product:', error.response.data);
+    console.error('Error:', error.response?.data);
   }
 };
 
 function App() {
-  createProduct();
-
+  find();
+  const [count, setCount] = useState(0);
   return (
     <>
       <div>
