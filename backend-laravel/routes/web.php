@@ -45,3 +45,4 @@ Route::get('/admin/users', fn() => view('admin.users.index'));
 
 // Ratings
 Route::get('/admin/ratings', fn() => view('admin.ratings.index'));
+Route::get('/admin/ratings/show', fn() => view('admin.ratings.show'));
