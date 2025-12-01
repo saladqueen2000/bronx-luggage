@@ -3,6 +3,11 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import ProductList from './pages/ProductList'
 import axios from 'axios';
+import Cart from './pages/Cart';
+import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
+import Login from './pages/login';
+import Register from './pages/Register';
 
 const find = async () => {
   try {
@@ -20,6 +25,13 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/list" element={<ProductList />} />
+      <Route path="/category/:categoryID" element={<ProductList />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/products/:productID" element={<ProductDetail />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
     </Routes>
   )
 }

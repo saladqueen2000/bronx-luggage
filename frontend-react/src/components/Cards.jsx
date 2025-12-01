@@ -111,7 +111,7 @@ function ProductCard({ image, title, price }) {
         <Card
             sx={{
                 width: 300,
-                height: 285,
+                height: 300,
                 borderRadius: "20px",
                 position: "relative",
                 overflow: "visible",
