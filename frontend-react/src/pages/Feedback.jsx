@@ -18,7 +18,7 @@ export default function Contact() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/api/contact", form);
+      const res = await axios.post("http://localhost:8000/api/feedbacks", form);
       setSuccess(res.data.message);
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err) {
@@ -28,7 +28,7 @@ export default function Contact() {
 
   return (
     <div style={{ width: "400px", margin: "auto" }}>
-      <h2>Contact Us</h2>
+      <h2>Feedback</h2>
 
       {success && <p style={{ color: "green" }}>{success}</p>}
 

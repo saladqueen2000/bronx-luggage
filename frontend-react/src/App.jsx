@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import ProductList from './pages/ProductList'
 import axios from 'axios';
-import Contact from "./pages/Contact";
+import Contact from "./pages/Feedback";
 const find = async () => {
   try {
     const response = await axios.get('http://localhost:8000/api/products');
@@ -14,14 +14,11 @@ const find = async () => {
   }
 };
 
-
-
-
 function App() {
   find();
   return (
     <Routes>
-      <Route path="/contact" element={<Contact />} />
+      <Route path="/feedback" element={<Contact />} />
       <Route path="/" element={<Home />} />
       <Route path="/list" element={<ProductList />} />
     </Routes>
@@ -29,5 +26,3 @@ function App() {
 }
 
 export default App
-
-

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Card, CardContent, CardMedia, IconButton, Button, Box, Typography } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Card, CardContent, CardMedia, Button, Box, Typography } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import StarIcon from "@mui/icons-material/Star";
@@ -10,41 +9,28 @@ function ResponsiveCard({ image }) {
         <Card
             sx={{
                 width: 300,
-                borderRadius: "20px",
+                height: 285,
+                borderRadius: "30px",
                 position: "relative",
                 overflow: "visible",
                 paddingBottom: "15px",
                 border: "1px solid #B6B6B6",
             }}
         >
-            {/* Icon yêu thích */}
-            <IconButton
-                sx={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    backgroundColor: "#B3D4E5",
-                    width: 35,
-                    height: 35,
-                    "&:hover": {
-                        backgroundColor: "#d6edff",
-                    },
-                }}
-            >
-                <FavoriteBorderIcon sx={{ color: "black" }} />
-            </IconButton>
-
             {/* Product image */}
             <CardMedia
                 component="img"
                 image={image}
-                // alt={title}
                 sx={{
                     height: 180,
-                    width: 200,
-                    padding: "0px 50px",
-                    objectFit: "contain",
+                    width: 260,
+                    margin: "0px 20px",
                     marginTop: "20px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                        opacity: "0.9",
+                        cursor: "pointer",
+                    },
                 }}
             />
 
@@ -112,29 +98,13 @@ function ProductCard({ image, title, price }) {
             sx={{
                 width: 300,
                 height: 285,
-                borderRadius: "20px",
+                borderRadius: "30px",
                 position: "relative",
                 overflow: "visible",
                 paddingBottom: "15px",
                 border: "1px solid #B6B6B6",
             }}
         >
-            {/* Icon yêu thích */}
-            <IconButton
-                sx={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    backgroundColor: "#B3D4E5",
-                    width: 35,
-                    height: 35,
-                    "&:hover": {
-                        backgroundColor: "#d6edff",
-                    },
-                }}
-            >
-                <FavoriteBorderIcon sx={{ color: "black" }} />
-            </IconButton>
 
             {/* Product image */}
             <CardMedia
@@ -143,10 +113,14 @@ function ProductCard({ image, title, price }) {
                 alt={title}
                 sx={{
                     height: 180,
-                    width: 200,
-                    padding: "0px 50px",
-                    objectFit: "contain",
+                    width: 260,
+                    margin: "0px 20px",
                     marginTop: "20px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                        opacity: "0.9",
+                        cursor: "pointer",
+                    },
                 }}
             />
 
@@ -159,7 +133,8 @@ function ProductCard({ image, title, price }) {
                         color: "#003F62",
                         fontSize: "1.1rem",
                         mb: 1,
-                        marginBottom: "5px"
+                        marginBottom: "5px",
+                        cursor: "pointer",
                     }}
                 >
                     {title}
