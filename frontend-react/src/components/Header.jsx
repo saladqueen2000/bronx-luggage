@@ -19,14 +19,7 @@ export default function Header() {
     return (
         <header className='header'>
             <div className="header-upper">
-                <span
-                    style={{
-                        marginLeft: "40px",
-                        marginTop: "7.5px"
-                    }}
-                >
-                    Need help? Call us: (+84) 0817070903
-                </span>
+                <span className='header-upper-call'>Need help? Call us: (+84) 0817070903</span>
                 <StoreBtnGroup />
             </div>
             <div className='header-middle'>

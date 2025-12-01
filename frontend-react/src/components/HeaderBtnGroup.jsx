@@ -66,24 +66,10 @@ function HeaderBtnGroup() {
 
 function StoreBtnGroup() {
     return (
-        <ButtonGroup
-            variant='text'
-            sx={{
-                marginLeft: "auto",
-                marginRight: "40px",
-            }}
-        >
+        <ButtonGroup variant='text' className='storeBtnGroup'>
             <CustomBtn2>
                 <FmdGoodOutlinedIcon sx={{ fontSize: "1.25rem", color: "black" }} />
-                <span
-                    style={{
-                        marginLeft: "7.5px",
-                        fontSize: "1rem",
-                        color: "black",
-                        fontFamily: "Poppins"
-                    }}
-                >
-                    Our store</span>
+                <span className='storeBtnGroup-text'>Our store</span>
             </CustomBtn2>
 
             <CustomBtn2>

@@ -1,19 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { slides } from "../assets/temporaryData/sliderData";
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from 'react-router-dom';
+import CircularProgress from "@mui/material/CircularProgress";
+import '../global.css';
+import axios from "axios"
 
 export default function SliderHero() {
+    const [slides, setSlides] = useState([]);
     const [index, setIndex] = useState(0);
-    // Auto slide mỗi 5 giây
+
+    const fetchSlides = async () => {
+        try {
+            const res = await axios.get("http://localhost:8000/api/products");
+            const data = res.data.slice(0, 3); // lấy 3 sản phẩm đầu
+            setSlides(data);
+        } catch (err) {
+            console.error("API Error:", err);
+        }
+    };
+
     useEffect(() => {
+        fetchSlides();
+    }, []);
+
+    const current = slides[index];
+
+    useEffect(() => {
+        if (slides.length === 0) return;
+
         const timer = setInterval(() => {
             setIndex((prev) => (prev + 1) % slides.length);
         }, 5000);
 
         return () => clearInterval(timer);
-    }, []);
-    const current = slides[index];
+    }, [slides]);
+
+    if (!current) {
+        return (
+            <div className='loadingStyle'>
+                <CircularProgress />
+            </div>
+        );
+    }
 
     return (
         <Box
@@ -38,7 +66,7 @@ export default function SliderHero() {
                         mb: 3
                     }}
                 >
-                    {current.title}
+                    {current?.name}
                 </Typography>
                 {/* BUTTONS */}
                 <Box sx={{ display: "flex", gap: "20px", mb: 5 }}>
@@ -100,9 +128,9 @@ export default function SliderHero() {
             {/* RIGHT IMAGE */}
             <Box sx={{ position: "relative" }}>
                 <img
-                    src={current.image}
+                    src={current?.gallery?.[0]?.image_url ?? ""}
                     alt=""
-                    style={{ width: "500px", height: "500px" }}
+                    className="home__slide-img"
                 />
 
                 {/* PRICE CIRCLE */}
@@ -125,7 +153,7 @@ export default function SliderHero() {
                         fontSize: "20px"
                     }}
                 >
-                    only <br /> {current.price}
+                    Only <br /> ${current.price}!
                 </Box>
             </Box>
         </Box>

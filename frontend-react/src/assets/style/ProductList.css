@@ -1,0 +1,9 @@
+.productList_list {
+    display: flex;
+}
+
+.productList_list_display {
+    margin-top: 100px;
+    margin-left: 75px;
+    margin-bottom: 50px;
+}
