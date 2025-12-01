@@ -19,9 +19,8 @@ export default function ProductDetail(props) {
         const response = await fetch(`https://fakestoreapi.com/products/${id}`);  
         const data = await response.json();
         setItem(data);
-        
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching product data:", error);
       }
     };
 
@@ -42,7 +41,7 @@ export default function ProductDetail(props) {
         {/* LEFT IMAGE SECTION */}
         <div style={{ width: "50%" }}>
           <img
-            src={1}
+            src={item.image}
             alt="product"
             style={{ width: "100%", borderRadius: "8px" }}
           />
