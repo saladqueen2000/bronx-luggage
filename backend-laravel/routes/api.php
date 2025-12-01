@@ -24,3 +24,5 @@ Route::apiResource('feedbacks', FeedbackController::class);
 Route::apiResource('galleries', GalleryController::class);
 Route::apiResource('sizes', SizeController::class);
 Route::apiResource('ratings', RatingController::class);
+
+
