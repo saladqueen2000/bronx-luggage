@@ -14,9 +14,6 @@ const find = async () => {
   }
 };
 
-
-
-
 function App() {
   find();
   return (
