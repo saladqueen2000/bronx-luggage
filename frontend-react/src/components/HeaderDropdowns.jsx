@@ -220,6 +220,5 @@ function DropdownGroup() {
 
 
 export {
-    CategoriesDropdown,
-    DropdownGroup
+    CategoriesDropdown
 }

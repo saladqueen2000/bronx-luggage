@@ -115,3 +115,8 @@ export default function Home() {
 //Giao diện trên máy khác không giống
 //Responsive
 
+
+
+//git add .
+//git commit -m "linhtinh"
+//git push

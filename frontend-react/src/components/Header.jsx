@@ -7,11 +7,11 @@ import { HeaderLogo } from './Logo.jsx'
 import {
     HeaderBtnGroup,
     StoreBtnGroup,
-    ReturnBtn
+    ReturnBtn,
+    LinkBtnGroup
 } from './HeaderBtnGroup.jsx';
 import {
-    CategoriesDropdown,
-    DropdownGroup
+    CategoriesDropdown
 } from './HeaderDropdowns.jsx';
 
 
@@ -29,9 +29,13 @@ export default function Header() {
             </div>
             <div className="header-lower">
                 <CategoriesDropdown />
-                <DropdownGroup />
+                <LinkBtnGroup />
                 <ReturnBtn />
             </div>
         </header>
     );
 }
+
+//git add .
+//git commit -m "linhtinh"
+//git push

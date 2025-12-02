@@ -40,6 +40,13 @@ export default function FilterSidebar() {
     const [productType, setProductType] = useState("");
     const [brand, setBrand] = useState("");
     const [size, setSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState(null);
+
+    const colors = ["#E53E3E", "#F6AD55", "#ECC94B", "#48BB78", "#38B2AC", "#3182CE", "#805AD5", "#E53E96", "#9AE6B4"];
+
+    const handleColorChange = (color) => {
+        setSelectedColor(color)
+    }
 
     const resetCategory = () => setCategory("");
     const resetAvailability = () => setAvailability("");
@@ -182,10 +189,30 @@ export default function FilterSidebar() {
             {/* Color */}
             <FilterSection title="Color" onReset={() => { }}>
                 <Box sx={{ display: "flex", gap: 1.2 }}>
-                    {["#E53E3E", "#F6AD55", "#ECC94B", "#48BB78", "#38B2AC", "#3182CE", "#805AD5", "#E53E96", "#9AE6B4"].map(
-                        (color, index) => (
-                            <CircleIcon key={index} sx={{ color, fontSize: "1.3rem", cursor: "pointer" }} />
-                        )
+                    {colors.map((color, index) => (
+                        <Checkbox
+                            key={index}
+                            checked={selectedColor === color}
+                            onChange={() => handleColorChange(color)}
+                            icon={
+                                <CircleIcon sx={{ color, fontSize: "1rem" }} />
+                            }
+                            checkedIcon={
+                                <CircleIcon
+                                    sx={{
+                                        color,
+                                        fontSize: "1rem",
+                                        outline: `2px solid ${color}`,
+                                        borderRadius: "50%",
+                                    }}
+                                />
+                            }
+                            sx={{
+                                padding: 0,
+                                cursor: "pointer"
+                            }}
+                        />
+                    )
                     )}
                 </Box>
             </FilterSection>

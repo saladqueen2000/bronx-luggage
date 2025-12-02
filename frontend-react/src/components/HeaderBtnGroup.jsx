@@ -19,6 +19,7 @@ const CustomBtn1 = styled(IconButton)(({ }) => ({
 const CustomBtn2 = styled(IconButton)(({ }) => ({
     border: "none",
     borderRadius: "0px",
+    padding: "0px",
     width: "175px",
     height: "40px",
     "&:hover": {
@@ -74,15 +75,7 @@ function StoreBtnGroup() {
 
             <CustomBtn2>
                 <LocalShippingOutlinedIcon sx={{ fontSize: "1.25rem", color: "black" }} />
-                <span
-                    style={{
-                        marginLeft: "7.5px",
-                        fontSize: "1rem",
-                        color: "black",
-                        fontFamily: "Poppins"
-                    }}
-                >
-                    Track your order</span>
+                <span className='storeBtnGroup-text'>Track your order</span>
             </CustomBtn2>
         </ButtonGroup>
     )
@@ -106,8 +99,21 @@ function ReturnBtn() {
     )
 }
 
+function LinkBtnGroup() {
+    return (
+        <ButtonGroup variant='text' className='linkBtnGroup'>
+            <Button variant='text' className='linkBtn'>Home</Button>
+            <Button variant='text' className='linkBtn'>Products</Button>
+            <Button variant='text' className='linkBtn'>Feedback</Button>
+            <Button variant='text' className='linkBtn'>About us</Button>
+            <Button variant='text' className='linkBtn'>Contact us</Button>
+        </ButtonGroup>
+    )
+}
+
 export {
     HeaderBtnGroup,
     StoreBtnGroup,
-    ReturnBtn
+    ReturnBtn,
+    LinkBtnGroup
 }
