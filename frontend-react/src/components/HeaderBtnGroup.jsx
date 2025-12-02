@@ -29,37 +29,15 @@ const CustomBtn2 = styled(IconButton)(({ }) => ({
 
 function HeaderBtnGroup() {
     return (
-        <ButtonGroup
-            variant='text'
-            sx={{
-                marginLeft: "auto",
-                marginRight: "40px",
-            }}
-        >
+        <ButtonGroup variant='text' className='headerBtnGroup'>
             <CustomBtn1>
-                <PersonOutlineIcon sx={{ fontSize: "1.75rem", color: "white", }} />
-                <span
-                    style={{
-                        marginLeft: "10px",
-                        fontSize: "1.25rem",
-                        fontWeight: "lighter",
-                        color: "white",
-                    }}
-                >
-                    Sign in</span>
+                <PersonOutlineIcon className='headerBtnGroup-icon'/>
+                <span className='headerBtnGroup-text'>Sign in</span>
             </CustomBtn1>
 
             <CustomBtn1>
-                <ShoppingCartOutlinedIcon sx={{ fontSize: "1.75rem", color: "white", }} />
-                <span
-                    style={{
-                        marginLeft: "10px",
-                        fontSize: "1.25rem",
-                        fontWeight: "lighter",
-                        color: "white",
-                    }}
-                >
-                    Cart</span>
+                <ShoppingCartOutlinedIcon className='headerBtnGroup-icon'/>
+                <span className='headerBtnGroup-text'>Cart</span>
             </CustomBtn1>
         </ButtonGroup>
     );
@@ -83,19 +61,7 @@ function StoreBtnGroup() {
 
 function ReturnBtn() {
     return (
-        <Button
-            variant='text'
-            sx={{
-                marginLeft: "auto",
-                marginRight: "40px",
-                fontSize: "1rem",
-                fontWeight: "bold",
-                color: "#003F62",
-                fontFamily: "Poppins"
-            }}
-        >
-            30 Days Free Return
-        </Button>
+        <Button variant='text' className='returnBtn'>30 Days Free Return</Button>
     )
 }
 
@@ -105,8 +71,8 @@ function LinkBtnGroup() {
             <Button variant='text' className='linkBtn'>Home</Button>
             <Button variant='text' className='linkBtn'>Products</Button>
             <Button variant='text' className='linkBtn'>Feedback</Button>
-            <Button variant='text' className='linkBtn'>About us</Button>
-            <Button variant='text' className='linkBtn'>Contact us</Button>
+            <Button variant='text' className='linkBtn'>About</Button>
+            <Button variant='text' className='linkBtn'>Contact</Button>
         </ButtonGroup>
     )
 }

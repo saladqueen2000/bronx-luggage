@@ -114,7 +114,7 @@ export default function Home() {
 
 //Giao diện trên máy khác không giống
 //Responsive
-
+//Chia trang list (12 sản phẩm 1 trang)
 
 
 //git add .
