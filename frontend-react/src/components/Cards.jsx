@@ -6,6 +6,7 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import StarIcon from "@mui/icons-material/Star";
 
 function ResponsiveCard({ image }) {
+    
     return (
         <Card
             sx={{

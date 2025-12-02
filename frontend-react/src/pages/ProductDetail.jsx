@@ -1,94 +1,138 @@
-import React from "react";
-import { State,useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import Backpack1 from '../assets/images/Backpack_image_1.png'
 import Backpack2 from '../assets/images/Backpack_image_2.png'
 import Backpack3 from '../assets/images/Backpack_image_3.png';
 import { useParams } from "react-router-dom";
+import axios from 'axios';
+
+
 
 
 export default function ProductDetail(props) {
+const colors = ['Red', 'Blue', 'Green', 'Black', 'White'];
+ const [selectedColor, setSelectedColor] = useState('');
+ const [selectedSize, setSelectedSize] = useState('');
+ const [quantity, setQuantity] = useState(1);
+ const { id } = useParams();
+ const [product, setProduct] = useState(null);
+ const [addedToCart, setAddedToCart] = useState(false);
+ const [cartItems, setCartItems] = useState([]);
 
-  const { id } = useParams();
-  const [item, setItem] = useState(null);
-  
-  useEffect(() => {
-    const fetchData = 
-    async () => {
-      try {
-        const response = await fetch(`https://fakestoreapi.com/products/${id}`);  
-        const data = await response.json();
-        setItem(data);
+ const addedToCartMessage = addedToCart ? (
+   <div
+     style={{
+        position: "fixed",
+        top: "20px",
+        right: "20px",
+        backgroundColor: "#4BB543",
+        color: "white",
+        padding: "10px 20px",
+        borderRadius: "8px",
+        zIndex: 1000
+     }}
+   >
+     Added to cart!
+   </div>
+ ) : null;
+
+ useEffect(() => {  
+      const fetchProduct = async () => {
+      try { 
+        const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
+        const data = response?.data;
+        setProduct(data);
       } catch (error) {
-        console.error("Error fetching product data:", error);
+        console.error('Error fetching product data:', error);
       }
     };
 
-    fetchData();
+    fetchProduct();
   }, [id]);
-
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div style={{ fontFamily: "Arial", margin: "0 auto", maxWidth: "1200px" }}>
-      {/* ========== BREADCRUMB ========== */}
       <div style={{ padding: "15px 0" }}>
         Home / All Category / Product
       </div>
 
-      {/* ========== MAIN PRODUCT AREA ========== */}
+      
       <div style={{ display: "flex", gap: "40px" }}>
         
         {/* LEFT IMAGE SECTION */}
         <div style={{ width: "50%" }}>
           <img
-            src={item.image}
+            src={product.image}
             alt="product"
             style={{ width: "100%", borderRadius: "8px" }}
           />
           
           <div style={{ display: "flex", marginTop: "10px", gap: "10px" }}>
-            <img src={Backpack3} width="80" />
-            <img src={Backpack3} width="80" />
-            <img src={Backpack3} width="80" />
+            <img src={product.image} width="80" />
+            <img src={product.image} width="80" />
+            <img src={product.image} width="80" />
           </div>
         </div>
 
         {/* RIGHT PRODUCT INFO */}
         <div style={{ width: "50%" }}>
-          <h2>1</h2>
-          <h3>1</h3>
+          <h2>{product.title}</h2>
+          <h3>${product.price}</h3>
 
           <p>✔️ In stock — Hurry! only 8 product left!</p>
+
+          <form action="/add-to-cart" method="post">
 
           <div style={{ marginTop: "20px" }}>
             <b>Color:</b>
             <div style={{ marginTop: "10px" }}>
-              <button>Red</button> <button>Blue</button> <button>Green</button>
+              {colors.map(color => (
+                <button key={color} onClick={() => setSelectedColor(color)} style={{
+                padding: "8px 16px",
+                backgroundColor: selectedColor === color ? color.toLowerCase() : "#f0f0f0",
+                color: selectedColor === color ? "white" : "#333",
+                border: `2px solid ${selectedColor === "black" ? color.toLowerCase() : "#ddd"}`,
+                borderRadius: "4px",
+                cursor: "pointer",
+                transition: "all 0.2s ease"
+              }}>{color}</button>
+              ))}
             </div>
           </div>
 
           <div style={{ marginTop: "20px" }}>
             <b>Size:</b>
             <div style={{ marginTop: "10px" }}>
-              <button>XS</button> <button>S</button> <button>M</button>{" "}
-              <button>L</button> <button>XL</button>
+              {['S', 'M', 'L', 'XL','XXL'].map(size => (
+                <button key={size} onClick={() => setSelectedSize(size)} style={{ 
+                padding: "8px 16px",
+                backgroundColor: selectedSize === size ? "#333" : "#f0f0f0",
+                color: selectedSize === size ? "white" : "#333",
+                border: `2px solid ${selectedSize === size ? "#333" : "#ddd"}`,
+                borderRadius: "4px",
+                cursor: "pointer",
+                transition: "all 0.2s ease"
+              }}>{size}</button>
+              ))}
             </div>
           </div>
 
           <div style={{ marginTop: "20px" }}>
             <b>Quantity:</b>
             <div style={{ marginTop: "10px" }}>
-              <button>-</button> <span style={{ padding: "0 15px" }}>1</span>{" "}
-              <button>+</button>
+              <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>-</button> <span style={{ padding: "0 15px" }}>{quantity}</span>{" "}
+              <button onClick={() => setQuantity(quantity + 1)}>+</button>
             </div>
           </div>
 
           <div style={{ marginTop: "25px", display: "flex", gap: "15px" }}>
-            <button style={{ padding: "10px 20px" }}>Add to cart</button>
-            <button style={{ padding: "10px 20px" }}>Buy it now</button>
+            <button style={{ padding: "10px 20px" }} onClick={() => setAddedToCart(true)}>Add to cart</button>
+            <button style={{ padding: "10px 20px" }} onClick={''} >Buy it now</button>
             <button>♡</button>
           </div>
-
+              </form>
           <div style={{ marginTop: "20px", fontSize: "14px", color: "#555" }}>
             <p>SKU: ZD129-99</p>
             <p>Category: Game pad, Game, Electronics</p>

@@ -14,7 +14,7 @@ import '../assets/style/Home.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export default function Home() {
+export default function List() {
     const [products, setProducts] = React.useState([]);
     const fetchData = async()=>{
         try{
@@ -35,73 +35,7 @@ export default function Home() {
 
     return (
         <div className='home'>
-            <Header />
             <main className='home__content'>
-                <section className="home__introduction">
-                    <SliderHero />
-
-                    <div className="home__introduction-cat">
-                        <Link to="/category/:categoryID" style={{ textDecoration: 'none' }}>
-                        <div className="home__introduction-cat-card">
-                            <img src={Backpack3} style={{ width: "100px", height: "100px" }} />
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "300px",
-                                color: "#1B5A7D",
-                                fontFamily: "Poppins",
-                                fontSize: "1.5rem",
-                                marginTop: "10px",
-                                marginLeft: "50px",
-                            }}>
-                                <span style={{ fontWeight: "600" }}>Backpack</span>
-                                <span>(3 items)</span>
-                            </div>
-                        </div>
-                            </Link>
-
-                            <Link to="/category/:categoryID" style={{ textDecoration: 'none' }}>
-                        <div className="home__introduction-cat-card">
-                            <img src={Bag1} style={{ width: "100px", height: "100px" }} />
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "300px",
-                                color: "#1B5A7D",
-                                fontFamily: "Poppins",
-                                fontSize: "1.5rem",
-                                marginTop: "10px",
-                                marginLeft: "41px",
-                            }}>
-                                <span style={{ fontWeight: "600" }}>Bag</span>
-                                <span>(2 items)</span>
-                            </div>
-                        </div>
-                        </Link>
-
-                            <Link to="/category/:categoryID" style={{ textDecoration: 'none' }}>
-                        <div className="home__introduction-cat-card">
-                            <img src={Luggage1} style={{ width: "100px", height: "100px" }} />
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "300px",
-                                color: "#1B5A7D",
-                                fontFamily: "Poppins",
-                                fontSize: "1.5rem",
-                                marginTop: "10px",
-                                marginLeft: "40px",
-                            }}>
-                                <span style={{ fontWeight: "600" }}>Luggage</span>
-                                <span>(3 items)</span>
-                            </div>
-                        </div>
-                        </Link>
-                    </div>
-                </section>
-
-
-
                 <section className="home__popular">
                     <div style={{ display: "flex" }}>
                         <span
@@ -178,13 +112,10 @@ export default function Home() {
                     </div>
                     </Grid>
                 </section>
-
-                <SaleBanner />
+              
             </main>
-            <Footer />
+           
         </div>
     );
 }
-
-
 
