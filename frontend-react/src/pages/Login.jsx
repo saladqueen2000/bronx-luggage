@@ -1,32 +1,47 @@
-import { useState } from "react";
-import axios from "axios";
+import React from "react";
+import "../assets/style/Login.css";
+
 
 export default function Login() {
-  const [form, setForm] = useState({
-    email: "",
-    password: ""
-  });
-
-  const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const res = await axios.post("http://localhost:8000/api/login", form);
-
-    localStorage.setItem("token", res.data.token);
-    alert("Đăng nhập thành công!");
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Đăng nhập</h2>
+    <div className="login-container">
+      <div className="login-card">
 
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <input type="password" name="password" placeholder="Mật khẩu" onChange={handleChange} />
+        <h2 className="login-title">Welcome Back</h2>
+        <p className="login-sub">Login to continue shopping</p>
 
-      <button type="submit">Đăng nhập</button>
-    </form>
+        <form className="login-form">
+          <div className="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="Enter your email" />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password" />
+          </div>
+
+          <button className="btn-login">Sign in</button>
+        </form>
+
+        <div className="login-other">
+          <span>or continue with</span>
+        </div>
+
+        <div className="social-buttons">
+          <button className="google">Google</button>
+          <button className="facebook">Facebook</button>
+        </div>
+
+        <p className="signup">
+          Don’t have an account? <a href="/register">Sign up</a>
+        </p>
+      </div>
+
+      <div className="login-banner">
+        <h1>Shop the Best Deals</h1>
+        <p>Join our marketplace and discover amazing products</p>
+      </div>
+    </div>
   );
 }

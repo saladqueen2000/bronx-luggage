@@ -1,0 +1,91 @@
+.feedback-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  background: #f7f9fc;
+  min-height: 100vh;
+}
+
+.feedback-card {
+  width: 450px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.feedback-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2d5a;
+  text-align: center;
+}
+
+.feedback-sub {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37,99,235,0.3);
+}
+
+.btn-send {
+  width: 100%;
+  padding: 13px;
+  background: #2563eb;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-send:hover {
+  background: #1e4fcc;
+}
+
+.feedback-banner {
+  width: 480px;
+  padding: 60px;
+  margin-left: 60px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1f2d5a, #3b82f6);
+  color: white;
+}
+
+.feedback-banner h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.feedback-banner p {
+  font-size: 18px;
+  opacity: 0.9;
+}

@@ -1,71 +1,49 @@
-import { useState } from "react";
-import axios from "axios";
+import React from "react";
+import "../assets/style/Feedback.css";
+import Footer from "../components/Footer";
 
-export default function Contact() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: ""
-  });
-
-  const [success, setSuccess] = useState("");
-
-  const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:8000/api/feedbacks", form);
-      setSuccess(res.data.message);
-      setForm({ name: "", email: "", phone: "", message: "" });
-    } catch (err) {
-      alert("Lỗi! Vui lòng nhập đúng thông tin.");
-    }
-  };
-
+export default function Feedback() {
   return (
-    <div style={{ width: "400px", margin: "auto" }}>
-      <h2>Feedback</h2>
+    <div>
+   
+      <div className="feedback-container">
+        <div className="feedback-card">
+          <h2 className="feedback-title">We Value Your Feedback</h2>
+          <p className="feedback-sub">
+            Tell us what you think about our service
+          </p>
 
-      {success && <p style={{ color: "green" }}>{success}</p>}
+          <form className="feedback-form">
+            <div className="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="Enter your name" />
+            </div>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Your name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
+            <div className="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="Enter your email" />
+            </div>
 
-        <input
-          name="email"
-          placeholder="Your email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
+            <div className="form-group">
+              <label>Subject</label>
+              <input type="text" placeholder="Feedback subject" />
+            </div>
 
-        <input
-          name="phone"
-          placeholder="Phone number"
-          value={form.phone}
-          onChange={handleChange}
-        />
+            <div className="form-group">
+              <label>Message</label>
+              <textarea placeholder="Write your message..." rows="5"></textarea>
+            </div>
 
-        <textarea
-          name="message"
-          placeholder="Your message"
-          value={form.message}
-          onChange={handleChange}
-          required
-        />
+            <button className="btn-send">Send Feedback</button>
+          </form>
+        </div>
 
-        <button type="submit">Send</button>
-      </form>
+        <div className="feedback-banner">
+          <h1>Your Voice Matters</h1>
+          <p>Help us improve our platform and services</p>
+        </div>
+      </div>
+    
     </div>
   );
 }
