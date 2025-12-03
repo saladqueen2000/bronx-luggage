@@ -4,11 +4,15 @@ import Home from './pages/Home'
 import ProductList from './pages/ProductList'
 import axios from 'axios';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 =======
 import Contact from "./pages/Contact";
 >>>>>>> e707c96ebdddd6e8f71faef2cc546d4cf21b5d45
+=======
+import Contact from "./pages/Feedback";
+>>>>>>> de71bd112d7566ae5857345c380ab62e034cb752
 const find = async () => {
   try {
     const response = await axios.get('http://localhost:8000/api/products');
@@ -19,19 +23,20 @@ const find = async () => {
   }
 };
 
-
-
-
 function App() {
   find();
   return (
     <Routes>
+<<<<<<< HEAD
 <<<<<<< HEAD
            <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 =======
       <Route path="/contact" element={<Contact />} />
 >>>>>>> e707c96ebdddd6e8f71faef2cc546d4cf21b5d45
+=======
+      <Route path="/feedback" element={<Contact />} />
+>>>>>>> de71bd112d7566ae5857345c380ab62e034cb752
       <Route path="/" element={<Home />} />
       <Route path="/list" element={<ProductList />} />
     </Routes>
@@ -39,5 +44,3 @@ function App() {
 }
 
 export default App
-
-

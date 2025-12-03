@@ -27,9 +27,9 @@ function HeaderLogo() {
                     paddingLeft: "7.5px",
                     color: "white",
                     fontFamily: "Poppins",
-                    fontSize: "1.5rem"
+                    fontSize: "1.5rem",
                 }}
-            >
+            >   
                 Bronx Luggage
             </span>
         </Link>

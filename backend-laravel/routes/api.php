@@ -24,13 +24,16 @@ Route::apiResource('feedbacks', FeedbackController::class);
 Route::apiResource('galleries', GalleryController::class);
 Route::apiResource('sizes', SizeController::class);
 Route::apiResource('ratings', RatingController::class);
-<<<<<<< HEAD
+
 
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-=======
+
 use App\Http\Controllers\ContactController;
 
 Route::post('/contact', [ContactController::class, 'store']);
->>>>>>> e707c96ebdddd6e8f71faef2cc546d4cf21b5d45
+
+
+
+
