@@ -19,6 +19,12 @@
 //     return <div>Loading...</div>;
 //   }
 import React, { useState } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+
+
+const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
 // Dữ liệu giả định cho giỏ hàng
 const initialCartItems = [
@@ -42,7 +48,7 @@ const initialCartItems = [
   },
 ];
 
-export default function Cart(props) {
+export default function Cart() {
   const [cartItems, setCartItems] = useState(initialCartItems);
   const [subtotal, setSubtotal] = useState(23.40); // 11.70 * 2
   const [coupon, setCoupon] = useState('');
@@ -69,9 +75,12 @@ export default function Cart(props) {
   };
 
   return (
-    <div className="cart-page-container" style={styles.container}>
+    <div className="cart-page-container" style={{ maxWidth: '1200px',margin: '0 auto',padding: '20px' }}>
+      
+      <Header />
+
       {/* 1. BREADCRUMB */}
-      <div className="breadcrumb" style={styles.breadcrumb}>
+      <div className="breadcrumb" style=  {{padding: '10px 0',color: '#666',fontSize: '14px'}}>
         Home &gt; All category
       </div>
 
@@ -164,22 +173,15 @@ export default function Cart(props) {
           <button style={styles.checkoutButton}>Proceed to checkout</button>
         </div>
       </div>
+      <Footer />  
     </div>
   );
 }
 
 // Minimal CSS Styles (sử dụng inline style cho ví dụ)
 const styles = {
-  container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '20px',
-  },
-  breadcrumb: {
-    padding: '10px 0',
-    color: '#666',
-    fontSize: '14px',
-  },
+  
+  
   mainContent: {
     display: 'flex',
     gap: '30px',

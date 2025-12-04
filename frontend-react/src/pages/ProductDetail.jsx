@@ -1,223 +1,347 @@
+
+
 import React, { useState, useEffect } from 'react';
-import Backpack1 from '../assets/images/Backpack_image_1.png'
-import Backpack2 from '../assets/images/Backpack_image_2.png'
-import Backpack3 from '../assets/images/Backpack_image_3.png';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+import Backpack1 from '../assets/images/Backpack_image_1.png';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 
 
+export default function ProductDetail() {
 
-export default function ProductDetail(props) {
-const colors = ['Red', 'Blue', 'Green', 'Black', 'White'];
- const [selectedColor, setSelectedColor] = useState('');
- const [selectedSize, setSelectedSize] = useState('');
- const [quantity, setQuantity] = useState(1);
- const { id } = useParams();
- const [product, setProduct] = useState(null);
- const [addedToCart, setAddedToCart] = useState(false);
- const [cartItems, setCartItems] = useState([]);
+  {/* SAMPLE DATA */}
+  const colors = ['Red', 'Blue', 'Green', 'Black', 'White'];
+  const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
- const addedToCartMessage = addedToCart ? (
-   <div
-     style={{
-        position: "fixed",
-        top: "20px",
-        right: "20px",
-        backgroundColor: "#4BB543",
-        color: "white",
-        padding: "10px 20px",
-        borderRadius: "8px",
-        zIndex: 1000
-     }}
-   >
-     Added to cart!
-   </div>
- ) : null;
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+  const [quantity, setQuantity] = useState(1);
 
- useEffect(() => {  
-      const fetchProduct = async () => {
-      try { 
-        const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
-        const data = response?.data;
-        setProduct(data);
-      } catch (error) {
-        console.error('Error fetching product data:', error);
+  {/* HANDLE SELECTORS */}
+  const [added, setAdded] = useState(false);
+  const handleAddToCart = () => {
+    
+    const item = {
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    color: selectedColor,
+    size: selectedSize,
+    quantity: quantity,
+    image: product.image,
+  };
+ if ( !selectedSize) {
+    alert("Please select  size.");
+    return;
+  }
+  if (!selectedColor ) {
+    alert("Please select color.");
+    return;
+  }
+  setAdded(true);
+
+  setTimeout(() => {
+    setAdded(false);
+  }, 3000); 
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.push(item);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+};
+
+  {/* FETCH PRODUCT DATA */}
+
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
+        setProduct(res.data);
+      } catch (err) {
+        console.log(err);
       }
     };
-
     fetchProduct();
   }, [id]);
-  if (!product) {
-    return <div>Loading...</div>;
-  }
+
+  if (!product) return <div>Loading...</div>;
+
+
+
+  
 
   return (
-    <div style={{ fontFamily: "Arial", margin: "0 auto", maxWidth: "1200px" }}>
-      <div style={{ padding: "15px 0" }}>
-        Home / All Category / Product
-      </div>
+    <div style={{ fontFamily: "Arial", background: "#ffffff" }}>
+      <Header />
 
-      
-      <div style={{ display: "flex", gap: "40px" }}>
-        
-        {/* LEFT IMAGE SECTION */}
-        <div style={{ width: "50%" }}>
-          <img
-            src={product.image}
-            alt="product"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
-          
-          <div style={{ display: "flex", marginTop: "10px", gap: "10px" }}>
-            <img src={product.image} width="80" />
-            <img src={product.image} width="80" />
-            <img src={product.image} width="80" />
-          </div>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
+
+        {/* Breadcrumb */}
+        <div style={{ fontSize: "14px", color: "#888", marginBottom: "15px" }}>
+          Home / Category / Product
         </div>
 
-        {/* RIGHT PRODUCT INFO */}
-        <div style={{ width: "50%" }}>
-          <h2>{product.title}</h2>
-          <h3>${product.price}</h3>
+        {/* MAIN ROW */}
+        <div style={{ display: "flex", gap: "40px" }}>
 
-          <p>✔️ In stock — Hurry! only 8 product left!</p>
+          {/* LEFT: IMAGE */} 
+          <div style={{ width: "50%" }}>
+            <div style={{
+              borderRadius: "12px",
+              overflow: "hidden",
+              border: "1px solid #eee"
+            }}>
+              <img src={product.image}
+                style={{ width: "100%", background: "#fff" }}
+              />
+            </div>
 
-          <form action="/add-to-cart" method="post">
-
-          <div style={{ marginTop: "20px" }}>
-            <b>Color:</b>
-            <div style={{ marginTop: "10px" }}>
-              {colors.map(color => (
-                <button key={color} onClick={() => setSelectedColor(color)} style={{
-                padding: "8px 16px",
-                backgroundColor: selectedColor === color ? color.toLowerCase() : "#f0f0f0",
-                color: selectedColor === color ? "white" : "#333",
-                border: `2px solid ${selectedColor === "black" ? color.toLowerCase() : "#ddd"}`,
-                borderRadius: "4px",
-                cursor: "pointer",
-                transition: "all 0.2s ease"
-              }}>{color}</button>
+            {/* Thumbnail */}
+            <div style={{ display: "flex", gap: "15px", marginTop: "20px" }}>
+              {[1, 2, 3].map((n) => (
+                <img
+                  key={n}
+                  src={product.image}
+                  width="80"
+                  style={{
+                    border: "1px solid #ddd",
+                    padding: "5px",
+                    borderRadius: "8px",
+                    background: "#fff",
+                    cursor: "pointer"
+                  }}
+                />
               ))}
             </div>
           </div>
 
-          <div style={{ marginTop: "20px" }}>
-            <b>Size:</b>
-            <div style={{ marginTop: "10px" }}>
-              {['S', 'M', 'L', 'XL','XXL'].map(size => (
-                <button key={size} onClick={() => setSelectedSize(size)} style={{ 
-                padding: "8px 16px",
-                backgroundColor: selectedSize === size ? "#333" : "#f0f0f0",
-                color: selectedSize === size ? "white" : "#333",
-                border: `2px solid ${selectedSize === size ? "#333" : "#ddd"}`,
-                borderRadius: "4px",
+          {/* RIGHT: PRODUCT INFO */}
+          <div style={{ width: "50%" }}>
+
+            <h2 style={{ fontSize: "26px", fontWeight: "bold" }}>{product.title}</h2>
+
+            <div style={{ color: "#ffb400", fontSize: "18px", margin: "5px 0" }}>
+              ★★★★★ (100 reviews)
+            </div>
+
+            <h3 style={{ fontSize: "28px", color: "#2b4eff" }}>${product.price}</h3>
+            <p style={{ color: "#25a244", fontWeight: "bold" }}>
+              ✔ In stock — Hurry! only 8 left!
+            </p>
+
+            {/* COLOR */}
+            
+            <div style={{ marginTop: "25px" }}>
+              <b>Color</b>
+              <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+                {colors.map(c => (
+                  <button
+                    key={c}
+                    onClick={() => setSelectedColor(c)}
+                    style={{
+                      padding: "8px 18px",
+                      borderRadius: "6px",
+                      border: "1px solid #ccc",
+                      background: selectedColor === c ? "#2b4eff" : "#f8f8f8",
+                      color: selectedColor === c ? "#fff" : "#333",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* SIZE */}
+            <div style={{ marginTop: "25px" }}>
+              <b>Size</b>
+              <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+                {sizes.map(s => (
+                  <button
+                    key={s}
+                    onClick={() => setSelectedSize(s)}
+                    style={{
+                      padding: "8px 18px",
+                      borderRadius: "6px",
+                      border: "1px solid #ccc",
+                      background: selectedSize === s ? "#333" : "#f8f8f8",
+                      color: selectedSize === s ? "#fff" : "#333",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* QUANTITY */}
+            <div style={{ marginTop: "25px" }}>
+              <b>Quantity</b>
+              <div style={{ marginTop: "10px", display: "flex", alignItems: "center", gap: "15px" }}>
+                <button
+                  onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+                  style={{
+                    width: "35px", height: "35px",
+                    border: "1px solid #ccc", borderRadius: "6px", cursor: "pointer"
+                  }}
+                >
+                  -
+                </button>
+
+                <span style={{ fontSize: "18px" }}>{quantity}</span>
+
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  style={{
+                    width: "35px", height: "35px",
+                    border: "1px solid #ccc", borderRadius: "6px", cursor: "pointer"
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* BUTTONS */}
+            <div style={{ marginTop: "35px", display: "flex", gap: "15px" }}>
+              <button onClick={handleAddToCart}
+              style={{
+                padding: "12px 22px",
+                background: "#2b4eff",
+                color: "#fff",
+                borderRadius: "8px",
+                border: "none",
                 cursor: "pointer",
-                transition: "all 0.2s ease"
-              }}>{size}</button>
-              ))}
+                fontWeight: "bold"
+              }}>
+                 {added ? "✔ Added successfully" : "Add to cart"}
+              </button>
+
+              <button style={{
+                padding: "12px 22px",
+                background: "#ffb300",
+                color: "#fff",
+                borderRadius: "8px",
+                border: "none",
+                cursor: "pointer",
+                fontWeight: "bold"
+              }}>
+                Buy it now
+              </button>
+
+              <button style={{
+                width: "45px",
+                height: "45px",
+                borderRadius: "50%",
+                border: "1px solid #ccc",
+                cursor: "pointer"
+              }}>
+                ♡
+              </button>
+            </div>
+
+            <div style={{ marginTop: "25px", fontSize: "14px", color: "#777" }}>
+              <p>SKU: ZD129-99</p>
+              <p>Category: Game pad, Game, Electronics</p>
+              <p>Tags: game, pad, action</p>
             </div>
           </div>
-
-          <div style={{ marginTop: "20px" }}>
-            <b>Quantity:</b>
-            <div style={{ marginTop: "10px" }}>
-              <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>-</button> <span style={{ padding: "0 15px" }}>{quantity}</span>{" "}
-              <button onClick={() => setQuantity(quantity + 1)}>+</button>
-            </div>
-          </div>
-
-          <div style={{ marginTop: "25px", display: "flex", gap: "15px" }}>
-            <button style={{ padding: "10px 20px" }} onClick={() => setAddedToCart(true)}>Add to cart</button>
-            <button style={{ padding: "10px 20px" }} onClick={''} >Buy it now</button>
-            <button>♡</button>
-          </div>
-              </form>
-          <div style={{ marginTop: "20px", fontSize: "14px", color: "#555" }}>
-            <p>SKU: ZD129-99</p>
-            <p>Category: Game pad, Game, Electronics</p>
-            <p>Tags: game, pad, action</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ========== DESCRIPTION & REVIEWS ========== */}
-      <div style={{ marginTop: "40px" }}>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <button>Description</button>
-          <button>Reviews</button>
         </div>
 
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "20px",
+        {/* DESCRIPTION + REVIEW */}
+        <div style={{ marginTop: "60px" }}>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <button style={{ padding: "10px 20px", background: "#2b4eff", color: "#fff", borderRadius: "6px" }}>Description</button>
+            <button style={{ padding: "10px 20px", background: "#eee", borderRadius: "6px" }}>Reviews</button>
+          </div>
+
+          <div style={{
+            marginTop: "25px",
             border: "1px solid #ddd",
-            borderRadius: "8px",
-          }}
-        >
-          <h4>Customer Reviews</h4>
-          <p>No review yet.</p>
-          <button>Write a review</button>
-        </div>
-      </div>
-
-      {/* ========== RELATED PRODUCTS ========== */}
-      <h3 style={{ marginTop: "50px" }}>Related products</h3>
-
-      <div style={{ display: "flex", gap: "30px", marginTop: "20px" }}>
-        {/* Product 1 */}
-        <div style={{ width: "200px" }}>
-          <img src={Backpack1} width="200" />
-          <p>Camera</p>
-          <p>$55.90</p>
-          <button>Add to cart</button>
+            borderRadius: "10px",
+            padding: "20px"
+          }}>
+            <h3>Customer reviews</h3>
+            <p>No reviews yet.</p>
+            <button style={{
+              padding: "10px 20px",
+              background: "#2b4eff",
+              color: "#fff",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer"
+            }}>
+              Write a review
+            </button>
+          </div>
         </div>
 
-        {/* Product 2 */}
-        <div style={{ width: "200px" }}>
-          <img src={Backpack1} width="200" />
-          <p>Headphones</p>
-          <p>$35.00</p>
-          <button>Add to cart</button>
+        {/* RELATED PRODUCTS */}
+        <h3 style={{ marginTop: "50px", fontSize: "22px" }}>Related products</h3>
+
+        <div style={{ display: "flex", gap: "25px", marginTop: "20px" }}>
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} style={{ width: "210px", textAlign: "center" }}>
+              <img src={Backpack1} width="210" style={{ borderRadius: "10px" }} />
+              <p style={{ fontWeight: "bold" }}>Product name</p>
+              <p>$45.00</p>
+              <button style={{
+                padding: "8px 15px",
+                background: "#2b4eff",
+                color: "#fff",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer"
+              }}>
+                Add to cart
+              </button>
+            </div>
+          ))}
         </div>
 
-        {/* Product 3 */}
-        <div style={{ width: "200px" }}>
-          <img src={Backpack1} width="200" />
-          <p>Play game</p>
-          <p>$11.70</p>
-          <button>Add to cart</button>
-        </div>
-
-        {/* Product 4 */}
-        <div style={{ width: "200px" }}>
-          <img src={Backpack1} width="200" />
-          <p>Laptop</p>
-          <p>$450.00</p>
-          <button>Add to cart</button>
-        </div>
-      </div>
-
-      {/* ========== NEWSLETTER ========== */}
-      <div
-        style={{
+        {/* NEWSLETTER */}
+        <div style={{
           marginTop: "60px",
-          padding: "30px",
-          background: "#f5f5f5",
-          borderRadius: "10px",
-          textAlign: "center",
-        }}
-      >
-        <h3>Subscribe newsletter</h3>
-        <input placeholder="Enter email..." style={{ width: "250px" }} />{" "}
-        <button>Subscribe</button>
+          padding: "40px",
+          background: "#e9f0ff",
+          borderRadius: "12px",
+          textAlign: "center"
+        }}>
+          <h2>Subscribe newsletter</h2>
+          <input
+            placeholder="Enter email..."
+            style={{
+              padding: "12px 15px",
+              width: "280px",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              marginRight: "10px"
+            }}
+          />
+          <button style={{
+            padding: "12px 22px",
+            background: "#ffb300",
+            color: "#fff",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold"
+          }}>
+            Subscribe
+          </button>
+        </div>
+
       </div>
 
-      {/* ========== FOOTER ========== */}
-      <footer style={{ marginTop: "50px", padding: "20px 0", color: "#555" }}>
-        <p>© 2025 Electro Store</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
+
