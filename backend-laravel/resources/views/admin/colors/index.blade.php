@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" href="/admin/colors/create">Add Color</a>
+        <a class="btn btn-primary" href="{{ route('colors.create') }}">Add Color</a>
     </div>
 
     <div class="card-body">

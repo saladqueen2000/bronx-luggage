@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" href="/admin/products/create">Add Product</a>
+        <a class="btn btn-primary" href="{{ route('products.create') }}">Add Product</a>
     </div>
     <div class="card-body">
         <table class="table table-bordered">
