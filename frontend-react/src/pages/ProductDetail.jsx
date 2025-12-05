@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
 import Backpack1 from '../assets/images/Backpack_image_1.png';
 import Header from '../components/Header';
@@ -43,6 +43,9 @@ export default function ProductDetail() {
   setAdded(true);
 
   setTimeout(() => {
+    setQuantity(1);
+    setSelectedColor('');
+    setSelectedSize('');
     setAdded(false);
   }, 3000); 
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -224,6 +227,7 @@ export default function ProductDetail() {
                  {added ? "✔ Added successfully" : "Add to cart"}
               </button>
 
+              <Link to="/cart">
               <button style={{
                 padding: "12px 22px",
                 background: "#ffb300",
@@ -235,7 +239,7 @@ export default function ProductDetail() {
               }}>
                 Buy it now
               </button>
-
+              </Link>
               <button style={{
                 width: "45px",
                 height: "45px",

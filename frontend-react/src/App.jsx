@@ -9,7 +9,7 @@ import Checkout from './pages/Checkout';
 import Login from './pages/login';
 import Register from './pages/Register';
 import List from './components/List';
-import CartPage from './pages/Carta';
+
 
 // const find = async () => {
 //   try {

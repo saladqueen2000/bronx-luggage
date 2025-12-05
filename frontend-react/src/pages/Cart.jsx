@@ -24,36 +24,16 @@ import Footer from '../components/Footer';
 
 
 
-const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+const cartItems = JSON.parse(localStorage.getItem("cart"));
+console.log(cartItems);
 
-// Dữ liệu giả định cho giỏ hàng
-const initialCartItems = [
-  {
-    id: 1,
-    name: 'Play game',
-    color: 'Green',
-    size: 30,
-    price: 11.70,
-    quantity: 1,
-    image: 'green-controller-url.png' // Thay thế bằng URL ảnh thực tế
-  },
-  {
-    id: 2,
-    name: 'Play game',
-    color: 'Black',
-    size: 30,
-    price: 11.70,
-    quantity: 1,
-    image: 'black-controller-url.png' // Thay thế bằng URL ảnh thực tế
-  },
-];
+
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
-  const [subtotal, setSubtotal] = useState(23.40); // 11.70 * 2
+  const [subtotal, setSubtotal] = useState(0);
   const [coupon, setCoupon] = useState('');
 
-  // Hàm tính toán tổng phụ (đơn giản hóa)
+  
   const calculateSubtotal = (items) => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
@@ -71,8 +51,11 @@ export default function Cart() {
 
   // Hàm xóa sản phẩm
   const removeItem = (id) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+    setcartItems(prevItems => prevItems.filter(item => item.id !== id));
   };
+
+console.log(cartItems);
+
 
   return (
     <div className="cart-page-container" style={{ maxWidth: '1200px',margin: '0 auto',padding: '20px' }}>
@@ -101,7 +84,6 @@ export default function Cart() {
             <tbody>
               {cartItems.map(item => (
                 <tr key={item.id} style={styles.tableRow}>
-                  {/* Cột Product */}
                   <td style={styles.tdProduct}>
                     <img src={item.image} alt={item.name} style={styles.productImage} />
                     <div style={styles.productDetails}>
@@ -110,17 +92,17 @@ export default function Cart() {
                       <div style={styles.productInfo}>Size: {item.size}</div>
                     </div>
                   </td>
-                  {/* Cột Price */}
+                  
                   <td style={styles.tdPrice}>${item.price.toFixed(2)}</td>
-                  {/* Cột Quantity */}
+                  
                   <td style={styles.tdQuantity}>
                     <div style={styles.quantityControl}>
-                      <button onClick={() => updateQuantity(item.id, -1)} style={styles.qtyButton}>-</button>
+                      <button onClick={() => setQuantity(item.quantity > 1 ? item.quantity - 1 : 1)} style={styles.qtyButton}>-</button>
                       <span style={styles.qtyDisplay}>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)} style={styles.qtyButton}>+</button>
+                      <button onClick={() => setQuantity(item.quantity + 1)} style={styles.qtyButton}>+</button>
                     </div>
                   </td>
-                  {/* Cột Subtotal */}
+                  
                   <td style={styles.tdSubtotal}>
                     ${(item.price * item.quantity).toFixed(2)}
                     <button onClick={() => removeItem(item.id)} style={styles.removeButton}>×</button>
