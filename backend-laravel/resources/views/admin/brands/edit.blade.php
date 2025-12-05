@@ -7,17 +7,17 @@
 @stop
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <form>
 
-            <div class="form-group">
-                <label>Brand Name</label>
-                <input type="text" class="form-control" value="Sample Brand">
-            </div>
-
-            <button class="btn btn-success mt-3">Update</button>
-        </form>
+<form action="/admin/brands/{{ $brand->id }}" method="POST">
+    @csrf
+    @method('PUT')
+    <div class="mb-3">
+        <label>Brand Name</label>
+        <input type="text" name="name" class="form-control" value="{{ $brand->name }}">
+        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
     </div>
-</div>
+
+    <button class="btn btn-success">Update</button>
+</form>
+
 @stop

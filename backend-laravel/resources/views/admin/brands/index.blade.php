@@ -7,9 +7,14 @@
 @stop
 
 @section('content')
+
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" href="{{ route('brands.create') }}">Add Brand</a>
+        <a class="btn btn-primary" href="/admin/brands/create">Add Brand</a>
     </div>
 
     <div class="card-body">
@@ -18,23 +23,29 @@
                 <tr>
                     <th>ID</th>
                     <th>Brand Name</th>
-                    <th width="150px">Action</th>
+                    <th width="180px">Action</th>
                 </tr>
             </thead>
 
             <tbody>
+                @forelse($brands as $brand)
                 <tr>
-                    <td>1</td>
-                    <td>Sample Brand</td>
+                    <td>{{ $brand->id }}</td>
+                    <td>{{ $brand->name }}</td>
                     <td>
-                        <a href="/admin/brands/edit" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="/admin/brands/{{ $brand->id }}/edit" class="btn btn-sm btn-warning">Edit</a>
+                        <form action="/admin/brands/{{ $brand->id }}" method="post" style="display::inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick="return confirm('Delete this brand?')" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
                     </td>
                 </tr>
-
+                @empty 
                 <tr>
                     <td colspan="3" class="text-center">No more data</td>
                 </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
