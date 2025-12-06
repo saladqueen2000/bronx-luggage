@@ -33,21 +33,23 @@
                     <td>{{ $brand->id }}</td>
                     <td>{{ $brand->name }}</td>
                     <td>
-                        <a href="/admin/brands/{{ $brand->id }}/edit" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="/admin/brands/{{ $brand->id }}" method="post" style="display::inline-block">
+                        <a class="btn btn-sm btn-warning" href="/admin/brands/{{ $brand->id }}/edit">Edit</a>
+
+                        <form action="/admin/brands/{{ $brand->id }}" method="POST" style="display:inline-block">
                             @csrf
                             @method('DELETE')
-                            <button onclick="return confirm('Delete this brand?')" class="btn btn-sm btn-danger">Delete</button>
+                            <button onclick="return confirm('Delete this brand?')" class="btn btn-sm btn-danger">
+                                Delete
+                            </button>
                         </form>
                     </td>
                 </tr>
-                @empty 
-                <tr>
-                    <td colspan="3" class="text-center">No more data</td>
-                </tr>
+                @empty
+                <tr><td colspan="3" class="text-center">No data</td></tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 </div>
+
 @stop

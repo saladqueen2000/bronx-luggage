@@ -7,18 +7,22 @@
 @stop
 
 @section('content')
-<div class="card">
-    <div class="card-body">
+<div class="card p-3">
 
-        <form>
-            <div class="form-group">
-                <label>Category Name</label>
-                <input type="text" class="form-control" value="Sample Category">
-            </div>
+    <form action="{{ route('categories.update', $category->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-            <button class="btn btn-success mt-3">Update</button>
-        </form>
+        <div class="mb-3">
+            <label>Category Name</label>
+            <input type="text" name="name" class="form-control"
+                   value="{{ $category->name }}">
+            @error('name')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
 
-    </div>
+        <button class="btn btn-primary">Update</button>
+    </form>
 </div>
 @stop

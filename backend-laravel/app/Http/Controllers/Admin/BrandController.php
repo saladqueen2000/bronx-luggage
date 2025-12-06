@@ -50,7 +50,7 @@ class BrandController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         $brand = Brand::findOrFail($id);
         return view('admin.brands.edit', compact('brand'));
@@ -59,7 +59,7 @@ class BrandController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required'
@@ -74,7 +74,7 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         Brand::destroy($id);
         return redirect('/admin/brands')->with('success', 'Brand deleted!');

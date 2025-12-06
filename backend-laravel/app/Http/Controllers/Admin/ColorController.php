@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Color;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller
@@ -12,7 +13,8 @@ class ColorController extends Controller
      */
     public function index()
     {
-        return view('admin.colors.index');
+        $colors = Color::all();
+        return view('admin.colors.index', compact('colors'));
     }
 
     /**
@@ -28,7 +30,17 @@ class ColorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'hex' => 'nullable'
+        ]);
+
+        Color::create([
+            'name' => $request->name,
+            'hex' => $request->hex,
+        ]);
+
+        return redirect()->route('colors.index')->with('success', 'Color created successfully!');
     }
 
     /**
@@ -42,24 +54,39 @@ class ColorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        return view('admin.colors.edit', compact('id'));
+        $color = Color::findOrFail($id);
+        return view('admin.colors.edit', compact('color'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'hex' => 'nullable'
+        ]);
+
+        $color = Color::findOrFail($id);
+
+        $color->update([
+            'name' => $request->name,
+            'hex' => $request->hex,
+        ]);
+
+        return redirect()->route('colors.index')->with('success', 'Color updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Color::findOrFail($id)->delete();
+
+        return redirect()->route('colors.index')->with('success', 'Color deleted successfully!');
     }
 }

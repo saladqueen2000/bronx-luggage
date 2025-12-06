@@ -7,15 +7,17 @@
 @stop
 
 @section('content')
-<form action="/admin/brands" menthod="post">
+
+<form action="/admin/brands" method="POST">
     @csrf
+
     <div class="mb-3">
         <label>Brand Name</label>
-        <input type="text" class="form-control">
-        @error('record')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
-        <button class="btn btn-primary">Save</button>
+        <input type="text" name="name" class="form-control">
+        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
+
+    <button class="btn btn-primary">Save</button>
 </form>
+
 @stop

@@ -11,13 +11,14 @@
 <form action="/admin/brands/{{ $brand->id }}" method="POST">
     @csrf
     @method('PUT')
+
     <div class="mb-3">
         <label>Brand Name</label>
         <input type="text" name="name" class="form-control" value="{{ $brand->name }}">
-        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button class="btn btn-primary">Update</button>
 </form>
 
 @stop
