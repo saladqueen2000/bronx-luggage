@@ -6,19 +6,19 @@ export default function Contact() {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   });
 
   const [success, setSuccess] = useState("");
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/api/contact", form);
+      const res = await axios.post("http://localhost:8000/api/feedbacks", form);
       setSuccess(res.data.message);
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err) {
