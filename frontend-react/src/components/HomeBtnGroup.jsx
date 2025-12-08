@@ -23,11 +23,8 @@ function CatBtnGroup() {
             value={type}
             onChange={handleType}
             exclusive
+            className='home__popular-btn-group'
             sx={{
-                gap: "1rem",
-                marginLeft: "auto",
-                marginRight: "75px",
-                marginBottom: "50px",
                 "& .MuiToggleButton-root": {
                     borderRadius: "25px !important",   // ép bo tất cả các góc
                     border: "2px solid #B5B5B5",

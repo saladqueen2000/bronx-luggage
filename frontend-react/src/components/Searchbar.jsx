@@ -30,15 +30,8 @@ function FooterSearchBar() {
                         <SendIcon style={{ color: "white", marginRight: "10px", marginTop: "10px" }} />
                     )
                 }}
+                className='footerSearchBar'
                 sx={{
-                    height: "70px",
-                    maxHeight: "70px",
-                    width: "500px",
-                    maxWidth: "500px",
-                    backgroundColor: "#EDA415",
-                    borderRadius: "22.5px",
-                    marginLeft: "100px",
-                    fontFamily: "Poppins",
                     "& .MuiOutlinedInput-root": {
                         "& fieldset": {
                             borderColor: "transparent", // màu viền bình thường

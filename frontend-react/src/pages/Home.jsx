@@ -45,34 +45,8 @@ export default function Home() {
         <div className='home'>
             <Header />
             <main className='home__content'>
-                <section className="home__introduction">
+                <section>
                     <SliderHero />
-
-                    <div className="home__introduction-cat">
-                        <div className="home__introduction-cat-card">
-                            <img src={Backpack3}/>
-                            <div className='home__introduction-cat-card-text'>
-                                <span style={{ fontWeight: "600" }}>Backpack</span>
-                                <span>(3 items)</span>
-                            </div>
-                        </div>
-
-                        <div className="home__introduction-cat-card">
-                            <img src={Bag1}/>
-                            <div className='home__introduction-cat-card-text'>
-                                <span style={{ fontWeight: "600" }}>Bag</span>
-                                <span>(2 items)</span>
-                            </div>
-                        </div>
-
-                        <div className="home__introduction-cat-card">
-                            <img src={Luggage1}/>
-                            <div className='home__introduction-cat-card-text'>
-                                <span style={{ fontWeight: "600" }}>Luggage</span>
-                                <span>(3 items)</span>
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
 
@@ -114,7 +88,6 @@ export default function Home() {
 
 //Giao diện trên máy khác không giống
 //Responsive
-//Chia trang list (12 sản phẩm 1 trang)
 
 
 //git add .

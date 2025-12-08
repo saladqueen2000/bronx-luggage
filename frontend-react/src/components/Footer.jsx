@@ -12,41 +12,11 @@ export default function Footer() {
     return (
         <footer className="footer">
             <section className="footer__subscribe">
-                <span
-                    style={{
-                        fontFamily: "Poppins",
-                        fontWeight: "bold",
-                        fontSize: "1.75rem",
-                        marginTop: "12.5px",
-                        color: "#1B5A7D"
-                    }}
-                >
-                    Subscribe newsletter
-                </span>
+                <span className='footer__subscribe-text'>Subscribe newsletter</span>
                 <FooterSearchBar />
-                <div
-                    style={{
-                        marginLeft: "auto",
-                        marginTop: "12.5px",
-                        display: "flex",
-                    }}
-                >
-                    <HeadphonesOutlinedIcon
-                        sx={{
-                            fontSize: "3.25rem",
-                            color: "#EDA415"
-                        }}
-                    />
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            marginLeft: "20px",
-                            fontWeight: "bolder",
-                            fontSize: "1rem",
-                            color: "#606060",
-                        }}
-                    >
+                <div className='footer__subscribe-contact'>
+                    <HeadphonesOutlinedIcon className='footer__subscribe-icon'/>
+                    <div className='footer__subscribe-number'>
                         <span>Call us 24/7</span>
                         <span>(+84) 0817070903</span>
                     </div>
@@ -58,26 +28,10 @@ export default function Footer() {
             <section className='footer__about'>
                 <div className='footer__about-location'>
                     <FooterLogo />
-                    <div
-                        style={{
-                            marginTop: "30px",
-                            paddingBottom: "45px",
-                            color: "#1B5A7D",
-                            fontFamily: "Poppins",
-                            fontSize: "1rem",
-                            borderBottom: "3px solid #BFC8CE"
-                        }}
-                    >
+                    <div className='footer__about-location-text'>
                         285 Doi Can street, Ba Dinh ward, Ha Noi city
                     </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            gap: "37.5px",
-                            marginTop: "20px",
-                        }}
-                    >
+                    <div className='footer__about-icon-container'>
                         <GoogleIcon className='footer__about-location--icons' />
                         <FacebookIcon className='footer__about-location--icons' />
                         <LocalPhoneRoundedIcon className='footer__about-location--icons' />

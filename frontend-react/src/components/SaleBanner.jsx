@@ -5,43 +5,18 @@ import { Link } from 'react-router-dom';
 
 export default function SaleBanner() {
     return (
-        <section
+        <section className='home__sale-container'
             style={{
                 backgroundImage: `url(${BagsBackground})`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 backgroundSize: "100% auto",
-                width: "90%",
-                height: "400px",
-                margin: "auto",
-                marginBottom: "50px",
-                borderRadius: "25px",
-                paddingTop: "100px"
             }}
         >
-            <div
-                style={{
-                    backgroundColor: "transparent",
-                    display: "flex",
-                    flexDirection: "column",
-                    marginLeft: "875px"
-                }}
-            >
+            <div className='home__sale-content'>
                 <CustomSaleBtn>New bag</CustomSaleBtn>
-                <span
-                    style={{
-                        margin: "25px 0px",
-                        fontFamily: "Poppins",
-                        fontWeight: "600",
-                        fontSize: "2.75rem",
-                        color: "#2E8FC5"
-                    }}
-                >
-                    Sale up to 50% off
-                </span>
-                <Link
-                    to="/list"
-                >
+                <span className='home__sale-text'>Sale up to 50% off</span>
+                <Link to="/list">
                     <CustomSaleBtn>Shop now</CustomSaleBtn>
                 </Link>
             </div>
