@@ -9,3 +9,32 @@
     align-items: center;
     height: 100vh
 }
+
+.breadcrumb {
+  font-size: 15px;
+  font-style: italic;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb a {
+  color: #333;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+.breadcrumb .sep {
+  color: #888;
+  margin: 0 4px;
+}
+
+.breadcrumb .current {
+  font-weight: bold;
+  color: #000;
+}

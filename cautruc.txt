@@ -4,6 +4,7 @@ bronx-luggage
 │   │
 │   ├── app/                   ← Code chính của Laravel (Models, Controllers, Middleware)
 │   │   ├── Http/
+|   |   |   |── Admin/         ← Admin controllers
 │   │   │   │── Api/           ← REST API controllers (Products, Categories,…)
 │   │   │   ├── Controllers/   
 │   │   │   └── Middleware/
