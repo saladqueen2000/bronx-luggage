@@ -1,0 +1,222 @@
+/* Container và Layout */
+.cart-page-container {
+    /* Các style chung nếu có */
+}
+
+.breadcrumb {
+    /* Style cho breadcrumb */
+}
+
+.cart-main-content {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.cart-table-section {
+    border: 1px solid #C3C3C3;
+    flex: 2;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.cart-total-section {
+    border: 1px solid #C3C3C3;
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+/* Table Styles */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.cart-thead {
+    background-color: #E2F4FF; /* Tương ứng với styles.thead */
+}
+
+.table-row-header {
+    border-bottom: 1px solid #ddd;
+    color: #666;
+}
+
+.table-row {
+    border-bottom: 1px solid #eee;
+}
+
+.th-product { 
+    text-align: left; 
+    padding: 15px 0; 
+}
+
+.th { 
+    padding: 15px 0; 
+    text-align: center; 
+}
+
+.td-product { 
+    display: flex; 
+    align-items: center; 
+    padding: 15px 0; 
+}
+
+.td-price { 
+    text-align: center; 
+}
+
+.td-quantity { 
+    text-align: center; 
+}
+
+.td-subtotal { 
+    text-align: center; 
+    position: relative; 
+}
+
+.product-image { 
+    width: 60px; 
+    height: 60px; 
+    margin-right: 15px; 
+    object-fit: contain; 
+}
+
+.product-details { 
+    text-align: left; 
+}
+
+.product-name { 
+    font-weight: 600; 
+    margin-bottom: 4px; 
+}
+
+.product-info { 
+    font-size: 12px; 
+    color: #888; 
+}
+
+.quantity-control { 
+    display: inline-flex; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+}
+
+.qty-button { 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    padding: 5px 10px; 
+}
+
+.qty-display { 
+    padding: 5px 10px; 
+    border-left: 1px solid #ddd; 
+    border-right: 1px solid #ddd; 
+}
+
+.remove-button { 
+    background: none; 
+    border: none; 
+    color: #ccc; 
+    font-size: 20px; 
+    position: absolute; 
+    right: 0; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    cursor: pointer; 
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.continue-shopping-button { 
+    background-color: #ffaa1c; 
+    color: #fff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+
+.clear-cart-button { 
+    background-color: #fff; 
+    color: red; 
+    padding: 10px 20px; 
+    border: 1px solid red; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+
+/* Cart Total Section */
+.cart-total-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+
+.coupon-box {
+    display: flex;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.coupon-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    margin-right: -1px;
+}
+
+.apply-button {
+    background-color: #ffaa1c;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.country-selector {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.select-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.checkout-button {
+    width: 100%;
+    background-color: #ffaa1c;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}

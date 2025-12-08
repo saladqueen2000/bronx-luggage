@@ -1,308 +1,153 @@
 
-//   const { id } = useParams();
-//  const [product, setProduct] = useState(null);
-
-//  useEffect(() => {  
-//       const fetchProduct = async () => {
-//       try { 
-//         const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
-//         const data = response?.data;
-//         setProduct(data);
-//       } catch (error) {
-//         console.error('Error fetching product data:', error);
-//       }
-//     };
-
-//     fetchProduct();
-//   }, [id]);
-//   if (!product) {
-//     return <div>Loading...</div>;
-//   }
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
-
-
-
-const cartItems = JSON.parse(localStorage.getItem("cart"));
-console.log(cartItems);
+import Footer from '../components/Footer'; 
+import { Link } from 'react-router-dom';
+import '../assets/style/Cart.css';
 
 
 
 export default function Cart() {
+  // Khởi tạo state từ localStorage
+  const bronxData = JSON.parse(localStorage.getItem('cart'));
+  const [cartItems, setCartItems] = useState(bronxData || []);
   const [subtotal, setSubtotal] = useState(0);
   const [coupon, setCoupon] = useState('');
 
-  
+  // Hàm tính toán tổng phụ
   const calculateSubtotal = (items) => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
 
-  // Hàm tăng/giảm số lượng
-  const updateQuantity = (id, delta) => {
+  // Cập nhật state (cartItems) và tính lại subtotal
+  const updateQuantity = (itemId, delta) => {
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+        // Dùng itemId (id sản phẩm + color + size) để đảm bảo cập nhật đúng item
+        item.id === itemId.id && item.color === itemId.color && item.size === itemId.size
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
       )
     );
-    // Sau khi cập nhật cartItems, cần cập nhật subtotal trong useEffect (hoặc gọi hàm ở đây)
-    // Ví dụ: setSubtotal(calculateSubtotal(newItems));
   };
 
   // Hàm xóa sản phẩm
-  const removeItem = (id) => {
-    setcartItems(prevItems => prevItems.filter(item => item.id !== id));
+  const removeItem = (itemId) => {
+    setCartItems(prevItems => prevItems.filter(item =>
+      !(item.id === itemId.id && item.color === itemId.color && item.size === itemId.size)
+    ));
+  };
+  
+  // Hàm xóa toàn bộ giỏ hàng
+  const clearCart = () => {
+    setCartItems([]);
   };
 
-console.log(cartItems);
-
-
+  
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    setSubtotal(calculateSubtotal(cartItems));
+  }, [cartItems]); 
+  
+  
+  
   return (
-    <div className="cart-page-container" style={{ maxWidth: '1200px',margin: '0 auto',padding: '20px' }}>
-      
+    <div className='cart-page-container'>
       <Header />
 
       {/* 1. BREADCRUMB */}
-      <div className="breadcrumb" style=  {{padding: '10px 0',color: '#666',fontSize: '14px'}}>
-        Home &gt; All category
+      <div className='breadcrumb'>
+        Home &gt; Cart
       </div>
 
       {/* 2. MAIN CONTENT AREA */}
-      <div className="cart-main-content" style={styles.mainContent}>
+      <div className='cart-main-content'>
         
         {/* LEFT SECTION: CART TABLE */}
-        <div className="cart-table-section" style={styles.cartTableSection}>
-          <table style={styles.table}>
-            <thead>
-              <tr style={styles.tableRowHeader}>
-                <th style={styles.thProduct}>Product</th>
-                <th style={styles.th}>Price</th>
-                <th style={styles.th}>Quantity</th>
-                <th style={styles.th}>Subtotal</th>
+        <div className='cart-table-section'>
+          <table className='cart-table'>
+            <thead className='cart-thead'>
+              <tr className='table-row-header'>
+                <th className='th-product'>Product</th>
+                <th className='th'>Price</th>
+                <th className='th'>Quantity</th>
+                <th className='th'>Subtotal</th>
               </tr>
             </thead>
             <tbody>
-              {cartItems.map(item => (
-                <tr key={item.id} style={styles.tableRow}>
-                  <td style={styles.tdProduct}>
-                    <img src={item.image} alt={item.name} style={styles.productImage} />
-                    <div style={styles.productDetails}>
-                      <div style={styles.productName}>{item.name}</div>
-                      <div style={styles.productInfo}>Color: {item.color}</div>
-                      <div style={styles.productInfo}>Size: {item.size}</div>
+              {cartItems.map((item, index) => (
+                <tr key={`${item.id}-${item.color}-${item.size}-${index}`} className='table-row'>
+                  <td className='td-product'>
+                    <img src={item.image} alt={item.name} className='product-image' />
+                    <div className='product-details'>
+                      <div className='product-name'>{item.title}</div> 
+                      <div className='product-info'>Color: {item.color}</div>
+                      <div className='product-info'>Size: {item.size}</div>
                     </div>
                   </td>
                   
-                  <td style={styles.tdPrice}>${item.price.toFixed(2)}</td>
+                  <td className='td-price'>${item.price.toFixed(2)}</td>
                   
-                  <td style={styles.tdQuantity}>
-                    <div style={styles.quantityControl}>
-                      <button onClick={() => setQuantity(item.quantity > 1 ? item.quantity - 1 : 1)} style={styles.qtyButton}>-</button>
-                      <span style={styles.qtyDisplay}>{item.quantity}</span>
-                      <button onClick={() => setQuantity(item.quantity + 1)} style={styles.qtyButton}>+</button>
+                  <td className='td-quantity'>
+                    <div className='quantity-control'>
+                    <button onClick={() => updateQuantity(item, -1)} className='qty-button'>-</button>
+                      <span className='qty-display'>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item, 1)} className='qty-button'>+</button>
                     </div>
                   </td>
                   
-                  <td style={styles.tdSubtotal}>
-                    ${(item.price * item.quantity).toFixed(2)}
-                    <button onClick={() => removeItem(item.id)} style={styles.removeButton}>×</button>
+                  <td className='td-subtotal'>
+                    {(item.price * item.quantity).toFixed(2)}
+                    <button onClick={() => removeItem(item)} className='remove-button'>×</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <div style={styles.actionButtons}>
-            <button style={styles.continueShoppingButton}>Continue shopping</button>
-            <button style={styles.updateCartButton}>Update cart</button>
-            <button style={styles.clearCartButton}>Clear cart</button>
+          <div className='action-buttons'>
+            <Link to='/'><button className='continue-shopping-button'>Continue shopping</button></Link>
+            <button className='clear-cart-button' onClick={clearCart} >Clear cart</button> 
           </div>
         </div>
 
         {/* RIGHT SECTION: CART TOTAL */}
-        <div className="cart-total-section" style={styles.cartTotalSection}>
-          <h3 style={styles.cartTotalHeader}>Cart total</h3>
+        <div className='cart-total-section'>
+          <h3 className='cart-total-header'>Cart total</h3>
           
-          <div style={styles.totalRow}>
+          <div className='total-row'>
             <span>Subtotal</span>
-            <strong>${subtotal.toFixed(2)}</strong>
+            <strong>${subtotal}</strong>
           </div>
           
-          <div style={styles.couponBox}>
+          <div className='coupon-box'>
             <input 
-              type="text" 
-              placeholder="Enter coupon code" 
+              type='text' 
+              placeholder='Enter coupon code' 
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
-              style={styles.couponInput}
+              className='coupon-input'
             />
-            <button style={styles.applyButton}>Apply</button>
+            <button className='apply-button'>Apply</button>
           </div>
 
-          <div style={styles.countrySelector}>
-            <label htmlFor="country-select">County</label>
-            <select id="country-select" style={styles.selectInput}>
+          <div className='country-selector'>
+            <label htmlFor='country-select'>County</label>
+            <select id='country-select' className='select-input'>
               <option>United States</option>
               <option>Vietnam</option>
             </select>
           </div>
           
-          <div style={styles.totalRow}>
+          <div className='total-row'>
             <span>Total amount</span>
-            <strong>${subtotal.toFixed(2)}</strong>
+            <strong>${subtotal}</strong> 
           </div>
 
-          <button style={styles.checkoutButton}>Proceed to checkout</button>
+          <Link to='/checkout' ><button className='checkout-button'>Proceed to checkout</button></Link>
         </div>
       </div>
-      <Footer />  
+      <Footer /> 	
     </div>
   );
 }
-
-// Minimal CSS Styles (sử dụng inline style cho ví dụ)
-const styles = {
-  
-  
-  mainContent: {
-    display: 'flex',
-    gap: '30px',
-    marginTop: '20px',
-  },
-  cartTableSection: {
-    flex: '2',
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-  },
-  cartTotalSection: {
-    flex: '1',
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-    height: 'fit-content',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    marginBottom: '20px',
-  },
-  tableRowHeader: {
-    borderBottom: '1px solid #ddd',
-    color: '#666',
-  },
-  tableRow: {
-    borderBottom: '1px solid #eee',
-  },
-  thProduct: { textAlign: 'left', padding: '15px 0' },
-  th: { padding: '15px 0', textAlign: 'center' },
-  tdProduct: { display: 'flex', alignItems: 'center', padding: '15px 0' },
-  tdPrice: { textAlign: 'center' },
-  tdQuantity: { textAlign: 'center' },
-  tdSubtotal: { textAlign: 'center', position: 'relative' },
-  productImage: { width: '60px', height: '60px', marginRight: '15px', objectFit: 'contain' },
-  productDetails: { textAlign: 'left' },
-  productName: { fontWeight: '600', marginBottom: '4px' },
-  productInfo: { fontSize: '12px', color: '#888' },
-  quantityControl: { display: 'inline-flex', border: '1px solid #ddd', borderRadius: '4px' },
-  qtyButton: { background: 'none', border: 'none', cursor: 'pointer', padding: '5px 10px' },
-  qtyDisplay: { padding: '5px 10px', borderLeft: '1px solid #ddd', borderRight: '1px solid #ddd' },
-  removeButton: { 
-    background: 'none', 
-    border: 'none', 
-    color: '#ccc', 
-    fontSize: '20px', 
-    position: 'absolute', 
-    right: '0', 
-    top: '50%', 
-    transform: 'translateY(-50%)', 
-    cursor: 'pointer' 
-  },
-  actionButtons: {
-    display: 'flex',
-    gap: '10px',
-    justifyContent: 'flex-start',
-  },
-  continueShoppingButton: { 
-    backgroundColor: '#ffaa1c', 
-    color: '#fff', 
-    padding: '10px 20px', 
-    border: 'none', 
-    borderRadius: '4px', 
-    cursor: 'pointer' 
-  },
-  updateCartButton: { 
-    backgroundColor: '#fff', 
-    color: '#888', 
-    padding: '10px 20px', 
-    border: '1px solid #ccc', 
-    borderRadius: '4px', 
-    cursor: 'pointer' 
-  },
-  clearCartButton: { 
-    backgroundColor: '#fff', 
-    color: 'red', 
-    padding: '10px 20px', 
-    border: '1px solid red', 
-    borderRadius: '4px', 
-    cursor: 'pointer' 
-  },
-  cartTotalHeader: {
-    borderBottom: '1px solid #eee',
-    paddingBottom: '10px',
-    marginBottom: '15px',
-    fontWeight: '600',
-  },
-  totalRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '10px 0',
-    borderBottom: '1px solid #eee',
-    fontSize: '16px',
-  },
-  couponBox: {
-    display: 'flex',
-    padding: '15px 0',
-    borderBottom: '1px solid #eee',
-  },
-  couponInput: {
-    flexGrow: 1,
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px 0 0 4px',
-    marginRight: '-1px',
-  },
-  applyButton: {
-    backgroundColor: '#ffaa1c',
-    color: '#fff',
-    padding: '10px 15px',
-    border: 'none',
-    borderRadius: '0 4px 4px 0',
-    cursor: 'pointer',
-  },
-  countrySelector: {
-    padding: '15px 0',
-    borderBottom: '1px solid #eee',
-  },
-  selectInput: {
-    width: '100%',
-    padding: '10px',
-    marginTop: '5px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-  },
-  checkoutButton: {
-    width: '100%',
-    backgroundColor: '#ffaa1c',
-    color: '#fff',
-    padding: '12px',
-    border: 'none',
-    borderRadius: '4px',
-    marginTop: '20px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-  }
-};

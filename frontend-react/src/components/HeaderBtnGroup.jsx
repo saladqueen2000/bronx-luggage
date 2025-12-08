@@ -5,6 +5,15 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+
+
+
+  
+  
+
 
 const CustomBtn1 = styled(IconButton)(({ }) => ({
     border: "none",
@@ -49,6 +58,7 @@ function HeaderBtnGroup() {
             </CustomBtn1>
 
             <CustomBtn1>
+                <Link to="/cart" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
                 <ShoppingCartOutlinedIcon sx={{ fontSize: "1.75rem", color: "white", }} />
                 <span
                     style={{
@@ -58,7 +68,8 @@ function HeaderBtnGroup() {
                         color: "white",
                     }}
                 >
-                    Cart</span>
+                    Cart </span>
+                </Link>
             </CustomBtn1>
         </ButtonGroup>
     );
