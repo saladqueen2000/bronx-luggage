@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use, useEffect } from 'react'
 import { Grid } from '@mui/material'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -10,6 +10,7 @@ import Backpack3 from '../assets/images/Backpack_image_3.png'
 import Bag1 from '../assets/images/Bag_image_1.png'
 import Luggage1 from '../assets/images/Luggage_image_1.png'
 import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 import '../global.css';
 import '../assets/style/Home.css'
 import axios from "axios";
@@ -49,6 +50,7 @@ export default function Home() {
                     <SliderHero />
 
                     <div className="home__introduction-cat">
+                        <Link to="/category/:categoryID" style={{ textDecoration: 'none' }}>
                         <div className="home__introduction-cat-card">
                             <img src={Backpack3}/>
                             <div className='home__introduction-cat-card-text'>
@@ -56,7 +58,9 @@ export default function Home() {
                                 <span>(3 items)</span>
                             </div>
                         </div>
+                            </Link>
 
+                            <Link to="/category/:categoryID" style={{ textDecoration: 'none' }}>
                         <div className="home__introduction-cat-card">
                             <img src={Bag1}/>
                             <div className='home__introduction-cat-card-text'>
@@ -64,7 +68,9 @@ export default function Home() {
                                 <span>(2 items)</span>
                             </div>
                         </div>
+                        </Link>
 
+                            <Link to="/category/:categoryID" style={{ textDecoration: 'none' }}>
                         <div className="home__introduction-cat-card">
                             <img src={Luggage1}/>
                             <div className='home__introduction-cat-card-text'>
@@ -72,6 +78,7 @@ export default function Home() {
                                 <span>(3 items)</span>
                             </div>
                         </div>
+                        </Link>
                     </div>
                 </section>
 

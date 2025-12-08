@@ -28,7 +28,6 @@ export default function ProductList() {
   }, []);
   console.log(list);
 
-  //Phần hiện lên trong lúc loading
   if (loading) {
     return (
       <div className="loadingStyle">

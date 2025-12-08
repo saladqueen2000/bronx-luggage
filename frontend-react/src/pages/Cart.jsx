@@ -8,6 +8,7 @@ import "../global.css";
 import "../assets/style/Home.css";
 import "../assets/style/Cart.css";
 import Breadcrumb from "../components/Breadcrumb";
+import { Link } from "react-router-dom";
 
 const fetchProducts = async () => {
   try {
@@ -33,9 +34,7 @@ const fetchProducts = async () => {
 export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
-  const [message, setMessage] = useState({ type: "", text: "" });
   fetchProducts();
-  // Load cart from cookie
   useEffect(() => {
     const cookieCart = Cookies.get("cart");
 
@@ -91,49 +90,6 @@ export default function Cart() {
 
   const subtotal = cart.reduce((t, i) => t + i.qty * i.price, 0);
 
-  // 🌟 SHOW MESSAGE FUNCTION
-  const showMessage = (type, text) => {
-    setMessage({ type, text });
-
-    // hide message after 4s
-    setTimeout(() => {
-      setMessage({ type: "", text: "" });
-    }, 4000);
-  };
-
-  // Checkout
-  const checkout = async () => {
-    if (cart.length === 0) {
-      showMessage("error", "Your cart is empty!");
-      return;
-    }
-
-    const payload = {
-      user_id: 1, // tạm fix
-      items: cart.map((item) => ({
-        product_id: item.id,
-        color: item.color,
-        size: item.size,
-        quantity: item.qty,
-        price: item.price,
-      })),
-    };
-
-    try {
-      const res = await axios.post("http://localhost:8000/api/orders", payload);
-
-      showMessage("success", "Order created successfully!");
-
-      Cookies.set("cart", JSON.stringify([]));
-      setCart([]);
-
-      console.log("Order response:", res.data);
-    } catch (error) {
-      console.error("Checkout error:", error.response?.data);
-      showMessage("error", "Checkout failed! Please try again.");
-    }
-  };
-
   if (loading) {
     return (
       <div className="loadingStyle">
@@ -145,18 +101,6 @@ export default function Cart() {
   return (
     <div className="cart-page">
       <Header />
-
-      {/* 🌟 MESSAGE UI */}
-      {message.text && (
-        <div
-          className={`msg-box ${
-            message.type === "success" ? "msg-success" : "msg-error"
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
-
       <div className="cart-inner">
         <Breadcrumb />
         <div className="cart-layout">
@@ -257,9 +201,7 @@ export default function Cart() {
                 <strong>${subtotal.toFixed(2)}</strong>
               </div>
 
-              <button className="checkout-btn" onClick={checkout}>
-                Proceed to checkout
-              </button>
+              <Link to='/checkout' ><button className='checkout-btn'>Proceed to checkout</button></Link>
             </div>
           </aside>
         </div>
