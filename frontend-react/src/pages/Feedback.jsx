@@ -1,71 +1,168 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import "../assets/style/Feedback.css";
+
+const Rating = ({ value, onChange }) => {
+  return (
+    <div className="rating" role="radiogroup" aria-label="Rating">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <button
+          key={n}
+          type="button"
+          className={"star " + (n <= value ? "on" : "off")}
+          onClick={() => onChange(n)}
+          aria-checked={n === value}
+          role="radio"
+          title={`${n} stars`}
+        >
+          ★
+        </button>
+      ))}
+    </div>
+  );
+};
 
 export default function Feedback() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-
-  const [success, setSuccess] = useState("");
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [rating, setRating] = useState(0);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  };
+
+  const validate = () => {
+    if (!form.name.trim()) return "Please enter your name.";
+    if (!form.email.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email))
+      return "Please enter a valid email address.";
+    if (!form.message.trim()) return "Please enter your feedback message.";
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
+    const v = validate();
+    if (v) {
+      setError(v);
+      return;
+    }
+
+    setSending(true);
+
     try {
-      const res = await axios.post("http://localhost:8000/api/feedbacks", form);
-      setSuccess(res.data.message);
-      setForm({ name: "", email: "", phone: "", message: "" });
+      // Thay bằng API endpoint thật của bạn nếu có
+      // await fetch('/api/feedback', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ ...form, rating }) });
+      await new Promise((res) => setTimeout(res, 900));
+
+      setSent(true);
+      setForm({ name: "", email: "", message: "" });
+      setRating(0);
     } catch (err) {
-      alert("Lỗi! Vui lòng nhập đúng thông tin.");
+      console.error(err);
+      setError("Sending failed — please try again later.");
+    } finally {
+      setSending(false);
     }
   };
 
   return (
-    <div style={{ width: "400px", margin: "auto" }}>
-      <h2>Feedback</h2>
+    <div className="feedback-page">
+      <div className="feedback-card">
+        <div className="left-visual">
+          <div className="brand">Bronx-Luggage</div>
+          <h1>Share your feedback</h1>
+          <p >Help us improve your shopping experience.</p>
+          
+        </div>
 
-      {success && <p style={{ color: "green" }}>{success}</p>}
+        <form className="form" onSubmit={handleSubmit} noValidate>
+          <div className="form-header">
+            <h2>Feedback</h2>
+            <p className="muted">Only takes a few minutes — we appreciate all feedback.</p>
+          </div>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Your name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
+          <label className="field">
+            <span className="label">Name</span>
+            <input
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Nguyễn Văn A"
+              className="input"
+              required
+            />
+          </label>
 
-        <input
-          name="email"
-          placeholder="Your email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
+          <label className="field">
+            <span className="label">Email</span>
+            <input
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              className="input"
+              required
+            />
+          </label>
 
-        <input
-          name="phone"
-          placeholder="Phone number"
-          value={form.phone}
-          onChange={handleChange}
-        />
+          <label className="field">
+            <span className="label">Rating</span>
+            <Rating value={rating} onChange={setRating} />
+          </label>
 
-        <textarea
-          name="message"
-          placeholder="Your message"
-          value={form.message}
-          onChange={handleChange}
-          required
-        />
+          <label className="field">
+            <span className="label">Message</span>
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              rows={6}
+              placeholder="Describe your experience, issues encountered, or suggestions for improvement..."
+              className="textarea"
+              required
+            />
+          </label>
 
-        <button type="submit">Send</button>
-      </form>
+          {error && <div className="error">{error}</div>}
+
+          <div className="actions">
+            <button type="submit" className="btn primary" disabled={sending}>
+              {sending ? "Sending..." : "Send feedback"}
+            </button>
+
+            <button
+              type="button"
+              className="btn ghost"
+              onClick={() => {
+                setForm({ name: "", email: "", message: "" });
+                setRating(0);
+                setError(null);
+              }}
+            >
+              Cancel  
+            </button>
+          </div>
+
+          <div className="note muted">We are committed to protecting your information.</div>
+        </form>
+      </div>
+
+      {sent && (
+        <div className="toast" role="status">
+          <div className="toast-inner">
+            <strong>Sent!</strong>
+            <p>Thank you — we have received your feedback.</p>
+            <button className="btn small" onClick={() => setSent(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
