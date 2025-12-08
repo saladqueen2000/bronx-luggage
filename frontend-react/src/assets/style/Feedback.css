@@ -1,5 +1,5 @@
 /* reset / small helpers */
-.feedback-page { padding: 28px; display: flex; justify-content: center; }
+.feedback-page { padding: 28px; display: flex; justify-content: center; font-family: "Poppins", sans-serif; }
 .feedback-card {
   width: 100%;
   max-width: 1100px;

@@ -34,10 +34,10 @@ export default function Feedback() {
   };
 
   const validate = () => {
-    if (!form.name.trim()) return "Vui lòng nhập tên.";
+    if (!form.name.trim()) return "Please enter your name.";
     if (!form.email.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email))
-      return "Vui lòng nhập email hợp lệ.";
-    if (!form.message.trim()) return "Vui lòng nhập nội dung phản hồi.";
+      return "Please enter a valid email address.";
+    if (!form.message.trim()) return "Please enter your feedback message.";
     return null;
   };
 
@@ -63,7 +63,7 @@ export default function Feedback() {
       setRating(0);
     } catch (err) {
       console.error(err);
-      setError("Gửi thất bại — thử lại sau.");
+      setError("Sending failed — please try again later.");
     } finally {
       setSending(false);
     }
@@ -73,20 +73,20 @@ export default function Feedback() {
     <div className="feedback-page">
       <div className="feedback-card">
         <div className="left-visual">
-          <div className="brand">Electon</div>
-          <h1>Chia sẻ cảm nhận của bạn</h1>
-          <p className="muted">Giúp chúng tôi cải thiện trải nghiệm mua sắm.</p>
-          <div className="hero-image" aria-hidden />
+          <div className="brand">Bronx-Luggage</div>
+          <h1>Share your feedback</h1>
+          <p >Help us improve your shopping experience.</p>
+          
         </div>
 
         <form className="form" onSubmit={handleSubmit} noValidate>
           <div className="form-header">
-            <h2>Phản hồi</h2>
-            <p className="muted">Chỉ mất vài phút — chúng tôi trân trọng mọi góp ý.</p>
+            <h2>Feedback</h2>
+            <p className="muted">Only takes a few minutes — we appreciate all feedback.</p>
           </div>
 
           <label className="field">
-            <span className="label">Tên</span>
+            <span className="label">Name</span>
             <input
               name="name"
               value={form.name}
@@ -111,18 +111,18 @@ export default function Feedback() {
           </label>
 
           <label className="field">
-            <span className="label">Đánh giá</span>
+            <span className="label">Rating</span>
             <Rating value={rating} onChange={setRating} />
           </label>
 
           <label className="field">
-            <span className="label">Nội dung</span>
+            <span className="label">Message</span>
             <textarea
               name="message"
               value={form.message}
               onChange={handleChange}
               rows={6}
-              placeholder="Mô tả trải nghiệm, lỗi gặp phải hoặc gợi ý cải thiện..."
+              placeholder="Describe your experience, issues encountered, or suggestions for improvement..."
               className="textarea"
               required
             />
@@ -132,7 +132,7 @@ export default function Feedback() {
 
           <div className="actions">
             <button type="submit" className="btn primary" disabled={sending}>
-              {sending ? "Đang gửi..." : "Gửi phản hồi"}
+              {sending ? "Sending..." : "Send feedback"}
             </button>
 
             <button
@@ -144,21 +144,21 @@ export default function Feedback() {
                 setError(null);
               }}
             >
-              Hủy
+              Cancel  
             </button>
           </div>
 
-          <div className="note muted">Chúng tôi cam kết bảo mật thông tin của bạn.</div>
+          <div className="note muted">We are committed to protecting your information.</div>
         </form>
       </div>
 
       {sent && (
         <div className="toast" role="status">
           <div className="toast-inner">
-            <strong>Đã gửi!</strong>
-            <p>Cảm ơn bạn — chúng tôi đã nhận được phản hồi.</p>
+            <strong>Sent!</strong>
+            <p>Thank you — we have received your feedback.</p>
             <button className="btn small" onClick={() => setSent(false)}>
-              Đóng
+              Close
             </button>
           </div>
         </div>
