@@ -9,4 +9,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::apiResource('products', ProductController::class);
+Route::apiResource('products', ProductController::class)->names([
+        'index' => 'api.products.index',
+        'store' => 'api.products.store',
+        'show' => 'api.products.show',
+        'update' => 'api.products.update',
+        'destroy' => 'api.products.destroy'
+    ]);

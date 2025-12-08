@@ -9,11 +9,14 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <h4>User: (User Name)</h4>
-        <h5>Products: (Prodcut Name)</h5>
-        <p><strong>Rating:</strong> ⭐⭐⭐⭐☆ (4/5)</p>
-        <p><strong>Comment:</strong></p>
-        <p>Gud</p>
+
+        <p><strong>User:</strong> {{ $rating->user->name ?? 'Unknown' }}</p>
+        <p><strong>Product:</strong> {{ $rating->product->name ?? 'Unknown' }}</p>
+        <p><strong>Stars:</strong> {{ $rating->stars }}</p>
+        <p><strong>Comment:</strong> {{ $rating->comment }}</p>
+        <p><strong>Date:</strong> {{ $rating->created_at }}</p>
+
+        <a href="{{ route('ratings.index') }}" class="btn btn-secondary mt-3">Back</a>
     </div>
 </div>
 @stop

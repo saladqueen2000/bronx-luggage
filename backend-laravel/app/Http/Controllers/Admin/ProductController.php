@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Brand;
+use App\Models\Color;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,7 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.products.index');
+        $products = Product::with(['category', 'brand'])->get();
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -20,7 +26,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+        $brands = Brand::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+        return view('admin.products.create', compact('categories', 'brands', 'colors', 'sizes'));
     }
 
     /**
@@ -28,7 +38,30 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'gender' => 'required|in:male,female,unisex',
+            'colors' => 'array',
+            'sizes' => 'array',
+        ]);
+
+        $product = Product::create($request->only(['category_id', 'brand_id', 'name', 'description', 'price', 'gender']));
+
+        // Colors
+        if ($request->has('colors')) {
+            $product->colors()->sync($request->colors);
+        }
+
+        // Sizes
+        if ($request->has('sizes')) {
+            $product->sizes()->sync($request->sizes);
+        }
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
     /**
@@ -42,24 +75,51 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        return view('admin.products.edit', compact('id'));
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        $brands = Brand::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+        return view('admin.products.edit', compact('product', 'categories', 'brands', 'colors', 'sizes'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'gender' => 'required|in:male,female,unisex',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update($request->only([
+            'category_id', 'brand_id', 'name', 'description', 'price', 'gender'
+        ]));
+
+        // Update colors
+        $product->colors()->sync($request->colors ?? []);
+
+        // Update sizes
+        $product->sizes()->sync($request->sizes ?? []);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Product::findOrFail($id)->delete();
+
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 }

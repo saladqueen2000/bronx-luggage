@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class SizeController extends Controller
@@ -12,7 +13,8 @@ class SizeController extends Controller
      */
     public function index()
     {
-        return view('admin.sizes.index');
+        $sizes = Size::all();
+        return view('admin.sizes.index', compact('sizes'));
     }
 
     /**
@@ -28,7 +30,15 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'label' => 'required'
+        ]);
+
+        Size::create([
+            'label' => $request->label,
+        ]);
+
+        return redirect('/admin/sizes')->with('success', 'Size created successfully!');
     }
 
     /**
@@ -42,24 +52,35 @@ class SizeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        return view('admin.sizes.edit', compact('id'));
+        $size = Size::findOrFail($id);
+        return view('admin.sizes.edit', compact('size'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+            $request->validate([
+            'label' => 'required'
+        ]);
+
+        $size = Size::findOrFail($id);
+        $size->update([
+            'label' => $request->label,
+        ]);
+
+        return redirect('/admin/sizes')->with('success', 'Size updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Size::findOrFail($id)->delete();
+        return redirect('/admin/sizes')->with('success', 'Size deleted successfully!');
     }
 }
