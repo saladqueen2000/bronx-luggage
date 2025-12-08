@@ -2,3 +2,39 @@
     margin: 0px;
     padding: 0px;
 }
+
+.loadingStyle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh
+}
+
+.breadcrumb {
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb a {
+  color: #333;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+.breadcrumb .sep {
+  color: #888;
+  margin: 0 4px;
+}
+
+.breadcrumb .current {
+  font-weight: bold;
+  color: #000;
+}
