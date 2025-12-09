@@ -141,26 +141,46 @@ function ProductCard({ image, title, price }) {
                     {title}
                 </Typography>
 
-                {/* Price */}
-                <Typography
-                    sx={{
-                        fontFamily: "Poppins",
-                        fontSize: "1rem",
-                        fontWeight: 600,
-                        color: "#4A4A4A",
-                        mb: 1,
-                        marginBottom: "2.5px"
-                    }}
-                >
-                    ${price}
-                </Typography>
+                <div className="-flexRow">
+                    <div className="-flexColumn">
+                        {/* Price */}
+                        <Typography
+                            sx={{
+                                fontFamily: "Poppins",
+                                fontSize: "1rem",
+                                fontWeight: 600,
+                                color: "#4A4A4A",
+                                mb: 1,
+                                marginBottom: "2.5px"
+                            }}
+                        >
+                            ${price}
+                        </Typography>
 
-                {/* Stars */}
-                <Box sx={{ display: "flex", gap: "3px", mb: 2 }}>
-                    {[1, 2, 3, 4, 5].map((s) => (
-                        <StarIcon key={s} sx={{ fontSize: "1.1rem", color: "#ACACAC" }} />
-                    ))}
-                </Box>
+                        {/* Stars */}
+                        <Box sx={{ display: "flex", gap: "3px", mb: 2 }}>
+                            {[1, 2, 3, 4, 5].map((s) => (
+                                <StarIcon key={s} sx={{ fontSize: "1.1rem", color: "#ACACAC" }} />
+                            ))}
+                        </Box>
+                    </div>
+
+                    <Button
+                        sx={{
+                            backgroundColor: "#EDA415",
+                            minWidth: 40,
+                            height: 40,
+                            marginLeft: "auto",
+                            marginRight: "5px",
+                            borderRadius: "20px",
+                            "&:hover": {
+                                backgroundColor: "rgba(237, 165, 21, 0.85) ",
+                            },
+                        }}
+                    >
+                        <ShoppingCartIcon sx={{ color: "white" }} />
+                    </Button>
+                </div>
             </CardContent>
         </Card>
     )

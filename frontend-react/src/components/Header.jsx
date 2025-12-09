@@ -7,19 +7,30 @@ import { HeaderLogo } from './Logo.jsx'
 import {
     HeaderBtnGroup,
     StoreBtnGroup,
-    ReturnBtn
+    ReturnBtn,
+    LinkBtnGroup
 } from './HeaderBtnGroup.jsx';
 import {
-    CategoriesDropdown,
-    DropdownGroup
+    CategoriesDropdown
 } from './HeaderDropdowns.jsx';
+import { Box } from '@mui/material'
 
 
 export default function Header() {
     return (
         <header className='header'>
             <div className="header-upper">
-                <span className='header-upper-call'>Need help? Call us: (+84) 0817070903</span>
+                <span className='header-upper-call'>
+                    <Box
+                        component="span"
+                        sx={{
+                            display: { xs: 'none', sm: 'inline' }
+                        }}
+                    >
+                        Need help? Call us:
+                    </Box>
+                    (+84) 0817070903
+                </span>
                 <StoreBtnGroup />
             </div>
             <div className='header-middle'>
@@ -29,9 +40,13 @@ export default function Header() {
             </div>
             <div className="header-lower">
                 <CategoriesDropdown />
-                <DropdownGroup />
+                <LinkBtnGroup />
                 <ReturnBtn />
             </div>
         </header>
     );
 }
+
+//git add .
+//git commit -m "linhtinh"
+//git push

@@ -23,11 +23,8 @@ function CatBtnGroup() {
             value={type}
             onChange={handleType}
             exclusive
+            className='home__popular-btn-group'
             sx={{
-                gap: "1rem",
-                marginLeft: "auto",
-                marginRight: "75px",
-                marginBottom: "50px",
                 "& .MuiToggleButton-root": {
                     borderRadius: "25px !important",   // ép bo tất cả các góc
                     border: "2px solid #B5B5B5",
@@ -66,7 +63,12 @@ const CustomSaleBtn = styled(Button)(({ }) => ({
     marginLeft: "100px",
     height: "62.5px",
     width: "175px",
-    "&:hover": { backgroundColor: "#d59512" }
+    "&:hover": { backgroundColor: "#d59512" },
+    "@media (max-width: 768px)": {
+        height: "50px",
+        width: "150px",
+        margin: "auto"
+    }
 }));
 
 

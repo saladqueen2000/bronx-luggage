@@ -55,7 +55,7 @@ export default function FilterSidebar() {
     const resetSize = () => setSize("");
 
     return (
-        <Box sx={{ width: 260, padding: "10px", marginTop: "100px", marginLeft: "50px" }}>
+        <Box className="productList_filter">
             {/* Categories */}
             <FilterSection title="Categories" onReset={resetCategory}>
                 {[

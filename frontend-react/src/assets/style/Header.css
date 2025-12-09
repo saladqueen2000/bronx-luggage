@@ -21,6 +21,7 @@
 }
 
 .header-upper-call {
+    display: inline-flex;
     margin-left: 40px;
     margin-top: 7.5px;
 }
@@ -49,6 +50,8 @@
     gap: 50px
 }
 
+
+/* Upper header btn group */
 .storeBtnGroup {
     margin-left: auto;
     margin-right: 40px
@@ -61,17 +64,302 @@
     font-family: "Poppins";
 }
 
+
+/* Logo header */
+.headerLogo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-right: 100px;
+    margin-left: 40px
+}
+
+.headerLogo-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px
+}
+
+.headerLogo-text {
+    padding-left: 7.5px;
+    color: white;
+    font-family: "Poppins";
+    font-size: 1.5rem
+}
+
+
+/* Searchbar header */
+.headerSearchBar-container {
+    height: 50px;
+    width: 500px;
+    background-color: white;
+    border-radius: 15px;
+    display: flex
+}
+
+.headerSearchBar-textfield {
+    height: 50px;
+    max-height: 50px;
+    width: 350px;
+    max-width: 350px;
+    background-color: white;
+    border-radius: 15px;
+    font-family: "Poppins"
+}
+
+.headerSearchBar-textfield .MuiOutlinedInput-root fieldset {
+    border-color: transparent;
+}
+
+.headerSearchBar-textfield .MuiOutlinedInput-root:hover fieldset {
+    border-color: transparent;
+}
+
+.headerSearchBar-textfield .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: transparent;
+}
+
+.headerSearchBar-textfield .MuiInputLabel-root {
+    color: black;
+}
+
+.headerSearchBar-textfield .MuiInputLabel-root.Mui-focused {
+    color: transparent;
+}
+
+
+/* Searchbar btn header */
+.headerSearchBtn {
+    height: 50px;
+    max-height: 50px;
+    width: 150px;
+    max-width: 150px;
+    background-color: #EDA415 !important;
+    border-radius: 15px !important;
+    font-family: "Poppins" !important;
+    font-size: 1rem;
+    text-transform: none !important
+}
+
+/* Middle btn group */
+.headerBtnGroup {
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+.headerBtnGroup-icon {
+    font-size: 1.75rem !important;
+    color: white !important;
+}
+
+.headerBtnGroup-text {
+    margin-left: 10px;
+    font-size: 1.25rem;
+    font-weight: lighter;
+    color: white;
+
+}
+
+/* Dropdown */
+.catDropdown {
+    border: none;
+    border-radius: 0px;
+    width: 237.5px;
+    height: 70px;
+    margin-left: 40px;
+    padding: 10px 20px;
+    background-color: #EDA415;
+    color: white;
+    font-family: "Poppins" !important;
+    font-weight: 500 !important
+}
+
+.catDropdown-text {
+    color: white;
+}
+
+.catDropdown:hover {
+    color: white;
+}
+
+.catDropdown .MuiSelect-icon {
+    color: white;
+}
+
+/* Link btn group */
+.linkBtn {
+    width: 125px;
+    color: black !important;
+    font-family: "Poppins" !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    text-transform: none !important
+}
+
+.linkBtnGroup {
+    margin-left: 50px;
+}
+
+.linkBtnGroup .MuiButtonGroup-groupedText {
+    border: none !important;
+}
+
+/* ReturnBtn */
+.returnBtn {
+    margin-left: auto !important;
+    margin-right: 40px !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    color: #003F62 !important;
+    font-family: "Poppins" !important
+}
+
+
+/* 1024px */
 @media (max-width: 1024px) {
+    .header {
+        max-width: 1024px;
+    }
+
     .header-upper {
         width: 100%;
-        height: 25px;
-        padding: 10px 0px;
+        max-width: 1024px;
+        height: 30px;
+        padding: 0px 0px 7.5px 0px;
+    }
+
+    .header-middle {
+        max-width: 1024px;
+    }
+
+    .header-lower {
+        max-width: 1024px;
     }
 
     .header-upper-call {
-        margin-top: 2.5px;
+        margin-top: 7.5px;
         font-size: 0.85rem;
     }
 
-    
+    .storeBtnGroup {
+        margin-right: 15px;
+    }
+
+    .storeBtnGroup-text {
+        margin-left: 5px;
+        font-size: 0.85rem;
+        color: black;
+        font-family: "Poppins";
+    }
+
+    .headerLogo {
+        margin-right: 50px;
+    }
+
+    .headerLogo-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+    }
+
+    .headerLogo-text {
+        font-size: 0.9rem;
+        width: 125px;
+    }
+
+    .headerSearchBar-container {
+        width: 450px;
+    }
+
+    .headerSearchBar-textfield {
+        width: 300px;
+        max-width: 300px;
+    }
+
+    .headerBtnGroup {
+        margin-right: 20px;
+    }
+
+    .headerBtnGroup-icon {
+        font-size: 1.25rem !important;
+    }
+
+    .headerBtnGroup-text {
+        font-size: 1rem;
+    }
+
+    .catDropdown {
+        width: 225px;
+    }
+
+    .header-lower {
+        height: 50px;
+    }
+
+    .linkBtn {
+        width: 100px;
+    }
+
+    .returnBtn {
+        min-width: 200px !important;
+        font-size: 0.75rem !important;
+        margin-right: 12.5px !important;
+    }
 }
+
+
+
+/* 768px */
+@media (max-width: 768px) {
+    .header .header-middle .header-upper .header-lower {
+        max-width: 768px;
+    }
+
+    .headerLogo-text {
+        display: none;
+    }
+
+    .headerBtnGroup-text {
+        display: none;
+    }
+
+    .headerBtn {
+        width: 50px !important;
+    }
+
+    .catDropdown-text {
+        display: none;
+    }
+
+    .catDropdown {
+        width: 50px;
+        height: 70px;
+        padding: 0px;
+    }
+
+    .catDropdown .MuiSelect-icon {
+        font-size: 2rem;
+        position: absolute;
+        left: 10px;
+    }
+
+    .returnBtn {
+        min-width: 100px !important;
+        font-size: 0.65rem !important;
+    }
+}
+
+
+
+/* 425px
+@media (max-width: 425px) {
+    .header .header-middle .header-upper .header-lower {
+        max-width: 425px;
+    }
+
+    .header-upper-call {
+        margin-left: 10px !important;
+    }
+
+} */
+
