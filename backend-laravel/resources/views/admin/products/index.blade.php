@@ -23,6 +23,8 @@
             <th>Category</th>
             <th>Price</th>
             <th>Gender</th>
+            <th>Colors</th>
+            <th>Sizes</th>
             <th>Image</th>
             <th>Action</th>
         </tr>
@@ -36,6 +38,24 @@
             <td>{{ $p->brand->name ?? '-' }}</td>
             <td>${{ $p->price }}</td>
             <td>{{ ucfirst($p->gender) }}</td>
+            <td>
+                @if($p->colors->count())
+                    @foreach($p->colors as $c)
+                        <span class="badge bg-primary">{{ $c->name }}</span>
+                    @endforeach
+                @else
+                    <span class="text-muted">None</span>
+                @endif
+            </td>
+            <td>
+                @if($p->sizes->count())
+                    @foreach($p->sizes as $s)
+                        <span class="badge bg-success">{{ $s->label }}</span>
+                    @endforeach
+                @else
+                    <span class="text-muted">None</span>
+                @endif
+            </td>
             <td>
                 @if($p->gallery->first())
                     <img src="{{ $p->gallery->first()->image_url }}" width="60" style="border-radius: 4px;">

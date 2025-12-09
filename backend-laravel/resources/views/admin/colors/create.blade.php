@@ -18,7 +18,7 @@
         </div>
 
         <div class="mb-3">
-            <label>Hex Code (optional)</label>
+            <label>Hex Code</label>
             <input type="text" name="hex" class="form-control" placeholder="#FF0000">
         </div>
 
