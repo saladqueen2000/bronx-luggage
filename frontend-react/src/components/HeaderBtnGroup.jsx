@@ -30,12 +30,12 @@ const CustomBtn2 = styled(IconButton)(({ }) => ({
 function HeaderBtnGroup() {
     return (
         <ButtonGroup variant='text' className='headerBtnGroup'>
-            <CustomBtn1>
+            <CustomBtn1 className='headerBtn'>
                 <PersonOutlineIcon className='headerBtnGroup-icon'/>
                 <span className='headerBtnGroup-text'>Sign in</span>
             </CustomBtn1>
 
-            <CustomBtn1>
+            <CustomBtn1 className='headerBtn'>
                 <ShoppingCartOutlinedIcon className='headerBtnGroup-icon'/>
                 <span className='headerBtnGroup-text'>Cart</span>
             </CustomBtn1>

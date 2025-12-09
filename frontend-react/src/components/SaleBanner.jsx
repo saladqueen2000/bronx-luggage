@@ -16,7 +16,7 @@ export default function SaleBanner() {
             <div className='home__sale-content'>
                 <CustomSaleBtn>New bag</CustomSaleBtn>
                 <span className='home__sale-text'>Sale up to 50% off</span>
-                <Link to="/list">
+                <Link to="/list" className='shopBtnLink'>
                     <CustomSaleBtn>Shop now</CustomSaleBtn>
                 </Link>
             </div>

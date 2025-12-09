@@ -13,13 +13,24 @@ import {
 import {
     CategoriesDropdown
 } from './HeaderDropdowns.jsx';
+import { Box } from '@mui/material'
 
 
 export default function Header() {
     return (
         <header className='header'>
             <div className="header-upper">
-                <span className='header-upper-call'>Need help? Call us: (+84) 0817070903</span>
+                <span className='header-upper-call'>
+                    <Box
+                        component="span"
+                        sx={{
+                            display: { xs: 'none', sm: 'inline' }
+                        }}
+                    >
+                        Need help? Call us:
+                    </Box>
+                    (+84) 0817070903
+                </span>
                 <StoreBtnGroup />
             </div>
             <div className='header-middle'>

@@ -63,7 +63,12 @@ const CustomSaleBtn = styled(Button)(({ }) => ({
     marginLeft: "100px",
     height: "62.5px",
     width: "175px",
-    "&:hover": { backgroundColor: "#d59512" }
+    "&:hover": { backgroundColor: "#d59512" },
+    "@media (max-width: 768px)": {
+        height: "50px",
+        width: "150px",
+        margin: "auto"
+    }
 }));
 
 

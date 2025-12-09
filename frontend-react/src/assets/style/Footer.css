@@ -37,7 +37,7 @@
     max-width: 500px;
     background-color: #EDA415;
     border-radius: 22.5px;
-    margin-left: 100px;
+    margin-left: 100px !important;
     font-family: "Poppins"
 }
 
@@ -205,5 +205,42 @@
         font-size: 0.95rem;
         margin: 10px 0;
         gap: 7.5px;
+    }
+}
+
+
+
+/* 768px */
+@media (max-width: 768px) {
+    .footer {
+        max-width: 768px;
+    }
+
+    .footer__subscribe {
+        width: 80%;
+        height: 75px;
+    }
+
+    .footer__subscribe-text {
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+
+    .footer__subscribe-number {
+        margin-left: 10px;
+        font-size: 0.6rem;
+    }
+
+    .footer__subscribe-icon {
+        font-size: 1.75rem !important;
+        margin-left: 10px;
+    }
+
+    .footer__about-location {
+        margin-left: 25px;
+    }
+
+    .footer-list {
+        margin: 0px 25px 0px 25px;
     }
 }

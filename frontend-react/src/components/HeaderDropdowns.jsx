@@ -18,7 +18,7 @@ function CategoriesDropdown() {
                 className='catDropdown'
                 renderValue={(selected) => {
                     if (!selected) {
-                        return <span style={{ color: "white" }}>Browse categories</span>;
+                        return <span className='catDropdown-text'>Browse categories</span>;
                     }
                     return selected;
                 }}

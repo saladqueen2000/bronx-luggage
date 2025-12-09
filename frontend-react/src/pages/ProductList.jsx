@@ -77,7 +77,7 @@ export default function ProductList() {
                         showLastButton
                         className='pagination'
                     />
-                </div>
+                </div> 
             </section>
 
             <SaleBanner />

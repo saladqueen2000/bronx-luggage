@@ -44,7 +44,7 @@ export default function Footer() {
                         <li>Bronze arnold</li>
                         <li>Chronograph blue</li>
                         <li>Smart phones</li>
-                        <li>Automatic watch</li>
+                        <li>Automatic watch</li> 
                         <li>Hair straighteners</li>
                     </ul>
                 </div>

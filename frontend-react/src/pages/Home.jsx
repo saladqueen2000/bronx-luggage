@@ -45,9 +45,7 @@ export default function Home() {
         <div className='home'>
             <Header />
             <main className='home__content'>
-                <section>
-                    <SliderHero />
-                </section>
+                <SliderHero />
 
 
 

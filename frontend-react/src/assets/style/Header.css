@@ -21,6 +21,7 @@
 }
 
 .header-upper-call {
+    display: inline-flex;
     margin-left: 40px;
     margin-top: 7.5px;
 }
@@ -173,6 +174,10 @@
     font-weight: 500 !important
 }
 
+.catDropdown-text {
+    color: white;
+}
+
 .catDropdown:hover {
     color: white;
 }
@@ -296,11 +301,64 @@
     }
 
     .returnBtn {
-        width: 200px;
+        min-width: 200px !important;
         font-size: 0.75rem !important;
     }
 }
 
-/* 768px */
 
-/* 425px */
+
+/* 768px */
+@media (max-width: 768px) {
+    .header .header-middle .header-upper .header-lower {
+        max-width: 768px;
+    }
+
+    .headerLogo-text {
+        display: none;
+    }
+
+    .headerBtnGroup-text {
+        display: none;
+    }
+
+    .headerBtn {
+        width: 50px !important;
+    }
+
+    .catDropdown-text {
+        display: none;
+    }
+
+    .catDropdown {
+        width: 50px;
+        height: 70px;
+        padding: 0px;
+    }
+
+    .catDropdown .MuiSelect-icon {
+        font-size: 2rem;
+        position: absolute;
+        left: 10px;
+    }
+
+    .returnBtn {
+        min-width: 100px !important;
+        font-size: 0.65rem !important;
+    }
+}
+
+
+
+/* 425px
+@media (max-width: 425px) {
+    .header .header-middle .header-upper .header-lower {
+        max-width: 425px;
+    }
+
+    .header-upper-call {
+        margin-left: 10px !important;
+    }
+
+} */
+
