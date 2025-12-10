@@ -12,7 +12,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>#</th>
             <th>Size Label</th>
             <th width="120px">Action</th>
         </tr>
@@ -21,7 +21,7 @@
     <tbody>
         @forelse ($sizes as $size)
         <tr>
-            <td>{{ $size->id }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $size->label }}</td>
             <td>
                 <a href="/admin/sizes/{{ $size->id }}/edit" class="btn btn-warning btn-sm">Edit</a>

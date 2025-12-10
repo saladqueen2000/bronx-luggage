@@ -21,7 +21,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th width="50">ID</th>
+                    <th width="50">#</th>
                     <th>Name</th>
                     <th>Hex Code</th>
                     <th width="120px">Action</th>
@@ -31,7 +31,7 @@
             <tbody>
                 @forelse ($colors as $color)
                 <tr>
-                    <td>{{ $color->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $color->name }}</td>
                     <td>
                         {{ $color->hex }}

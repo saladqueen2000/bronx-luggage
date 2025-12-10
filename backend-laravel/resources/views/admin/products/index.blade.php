@@ -17,7 +17,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>#</th>
             <th>Name</th>
             <th>Brand</th>
             <th>Category</th>
@@ -32,7 +32,7 @@
     <tbody>
         @foreach($products as $p)
         <tr>
-            <td>{{ $p->id }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $p->name }}</td>
             <td>{{ $p->category->name ?? '-' }}</td>
             <td>{{ $p->brand->name ?? '-' }}</td>
@@ -41,7 +41,7 @@
             <td>
                 @if($p->colors->count())
                     @foreach($p->colors as $c)
-                        <span class="badge bg-primary">{{ $c->name }}</span>
+                        <span class="badge" style="background-color: {{ $c->hex }}; color: #fff; border:1px solid #ccc;">{{ $c->name }}</span>
                     @endforeach
                 @else
                     <span class="text-muted">None</span>

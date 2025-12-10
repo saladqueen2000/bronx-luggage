@@ -20,7 +20,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th width="50">ID</th>
+                    <th width="50">#</th>
                     <th>Name</th>
                     <th width="150">Actions</th>
                 </tr>
@@ -29,7 +29,7 @@
             <tbody>
                 @forelse ($categories as $cat)
                 <tr>
-                    <td >{{ $cat->id }}</td>
+                    <td >{{ $loop->iteration }}</td>
                     <td >{{ $cat->name }}</td>
                     <td>
                         <a href="{{ route('categories.edit', $cat->id) }}" class="btn btn-sm btn-warning">Edit</a>

@@ -21,7 +21,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Brand Name</th>
                     <th width="180px">Action</th>
                 </tr>
@@ -30,7 +30,7 @@
             <tbody>
                 @forelse($brands as $brand)
                 <tr>
-                    <td>{{ $brand->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $brand->name }}</td>
                     <td>
                         <a class="btn btn-sm btn-warning" href="/admin/brands/{{ $brand->id }}/edit">Edit</a>
