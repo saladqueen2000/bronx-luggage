@@ -1,4 +1,4 @@
-import React, { use, useEffect } from "react";
+import React from "react";
 import { Grid } from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -6,9 +6,6 @@ import SaleBanner from "../components/SaleBanner";
 import SliderHero from "../components/HomeSlides";
 import { CatBtnGroup } from "../components/HomeBtnGroup";
 import { ResponsiveCard, ProductCard } from "../components/Cards";
-import Backpack3 from "../assets/images/Backpack_image_3.png";
-import Bag1 from "../assets/images/Bag_image_1.png";
-import Luggage1 from "../assets/images/Luggage_image_1.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import "../global.css";
@@ -80,9 +77,6 @@ export default function Home() {
     </div>
   );
 }
-
-//Giao diện trên máy khác không giống
-//Responsive
 
 //git add .
 //git commit -m "linhtinh"

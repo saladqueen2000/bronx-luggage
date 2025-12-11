@@ -64,7 +64,7 @@ export default function SliderHero() {
                 </Box>
 
                 {/* DOTS */}
-                <Box sx={{ display: "flex", gap: "12px", marginLeft: "125px" }}>
+                <Box className="home__slides-dots-container">
                     {slides.map((_, i) => (
                         <Box
                             key={i}

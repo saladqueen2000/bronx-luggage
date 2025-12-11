@@ -1,7 +1,8 @@
-import { Box, Typography, Checkbox, FormControlLabel, Divider, IconButton } from "@mui/material";
+import { Box, Typography, Checkbox, FormControlLabel, Divider, Drawer, IconButton, useMediaQuery } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
-import { useState } from "react";
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import CheckIcon from "@mui/icons-material/Check";
+import { useState } from "react";
 
 const FilterSection = ({ title, children, onReset }) => {
     return (
@@ -41,21 +42,25 @@ export default function FilterSidebar() {
     const [brand, setBrand] = useState("");
     const [size, setSize] = useState("");
     const [selectedColor, setSelectedColor] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const colors = ["#E53E3E", "#F6AD55", "#ECC94B", "#48BB78", "#38B2AC", "#3182CE", "#805AD5", "#E53E96", "#9AE6B4"];
-
+    //Xử lý khi đổi màu
     const handleColorChange = (color) => {
         setSelectedColor(color)
     }
 
+    //Xử lý khi đổi các mục
     const resetCategory = () => setCategory("");
     const resetAvailability = () => setAvailability("");
     const resetProductType = () => setProductType("");
     const resetBrand = () => setBrand("");
     const resetSize = () => setSize("");
 
-    return (
-        <Box className="productList_filter">
+    //Responsive cho mobile
+    const isMobile = useMediaQuery("(max-width:426px)");
+    const FilterContent = (
+        <Box className="productList_filter" sx={{ width: isMobile ? 260 : "auto", p: 2 }}>
             {/* Categories */}
             <FilterSection title="Categories" onReset={resetCategory}>
                 {[
@@ -253,6 +258,48 @@ export default function FilterSidebar() {
                 ))}
             </FilterSection>
         </Box>
+    )
+
+
+    return (
+        <>
+            {/* Mobile btn */}
+            {isMobile && !open && (
+                <IconButton
+                    onClick={() => setOpen(true)}
+                    sx={{
+                        display: { xs: "flex", sm: "none" },
+                        position: "fixed",
+                        top: 15,
+                        left: 15,
+                        zIndex: 2000,
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                    }}
+                >
+                    <FilterAltOutlinedIcon />
+                </IconButton>
+            )}
+
+            {/* MOBILE DRAWER */}
+            <Drawer
+                open={open}
+                onClose={() => setOpen(false)}
+                anchor="left"
+                sx={{
+                    display: { xs: "block", sm: "none" },
+                }}
+            >
+                {FilterContent}
+            </Drawer>
+
+            {/* DESKTOP SIDEBAR */}
+            {!isMobile && (
+                <Box>
+                    {FilterContent}
+                </Box>
+            )}
+        </>
     );
 }
 
