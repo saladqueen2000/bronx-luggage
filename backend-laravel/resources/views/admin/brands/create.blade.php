@@ -7,16 +7,17 @@
 @stop
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <form>
-            <div class="form-group">
-                <label>Brand Name</label>
-                <input type="text" class="form-control" placeholder="Enter brand name">
-            </div>
 
-            <button class="btn btn-primary mt-3">Save</button>
-        </form>
+<form action="/admin/brands" method="POST">
+    @csrf
+
+    <div class="mb-3">
+        <label>Brand Name</label>
+        <input type="text" name="name" class="form-control">
+        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
-</div>
+
+    <button class="btn btn-primary">Save</button>
+</form>
+
 @stop

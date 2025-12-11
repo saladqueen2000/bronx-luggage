@@ -7,16 +7,15 @@
 @stop
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <form>
-            <div class="form-group">
-                <label>Size Name</label>
-                <input type="text" class="form-control" value="Sample Size">
-            </div>
+<form action="/admin/sizes/{{ $size->id }}" method="POST">
+    @csrf
+    @method('PUT')
 
-            <button class="btn btn-success mt-3">Update</button>
-        </form>
+    <div class="mb-3">
+        <label>Size Label</label>
+        <input type="text" name="label" class="form-control" value="{{ $size->label }}" required>
     </div>
-</div>
+
+    <button class="btn btn-primary">Update</button>
+</form>
 @stop

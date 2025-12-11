@@ -16,7 +16,6 @@ Route::prefix('products')->group(function () {
     Route::get('filter', [ProductController::class, 'filter']);
 });
 
-Route::apiResource('products', ProductController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('colors', ColorController::class);
@@ -34,5 +33,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-
-
+Route::apiResource('products', ProductController::class)->names([
+    'index' => 'api.products.index',
+    'store' => 'api.products.store',
+    'show' => 'api.products.show',
+    'update' => 'api.products.update',
+    'destroy' => 'api.products.destroy'
+]);

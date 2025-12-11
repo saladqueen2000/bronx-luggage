@@ -7,16 +7,23 @@
 @stop
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <form>
-            <div class="form-group">
-                <label>Color Name</label>
-                <input type="text" class="form-control" value="Sample Color">
-            </div>
+<div class="card p-3">
 
-            <button class="btn btn-success mt-3">Update</button>
-        </form>
-    </div>
+    <form action="{{ route('colors.update', $color->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="mb-3">
+            <label>Color Name</label>
+            <input type="text" name="name" class="form-control" value="{{ $color->name }}">
+        </div>
+
+        <div class="mb-3">
+            <label>Hex Code</label>
+            <input type="text" name="hex" class="form-control" value="{{ $color->hex }}" placeholder="#FF0000">
+        </div>
+
+        <button class="btn btn-success mt-3">Update</button>
+    </form>
 </div>
 @stop
