@@ -3,35 +3,9 @@ import { Link } from 'react-router-dom';
 
 function HeaderLogo() {
     return (
-        <Link
-            to="/"
-            style={{
-                display: "flex",
-                alignItems: "center",
-                textDecoration: "none",
-                marginRight: "100px",
-                marginLeft: "40px",
-            }}
-        >
-            <img
-                src={Logo}
-                alt="Logo"
-                style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "25px",
-                }}
-            />
-            <span
-                style={{
-                    paddingLeft: "7.5px",
-                    color: "white",
-                    fontFamily: "Poppins",
-                    fontSize: "1.5rem",
-                }}
-            >   
-                Bronx Luggage
-            </span>
+        <Link to="/" className='headerLogo'>
+            <img src={Logo} alt="Logo" className='headerLogo-img'/>
+            <span className='headerLogo-text'>Bronx Luggage</span>
         </Link>
     );
 }

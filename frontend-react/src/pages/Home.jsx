@@ -45,35 +45,7 @@ export default function Home() {
         <div className='home'>
             <Header />
             <main className='home__content'>
-                <section className="home__introduction">
-                    <SliderHero />
-
-                    <div className="home__introduction-cat">
-                        <div className="home__introduction-cat-card">
-                            <img src={Backpack3}/>
-                            <div className='home__introduction-cat-card-text'>
-                                <span style={{ fontWeight: "600" }}>Backpack</span>
-                                <span>(3 items)</span>
-                            </div>
-                        </div>
-
-                        <div className="home__introduction-cat-card">
-                            <img src={Bag1}/>
-                            <div className='home__introduction-cat-card-text'>
-                                <span style={{ fontWeight: "600" }}>Bag</span>
-                                <span>(2 items)</span>
-                            </div>
-                        </div>
-
-                        <div className="home__introduction-cat-card">
-                            <img src={Luggage1}/>
-                            <div className='home__introduction-cat-card-text'>
-                                <span style={{ fontWeight: "600" }}>Luggage</span>
-                                <span>(3 items)</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <SliderHero />
 
 
 
@@ -115,3 +87,7 @@ export default function Home() {
 //Giao diện trên máy khác không giống
 //Responsive
 
+
+//git add .
+//git commit -m "linhtinh"
+//git push

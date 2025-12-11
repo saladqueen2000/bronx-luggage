@@ -19,6 +19,7 @@ const CustomBtn1 = styled(IconButton)(({ }) => ({
 const CustomBtn2 = styled(IconButton)(({ }) => ({
     border: "none",
     borderRadius: "0px",
+    padding: "0px",
     width: "175px",
     height: "40px",
     "&:hover": {
@@ -28,37 +29,15 @@ const CustomBtn2 = styled(IconButton)(({ }) => ({
 
 function HeaderBtnGroup() {
     return (
-        <ButtonGroup
-            variant='text'
-            sx={{
-                marginLeft: "auto",
-                marginRight: "40px",
-            }}
-        >
-            <CustomBtn1>
-                <PersonOutlineIcon sx={{ fontSize: "1.75rem", color: "white", }} />
-                <span
-                    style={{
-                        marginLeft: "10px",
-                        fontSize: "1.25rem",
-                        fontWeight: "lighter",
-                        color: "white",
-                    }}
-                >
-                    Sign in</span>
+        <ButtonGroup variant='text' className='headerBtnGroup'>
+            <CustomBtn1 className='headerBtn'>
+                <PersonOutlineIcon className='headerBtnGroup-icon'/>
+                <span className='headerBtnGroup-text'>Sign in</span>
             </CustomBtn1>
 
-            <CustomBtn1>
-                <ShoppingCartOutlinedIcon sx={{ fontSize: "1.75rem", color: "white", }} />
-                <span
-                    style={{
-                        marginLeft: "10px",
-                        fontSize: "1.25rem",
-                        fontWeight: "lighter",
-                        color: "white",
-                    }}
-                >
-                    Cart</span>
+            <CustomBtn1 className='headerBtn'>
+                <ShoppingCartOutlinedIcon className='headerBtnGroup-icon'/>
+                <span className='headerBtnGroup-text'>Cart</span>
             </CustomBtn1>
         </ButtonGroup>
     );
@@ -74,15 +53,7 @@ function StoreBtnGroup() {
 
             <CustomBtn2>
                 <LocalShippingOutlinedIcon sx={{ fontSize: "1.25rem", color: "black" }} />
-                <span
-                    style={{
-                        marginLeft: "7.5px",
-                        fontSize: "1rem",
-                        color: "black",
-                        fontFamily: "Poppins"
-                    }}
-                >
-                    Track your order</span>
+                <span className='storeBtnGroup-text'>Track your order</span>
             </CustomBtn2>
         </ButtonGroup>
     )
@@ -90,24 +61,25 @@ function StoreBtnGroup() {
 
 function ReturnBtn() {
     return (
-        <Button
-            variant='text'
-            sx={{
-                marginLeft: "auto",
-                marginRight: "40px",
-                fontSize: "1rem",
-                fontWeight: "bold",
-                color: "#003F62",
-                fontFamily: "Poppins"
-            }}
-        >
-            30 Days Free Return
-        </Button>
+        <Button variant='text' className='returnBtn'>30 Days Free Return</Button>
+    )
+}
+
+function LinkBtnGroup() {
+    return (
+        <ButtonGroup variant='text' className='linkBtnGroup'>
+            <Button variant='text' className='linkBtn'>Home</Button>
+            <Button variant='text' className='linkBtn'>Products</Button>
+            <Button variant='text' className='linkBtn'>Feedback</Button>
+            <Button variant='text' className='linkBtn'>About</Button>
+            <Button variant='text' className='linkBtn'>Contact</Button>
+        </ButtonGroup>
     )
 }
 
 export {
     HeaderBtnGroup,
     StoreBtnGroup,
-    ReturnBtn
+    ReturnBtn,
+    LinkBtnGroup
 }

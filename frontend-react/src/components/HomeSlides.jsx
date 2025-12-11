@@ -44,63 +44,21 @@ export default function SliderHero() {
     }
 
     return (
-        <Box
-            sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "50px 100px",
-                boxSizing: "border-box"
-            }}
-        >
+        <Box className='home__slides'>
             {/* LEFT CONTENT */}
             <Box>
-                <Typography
-                    sx={{
-                        fontFamily: "Poppins",
-                        fontSize: "48px",
-                        fontWeight: 700,
-                        whiteSpace: "pre-line",
-                        color: "#1B5A7D",
-                        mb: 3
-                    }}
-                >
+                <Typography className="home__slides-name" sx={{ mb: 3 }}>
                     {current?.name}
                 </Typography>
                 {/* BUTTONS */}
-                <Box sx={{ display: "flex", gap: "20px", mb: 5 }}>
-                    <Link
-                        to="/list"
-                    >
-                        <Button
-                            sx={{
-                                backgroundColor: "#EDA415",
-                                color: "white",
-                                fontSize: "18px",
-                                borderRadius: "20px",
-                                padding: "10px 30px",
-                                fontFamily: "Poppins",
-                                textTransform: "none",
-                                "&:hover": { backgroundColor: "#d59512" }
-                            }}
-                        >
+                <Box className="home__slides-btn-container" sx={{ mb: 5 }}>
+                    <Link to="/list">
+                        <Button className="home__slides-btn-shop" sx={{ "&:hover": { backgroundColor: "#d59512" }}}>
                             Shop now
                         </Button>
                     </Link>
 
-                    <Button
-                        sx={{
-                            border: "2px solid #316887",
-                            color: "#316887",
-                            fontSize: "18px",
-                            borderRadius: "20px",
-                            padding: "10px 30px",
-                            fontFamily: "Poppins",
-                            textTransform: "none",
-                            "&:hover": { backgroundColor: "#e9eef3" }
-                        }}
-                    >
+                    <Button className="home__slides-btn-view" sx={{ "&:hover": { backgroundColor: "#e9eef3" }}}>
                         View more
                     </Button>
                 </Box>
@@ -111,15 +69,8 @@ export default function SliderHero() {
                         <Box
                             key={i}
                             onClick={() => setIndex(i)}
-                            sx={{
-                                width: 14,
-                                height: 14,
-                                bgcolor: i === index ? "#EDA415" : "white",
-                                borderRadius: "50%",
-                                border: "1.5px solid #ADADAD",
-                                cursor: "pointer",
-                                transition: "0.3s"
-                            }}
+                            className="home__slides-dots"
+                            sx={{ bgcolor: i === index ? "#EDA415" : "white" }}
                         />
                     ))}
                 </Box>
@@ -130,29 +81,11 @@ export default function SliderHero() {
                 <img
                     src={current?.gallery?.[0]?.image_url ?? ""}
                     alt=""
-                    className="home__slide-img"
+                    className="home__slides-img"
                 />
 
                 {/* PRICE CIRCLE */}
-                <Box
-                    sx={{
-                        position: "absolute",
-                        bottom: 20,
-                        right: 20,
-                        backgroundColor: "#EDA415",
-                        borderRadius: "50%",
-                        width: 120,
-                        height: 120,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "white",
-                        fontFamily: "Poppins",
-                        fontWeight: 600,
-                        fontSize: "20px"
-                    }}
-                >
+                <Box className="home__slides-price">
                     Only <br /> ${current.price}!
                 </Box>
             </Box>
