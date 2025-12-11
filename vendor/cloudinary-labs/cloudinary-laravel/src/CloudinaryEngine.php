@@ -9,116 +9,144 @@
 
 namespace CloudinaryLabs\CloudinaryLaravel;
 
-use Cloudinary\Cloudinary;
-use Cloudinary\Tag\ImageTag;
-use Cloudinary\Tag\VideoTag;
+use Cloudinary\Api\Admin\AdminApi;
 use Cloudinary\Api\ApiResponse;
 use Cloudinary\Api\BaseApiClient;
 use Cloudinary\Api\Exception\ApiError;
+use Cloudinary\Api\Search\SearchApi;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Asset\Analytics;
+use Cloudinary\Asset\File;
+use Cloudinary\Asset\Image;
+use Cloudinary\Asset\Video;
+use Cloudinary\Cloudinary;
+use Cloudinary\Configuration\Configuration;
+use Cloudinary\Tag\ImageTag;
+use Cloudinary\Tag\VideoTag;
+use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
-use CloudinaryLabs\Exceptions\IsNullException;
 
 /**
  * Class CloudinaryEngine
- * @package CloudinaryLabs\CloudinaryLaravel
  */
 class CloudinaryEngine
 {
     /**
-     * Laravel Package Version.
+     * Cloudinary Laravel Package Version.
      *
      * @var string PACKAGE_VERSION
      */
-    const PACKAGE_VERSION = '1.0.5';
+    const PACKAGE_VERSION = '2.2.3';
 
     public const ASSET_ID = 'asset_id';
+
     public const PUBLIC_ID = 'public_id';
+
     public const VERSION = 'version';
+
     public const VERSION_ID = 'version_id';
+
     public const SIGNATURE = 'signature';
+
     public const WIDTH = 'width';
+
     public const HEIGHT = 'height';
+
     public const FORMAT = 'format';
+
     public const RESOURCE_TYPE = 'resource_type';
+
     public const CREATED_AT = 'created_at';
+
     public const TAGS = 'tags';
+
     public const PAGES = 'pages';
+
     public const BYTES = 'bytes';
+
     public const TYPE = 'type';
+
     public const ETAG = 'etag';
+
     public const PLACEHOLDER = 'placeholder';
+
     public const URL = 'url';
+
     public const SECURE_URL = 'secure_url';
+
     public const PHASH = 'phash';
+
     public const ORIGINAL_FILENAME = 'original_filename';
 
     /**
      * Instance of Cloudinary
-     * @var Cloudinary
      */
-    protected $cloudinary;
+    protected Cloudinary $cloudinary;
 
     /**
-     * Instance of Cloudinary Config
-     * @var Configuration
+     * Cloudinary url
      */
-    protected $cloudinaryConfig;
+    protected string $url;
 
     /**
      *  Response from Cloudinary
-     * @var Array
      */
-    protected $response;
+    protected array|ApiResponse $response;
 
     public function __construct()
     {
         $this->setUserPlatform();
+        $this->setAnalytics();
         $this->setCloudinaryConfig();
         $this->bootCloudinary();
     }
 
     /**
      * Create a Cloudinary Config Instance
-     *
      */
-    public function setCloudinaryConfig()
+    public function setCloudinaryConfig(): void
     {
-        $config = config('cloudinary.cloud_url');
-        $this->cloudinaryConfig = $config;
+        $this->url = config('cloudinary.cloud_url');
     }
 
     /**
      * Set User Agent and Platform
-     *
      */
-    public function setUserPlatform()
+    public function setUserPlatform(): void
     {
-        BaseApiClient::$userPlatform = 'CloudinaryLaravel/' . self::PACKAGE_VERSION;
+        BaseApiClient::$userPlatform = 'CloudinaryLaravel/'.self::PACKAGE_VERSION;
+    }
+
+    /**
+     * Set Analytics
+     */
+    public function setAnalytics(): void
+    {
+        Analytics::sdkCode('W');
+        Analytics::sdkVersion(self::PACKAGE_VERSION);
+        Analytics::techVersion(app()->version());
     }
 
     /**
      * Create a Cloudinary Instance
-     *
      */
-    public function bootCloudinary()
+    public function bootCloudinary(): void
     {
-        $this->cloudinary = new Cloudinary($this->cloudinaryConfig);
+        $this->cloudinary = new Cloudinary($this->url);
     }
 
     /**
      * Expose the Cloudinary Admin Functionality
-     *
      */
-    public function admin()
+    public function admin(): AdminApi
     {
         return $this->cloudinary->adminApi();
     }
 
     /**
      * Expose the Cloudinary Search Functionality
-     *
      */
-    public function search()
+    public function search(): SearchApi
     {
         return $this->cloudinary->searchApi();
     }
@@ -133,16 +161,15 @@ class CloudinaryEngine
      * * the remote FTP, HTTP or HTTPS URL address of an existing file
      * * a private storage bucket (S3 or Google Storage) URL of a whitelisted bucket
      *
-     * @param string $file The asset to upload.
-     * @param array $options The optional parameters. See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  string  $file  The asset to upload.
+     * @param  array  $options  The optional parameters. See the upload API documentation.
+     * @return CloudinaryEngine
      *
      * @throws ApiError
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#upload_method
      */
-    public function upload($file, $options = [])
+    public function upload(string $file, array $options = []): static
     {
         $this->response = $this->uploadApi()->upload($file, $options);
 
@@ -151,9 +178,8 @@ class CloudinaryEngine
 
     /**
      * Expose the Cloudinary Upload Functionality
-     *
      */
-    public function uploadApi()
+    public function uploadApi(): UploadApi
     {
         return $this->cloudinary->uploadApi();
     }
@@ -161,36 +187,18 @@ class CloudinaryEngine
     /**
      * Uploads an asset to a Cloudinary account.
      *
-     * The asset can be:
-     * * a local file path
-     * * the actual data (byte array buffer)
-     * * the Data URI (Base64 encoded), max ~60 MB (62,910,000 chars)
-     * * the remote FTP, HTTP or HTTPS URL address of an existing file
-     * * a private storage bucket (S3 or Google Storage) URL of a whitelisted bucket
-     *
-     *  This is asynchronous
-     */
-    public function uploadAsync($file, $options = [])
-    {
-        return $this->uploadApi()->uploadAsync($file, $options);
-    }
-
-    /**
-     * Uploads an asset to a Cloudinary account.
-     *
      * The upload is not signed so an upload preset is required.
      *
-     * @param string $file The asset to upload.
-     * @param string $uploadPreset The name of an upload preset.
-     * @param array $options The optional parameters. See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  string  $file  The asset to upload.
+     * @param  string  $uploadPreset  The name of an upload preset.
+     * @param  array  $options  The optional parameters. See the upload API documentation.
+     * @return CloudinaryEngine
      *
      * @throws ApiError
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#unsigned_upload_syntax
      */
-    public function unsignedUpload($file, $uploadPreset, $options = [])
+    public function unsignedUpload(string $file, string $uploadPreset, array $options = []): static
     {
         $this->response = $this->uploadApi()->unsignedUpload($file, $uploadPreset, $options);
 
@@ -203,19 +211,20 @@ class CloudinaryEngine
      * The upload is not signed so an upload preset is required.
      *
      * This is asynchronous
+     *
+     * @throws ApiError
      */
-    public function unsignedUploadAsync($file, $uploadPreset, $options = [])
+    public function unsignedUploadAsync($file, $uploadPreset, $options = []): PromiseInterface
     {
         return $this->uploadApi()->unsignedUploadAsync($file, $uploadPreset, $options);
     }
 
     /**
-     * @param $file
-     * @param array $options
      * @return $this
+     *
      * @throws ApiError
      */
-    public function uploadFile($file, $options = [])
+    public function uploadFile($file, array $options = []): static
     {
         $uploadOptions = array_merge($options, ['resource_type' => 'auto']);
 
@@ -225,12 +234,11 @@ class CloudinaryEngine
     }
 
     /**
-     * @param $file
-     * @param array $options
      * @return $this
+     *
      * @throws ApiError
      */
-    public function uploadVideo($file, $options = [])
+    public function uploadVideo($file, array $options = []): static
     {
         $videoUploadOptions = array_merge($options, ['resource_type' => 'video']);
 
@@ -239,133 +247,91 @@ class CloudinaryEngine
         return $this;
     }
 
-    /**
-     * @return Array
-     */
-    public function getResponse()
+    public function getResponse(): array|ApiResponse
     {
         return $this->response;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAssetId()
+    public function getAssetId(): mixed
     {
         return $this->response[self::ASSET_ID];
     }
 
     /**
      * Get the name of the file after it has been uploaded to Cloudinary
-     * @return string
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->response[self::PUBLIC_ID];
     }
 
     /**
      * Get the public id of the file (also known as the name of the file) after it has been uploaded to Cloudinary
-     * @return string
      */
-    public function getPublicId()
+    public function getPublicId(): string
     {
         return $this->response[self::PUBLIC_ID];
     }
 
     /**
      * Get the name of the file before it was uploaded to Cloudinary
-     * @return string
      */
-    public function getOriginalFileName()
+    public function getOriginalFileName(): string
     {
         return $this->response[self::ORIGINAL_FILENAME];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getVersion()
+    public function getVersion(): mixed
     {
         return $this->response[self::VERSION];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getVersionId()
+    public function getVersionId(): mixed
     {
         return $this->response[self::VERSION_ID];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSignature()
+    public function getSignature(): mixed
     {
         return $this->response[self::SIGNATURE];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWidth()
+    public function getWidth(): mixed
     {
         return $this->response[self::WIDTH];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHeight()
+    public function getHeight(): mixed
     {
         return $this->response[self::HEIGHT];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExtension()
+    public function getExtension(): mixed
     {
         return $this->response[self::FORMAT];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFileType()
+    public function getFileType(): mixed
     {
         return $this->response[self::RESOURCE_TYPE];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTimeUploaded()
+    public function getTimeUploaded(): mixed
     {
         return $this->response[self::CREATED_AT];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTags()
+    public function getTags(): mixed
     {
         return $this->response[self::TAGS];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPages()
+    public function getPages(): mixed
     {
         return $this->response[self::PAGES];
     }
 
-    /**
-     * @return string
-     */
-    public function getReadableSize()
+    public function getReadableSize(): string
     {
         return $this->getHumanReadableSize($this->getSize());
     }
@@ -373,19 +339,18 @@ class CloudinaryEngine
     /**
      * Formats filesize in the way every human understands
      *
-     * @param file $file
      * @return string Formatted Filesize, e.g. "113.24 MB".
      */
-    private function getHumanReadableSize($sizeInBytes)
+    public function getHumanReadableSize($sizeInBytes): string
     {
         if ($sizeInBytes >= 1073741824) {
-            return number_format($sizeInBytes / 1073741824, 2) . ' GB';
+            return number_format($sizeInBytes / 1073741824, 2).' GB';
         } elseif ($sizeInBytes >= 1048576) {
-            return number_format($sizeInBytes / 1048576, 2) . ' MB';
+            return number_format($sizeInBytes / 1048576, 2).' MB';
         } elseif ($sizeInBytes >= 1024) {
-            return number_format($sizeInBytes / 1024, 2) . ' KB';
+            return number_format($sizeInBytes / 1024, 2).' KB';
         } elseif ($sizeInBytes > 1) {
-            return $sizeInBytes . ' bytes';
+            return $sizeInBytes.' bytes';
         } elseif ($sizeInBytes == 1) {
             return '1 byte';
         } else {
@@ -393,54 +358,42 @@ class CloudinaryEngine
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSize()
+    public function getSize(): mixed
     {
         return $this->response[self::BYTES];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPlaceHolder()
+    public function getPlaceHolder(): mixed
     {
         return $this->response[self::PLACEHOLDER];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPath()
+    public function getPath(): mixed
     {
         return $this->response[self::URL];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSecurePath()
+    public function getSecurePath(): mixed
     {
         return $this->response[self::SECURE_URL];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPhash()
+    public function getPhash(): mixed
     {
         return $this->response[self::PHASH];
+    }
+
+    public function getEtag(): mixed
+    {
+        return $this->response[self::ETAG];
     }
 
     /**
      * Fetches a new Image with current instance configuration.
      *
-     * @param string $publicId The public ID of the image.
-     *
-     * @return Image
+     * @param  string  $publicId  The public ID of the image.
      */
-    public function getImage($publicId)
+    public function getImage(string $publicId): Image
     {
         return $this->cloudinary->image($publicId);
     }
@@ -448,11 +401,9 @@ class CloudinaryEngine
     /**
      * Fetches a new Video with current instance configuration.
      *
-     * @param string|mixed $publicId The public ID of the video.
-     *
-     * @return Video
+     * @param  string|mixed  $publicId  The public ID of the video.
      */
-    public function getVideo($publicId)
+    public function getVideo(mixed $publicId): Video
     {
         return $this->cloudinary->video($publicId);
     }
@@ -460,29 +411,19 @@ class CloudinaryEngine
     /**
      * Fetches a raw file with current instance configuration.
      *
-     * @param string|mixed $publicId The public ID of the file.
-     *
-     * @return File
+     * @param  string|mixed  $publicId  The public ID of the file.
      */
-    public function getFile($publicId)
+    public function getFile(mixed $publicId): File
     {
         return $this->cloudinary->raw($publicId);
     }
 
-    /**
-     * @param $publicId
-     * @return ImageTag
-     */
-    public function getImageTag($publicId)
+    public function getImageTag($publicId): ImageTag
     {
         return $this->cloudinary->imageTag($publicId);
     }
 
-    /**
-     * @param $publicId
-     * @return VideoTag
-     */
-    public function getVideoTag($publicId)
+    public function getVideoTag($publicId): VideoTag
     {
         return $this->cloudinary->videoTag($publicId);
     }
@@ -496,15 +437,13 @@ class CloudinaryEngine
     /**
      * Adds a tag to the assets specified.
      *
-     * @param string $tag The name of the tag to add.
-     * @param array $publicIds The public IDs of the assets to add the tag to.
-     * @param array $options The optional parameters. See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  string  $tag  The name of the tag to add.
+     * @param  array  $publicIds  The public IDs of the assets to add the tag to.
+     * @param  array  $options  The optional parameters. See the upload API documentation.
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
      */
-    public function addTag($tag, $publicIds = [], $options = [])
+    public function addTag(string $tag, array $publicIds = [], array $options = []): ApiResponse
     {
         return $this->uploadApi()->addTag($tag, $publicIds, $options);
     }
@@ -514,7 +453,7 @@ class CloudinaryEngine
      *
      * This is an asynchronous function.
      */
-    public function addTagAsync($tag, $publicIds = [], $options = [])
+    public function addTagAsync($tag, $publicIds = [], $options = []): PromiseInterface
     {
         return $this->uploadApi()->addTagAsync($tag, $publicIds, $options);
     }
@@ -522,15 +461,13 @@ class CloudinaryEngine
     /**
      * Removes a tag from the assets specified.
      *
-     * @param string $tag The name of the tag to remove.
-     * @param array|string $publicIds The public IDs of the assets to remove the tags from.
-     * @param array $options The optional parameters. See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  string  $tag  The name of the tag to remove.
+     * @param  array|string  $publicIds  The public IDs of the assets to remove the tags from.
+     * @param  array  $options  The optional parameters. See the upload API documentation.
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
      */
-    public function removeTag($tag, $publicIds = [], $options = [])
+    public function removeTag(string $tag, array|string $publicIds = [], array $options = []): ApiResponse
     {
         return $this->uploadApi()->removeTag($tag, $publicIds, $options);
     }
@@ -539,9 +476,8 @@ class CloudinaryEngine
      * Removes a tag from the assets specified.
      *
      * This is an asynchronous function.
-     *
      */
-    public function removeTagAsync($tag, $publicIds = [], $options = [])
+    public function removeTagAsync($tag, $publicIds = [], $options = []): PromiseInterface
     {
         return $this->uploadApi()->removeTagAsync($tag, $publicIds, $options);
     }
@@ -549,14 +485,12 @@ class CloudinaryEngine
     /**
      * Removes all tags from the assets specified.
      *
-     * @param array $publicIds The public IDs of the assets to remove all tags from.
-     * @param array $options The optional parameters. See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  array  $publicIds  The public IDs of the assets to remove all tags from.
+     * @param  array  $options  The optional parameters. See the upload API documentation.
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
      */
-    public function removeAllTags($publicIds = [], $options = [])
+    public function removeAllTags(array $publicIds = [], array $options = []): ApiResponse
     {
         return $this->uploadApi()->removeAllTags($publicIds, $options);
     }
@@ -565,9 +499,8 @@ class CloudinaryEngine
      * Removes all tags from the assets specified.
      *
      * This is an asynchronous function.
-     *
      */
-    public function removeAllTagsAsync($publicIds = [], $options = [])
+    public function removeAllTagsAsync($publicIds = [], $options = []): PromiseInterface
     {
         return $this->uploadApi()->removeAllTagsAsync($publicIds, $options);
     }
@@ -575,15 +508,13 @@ class CloudinaryEngine
     /**
      * Replaces all existing tags on the assets specified with the tag specified.
      *
-     * @param string $tag The new tag with which to replace the existing tags.
-     * @param array|string $publicIds The public IDs of the assets to replace the tags of.
-     * @param array $options The optional parameters. See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  string  $tag  The new tag with which to replace the existing tags.
+     * @param  array|string  $publicIds  The public IDs of the assets to replace the tags of.
+     * @param  array  $options  The optional parameters. See the upload API documentation.
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
      */
-    public function replaceTag($tag, $publicIds = [], $options = [])
+    public function replaceTag(string $tag, array|string $publicIds = [], array $options = []): ApiResponse
     {
         return $this->uploadApi()->replaceTag($tag, $publicIds, $options);
     }
@@ -592,9 +523,8 @@ class CloudinaryEngine
      * Replaces all existing tags on the assets specified with the tag specified.
      *
      * This is an asynchronous function.
-     *
      */
-    public function replaceTagAsync($tag, $publicIds = [], $options = [])
+    public function replaceTagAsync($tag, $publicIds = [], $options = []): PromiseInterface
     {
         return $this->uploadApi()->replaceTagAsync($tag, $publicIds, $options);
     }
@@ -612,14 +542,12 @@ class CloudinaryEngine
      * * A single image file containing all the images with the specified tag (PNG by default).
      * * A CSS file that includes the style class names and the location of the individual images in the sprite.
      *
-     * @param string $tag The tag that indicates which images to include in the sprite.
-     * @param array $options The optional parameters. See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  string  $tag  The tag that indicates which images to include in the sprite.
+     * @param  array  $options  The optional parameters. See the upload API documentation.
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#sprite_method
      */
-    public function generateSprite($tag, $options = [])
+    public function generateSprite(string $tag, array $options = []): ApiResponse
     {
         return $this->uploadApi()->generateSprite($tag, $options);
     }
@@ -629,7 +557,7 @@ class CloudinaryEngine
      *
      * This is an asynchronous function.
      */
-    public function generateSpriteAsync($tag, $options = [])
+    public function generateSpriteAsync($tag, $options = []): PromiseInterface
     {
         return $this->uploadApi()->generateSpriteAsync($tag, $options);
     }
@@ -644,169 +572,99 @@ class CloudinaryEngine
      *
      * @see https://cloudinary.com/documentation/paged_and_layered_media#creating_pdf_files_from_images
      */
-    public function generatePDF($tag, $options = [])
+    public function generatePDF($tag, $options = []): ApiResponse
     {
         $pdfOptions = array_merge($options, ['async' => false, 'format' => 'pdf']);
 
         return $this->uploadApi()->multi($tag, $pdfOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generatePDFAsync($tag, $options = [])
+    public function generatePDFAsync($tag, array $options = []): ApiResponse
     {
         $pdfOptions = array_merge($options, ['async' => true, 'format' => 'pdf']);
 
         return $this->uploadApi()->multi($tag, $pdfOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedGIF($tag, $options = [])
+    public function generateAnimatedGIF($tag, array $options = []): ApiResponse
     {
         $gifOptions = array_merge($options, ['async' => false, 'format' => 'gif']);
 
         return $this->uploadApi()->multi($tag, $gifOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedPNG($tag, $options = [])
+    public function generateAnimatedPNG($tag, array $options = []): ApiResponse
     {
         $pngOptions = array_merge($options, ['async' => false, 'format' => 'png']);
 
         return $this->uploadApi()->multi($tag, $pngOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedPNGAsync($tag, $options = [])
+    public function generateAnimatedPNGAsync($tag, array $options = []): ApiResponse
     {
         $pngOptions = array_merge($options, ['async' => true, 'format' => 'png']);
 
         return $this->uploadApi()->multi($tag, $pngOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedWEBP($tag, $options = [])
+    public function generateAnimatedWEBP($tag, array $options = []): ApiResponse
     {
         $webpOptions = array_merge($options, ['async' => false, 'format' => 'webp']);
 
         return $this->uploadApi()->multi($tag, $webpOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedWEBPAsync($tag, $options = [])
+    public function generateAnimatedWEBPAsync($tag, array $options = []): ApiResponse
     {
         $webpOptions = array_merge($options, ['async' => true, 'format' => 'webp']);
 
         return $this->uploadApi()->multi($tag, $webpOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedMP4($tag, $options = [])
+    public function generateAnimatedMP4($tag, array $options = []): ApiResponse
     {
         $mp4Options = array_merge($options, ['async' => false, 'format' => 'mp4']);
 
         return $this->uploadApi()->multi($tag, $mp4Options);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedMP4Async($tag, $options = [])
+    public function generateAnimatedMP4Async($tag, array $options = []): ApiResponse
     {
         $mp4Options = array_merge($options, ['async' => true, 'format' => 'mp4']);
 
         return $this->uploadApi()->multi($tag, $mp4Options);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedWEBM($tag, $options = [])
+    public function generateAnimatedWEBM($tag, array $options = []): ApiResponse
     {
         $webmOptions = array_merge($options, ['async' => false, 'format' => 'webm']);
 
         return $this->uploadApi()->multi($tag, $webmOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function generateAnimatedWEBMAsync($tag, $options = [])
+    public function generateAnimatedWEBMAsync($tag, array $options = []): ApiResponse
     {
         $webmOptions = array_merge($options, ['async' => true, 'format' => 'webm']);
 
         return $this->uploadApi()->multi($tag, $webmOptions);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function multi($tag, $options = [])
+    public function multi($tag, array $options = []): ApiResponse
     {
         return $this->uploadApi()->multi($tag, $options);
     }
 
-    /**
-     * @param $tag
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function multiAsync($tag, $options = [])
+    public function multiAsync($tag, array $options = []): PromiseInterface
     {
         return $this->uploadApi()->multiAsync($tag, $options);
     }
 
-    /**
-     * @param $publicId
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function explode($publicId, $options = [])
+    public function explode($publicId, array $options = []): ApiResponse
     {
         return $this->uploadApi()->explode($publicId, $options);
     }
 
-    /**
-     * @param $publicId
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function explodeAsync($publicId, $options = [])
+    public function explodeAsync($publicId, array $options = []): PromiseInterface
     {
         return $this->uploadApi()->explodeAsync($publicId, $options);
     }
@@ -814,26 +672,20 @@ class CloudinaryEngine
     /**
      * Dynamically generates an image from a given textual string.
      *
-     * @param string $text The text string to generate an image for.
-     * @param array $options The optional parameters.  See the upload API documentation.
-     *
-     * @return ApiResponse
+     * @param  string  $text  The text string to generate an image for.
+     * @param  array  $options  The optional parameters.  See the upload API documentation.
+     * @return CloudinaryEngine
      *
      * @see https://cloudinary.com/documentation/image_upload_api_reference#text_method
      */
-    public function generateImageFromText($text, $options = [])
+    public function generateImageFromText(string $text, array $options = []): static
     {
         $this->response = $this->uploadApi()->text($text, $options);
 
         return $this;
     }
 
-    /**
-     * @param $text
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function generateImageFromTextAsync($text, $options = [])
+    public function generateImageFromTextAsync($text, array $options = []): PromiseInterface
     {
         return $this->uploadApi()->textAsync($text, $options);
     }
@@ -845,57 +697,37 @@ class CloudinaryEngine
     */
 
     /**
-     * @param array $options
-     * @param null $targetFormat
-     * @return ApiResponse
+     * @param  null  $targetFormat
      */
-    public function createArchive($options = [], $targetFormat = null)
+    public function createArchive(array $options = [], $targetFormat = null): ApiResponse
     {
         return $this->uploadApi()->createArchive($options, $targetFormat);
     }
 
     /**
-     * @param array $options
-     * @param null $targetFormat
-     * @return PromiseInterface
+     * @param  null  $targetFormat
      */
-    public function createArchiveAsync($options = [], $targetFormat = null)
+    public function createArchiveAsync(array $options = [], $targetFormat = null): PromiseInterface
     {
         return $this->uploadApi()->createArchiveAsync($options, $targetFormat);
     }
 
-    /**
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function createZip($options = [])
+    public function createZip(array $options = []): ApiResponse
     {
         return $this->uploadApi()->createZip($options);
     }
 
-    /**
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function createZipAsync($options = [])
+    public function createZipAsync(array $options = []): PromiseInterface
     {
         return $this->uploadApi()->createZipAsync($options);
     }
 
-    /**
-     * @param array $options
-     * @return string
-     */
-    public function downloadZipUrl($options = [])
+    public function downloadZipUrl(array $options = []): string
     {
         return $this->uploadApi()->downloadZipUrl($options);
     }
 
-    /**
-     * @param array $options
-     * @return string
-     */
-    public function downloadArchiveUrl($options = [])
+    public function downloadArchiveUrl(array $options = []): string
     {
         return $this->uploadApi()->downloadArchiveUrl($options);
     }
@@ -906,44 +738,22 @@ class CloudinaryEngine
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * @param $context
-     * @param array $publicIds
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function addContext($context, $publicIds = [], $options = [])
+    public function addContext($context, array $publicIds = [], array $options = []): ApiResponse
     {
         return $this->uploadApi()->addContext($context, $publicIds, $options);
     }
 
-    /**
-     * @param $context
-     * @param array $publicIds
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function addContextAsync($context, $publicIds = [], $options = [])
+    public function addContextAsync($context, array $publicIds = [], array $options = []): PromiseInterface
     {
         return $this->uploadApi()->addContextAsync($context, $publicIds, $options);
     }
 
-    /**
-     * @param array $publicIds
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function removeAllContext($publicIds = [], $options = [])
+    public function removeAllContext(array $publicIds = [], array $options = []): ApiResponse
     {
         return $this->uploadApi()->removeAllContext($publicIds, $options);
     }
 
-    /**
-     * @param array $publicIds
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function removeAllContextAsync($publicIds = [], $options = [])
+    public function removeAllContextAsync(array $publicIds = [], array $options = []): PromiseInterface
     {
         return $this->uploadApi()->removeAllContextAsync($publicIds, $options);
     }
@@ -954,78 +764,46 @@ class CloudinaryEngine
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * @param $publicId
-     * @param array $options
-     * @return ApiResponse
-     */
-    public function destroy($publicId, $options = [])
+    public function destroy($publicId, array $options = []): array|ApiResponse
     {
         return $this->uploadApi()->destroy($publicId, $options);
     }
 
-    /**
-     * @param $publicId
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function destroyAsync($publicId, $options = [])
+    public function destroyAsync($publicId, array $options = []): PromiseInterface
     {
         return $this->uploadApi()->destroyAsync($publicId, $options);
     }
 
-    /**
-     * @param $from
-     * @param $to
-     * @param array $options
-     * @return mixed
-     */
-    public function rename($from, $to, $options = [])
+    public function rename($from, $to, array $options = []): mixed
     {
         return $this->uploadApi()->rename($from, $to, $options);
     }
 
-    /**
-     * @param $from
-     * @param $to
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function renameAsync($from, $to, $options = [])
+    public function renameAsync($from, $to, array $options = []): PromiseInterface
     {
         return $this->uploadApi()->renameAsync($from, $to, $options);
     }
 
-    /**
-     * @param $publicId
-     * @param array $options
-     * @return mixed
-     */
-    public function explicit($publicId, $options = [])
+    public function explicit($publicId, array $options = []): mixed
     {
         return $this->uploadApi()->explicit($publicId, $options);
     }
 
-    /**
-     * @param $publicId
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function explicitAsync($publicId, $options = [])
+    public function explicitAsync($publicId, array $options = []): PromiseInterface
     {
         return $this->uploadApi()->explicitAsync($publicId, $options);
     }
 
     /**
      * Get Resource data
-     * @param string $path
-     * @return array
+     *
+     * @return ApiResponse|string;
      */
-    public function getResource($path)
+    public function getResource(string $path): string|ApiResponse
     {
         try {
             return $this->admin()->asset($path);
-        } catch (\Exception $e) {
+        } catch (Exception) {
             return '';
         }
     }
@@ -1033,14 +811,14 @@ class CloudinaryEngine
     /**
      * Get the url of a file
      *
-     * @param string $publicId
      *
      * @return string|false
      */
-    public function getUrl($publicId)
+    public function getUrl(string $publicId): bool|string
     {
 
         $resource = $this->getResource($publicId);
+
         return $resource['secure_url'] ?? '';
     }
 }

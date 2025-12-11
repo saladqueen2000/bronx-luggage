@@ -2,32 +2,29 @@
 
 namespace CloudinaryLabs\CloudinaryLaravel;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\ServiceProvider;
-use League\Flysystem\Filesystem;
 use CloudinaryLabs\CloudinaryLaravel\Commands\BackupFilesCommand;
 use CloudinaryLabs\CloudinaryLaravel\Commands\DeleteFilesCommand;
 use CloudinaryLabs\CloudinaryLaravel\Commands\FetchFilesCommand;
 use CloudinaryLabs\CloudinaryLaravel\Commands\GenerateArchiveCommand;
 use CloudinaryLabs\CloudinaryLaravel\Commands\RenameFilesCommand;
 use CloudinaryLabs\CloudinaryLaravel\Commands\UploadFileCommand;
-
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\ServiceProvider;
+use League\Flysystem\Filesystem;
 
 /**
  * Class CloudinaryServiceProvider
- * @package CloudinaryLabs\CloudinaryLaravel
  */
 class CloudinaryServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->bootMacros();
         $this->bootResources();
@@ -41,10 +38,8 @@ class CloudinaryServiceProvider extends ServiceProvider
 
     /**
      * Boot the package macros that extends Laravel Uploaded File API.
-     *
-     * @return void
      */
-    protected function bootMacros()
+    protected function bootMacros(): void
     {
         UploadedFile::macro(
             'storeOnCloudinary',
@@ -66,20 +61,16 @@ class CloudinaryServiceProvider extends ServiceProvider
 
     /**
      * Boot the package resources.
-     *
-     * @return void
      */
-    protected function bootResources()
+    protected function bootResources(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloudinary');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'cloudinary');
     }
 
     /**
      * Boot the package directives.
-     *
-     * @return void
      */
-    protected function bootDirectives()
+    protected function bootDirectives(): void
     {
         Blade::directive(
             'cloudinaryJS',
@@ -91,27 +82,25 @@ class CloudinaryServiceProvider extends ServiceProvider
 
     /**
      * Boot the package components.
-     *
-     * @return void
      */
-    protected function bootComponents()
+    protected function bootComponents(): void
     {
         Blade::component('cloudinary::components.button', $this->getComponentName('cld-upload-button'));
         Blade::component('cloudinary::components.image', $this->getComponentName('cld-image'));
         Blade::component('cloudinary::components.video', $this->getComponentName('cld-video'));
     }
-    
-    protected function getComponentName($componentName) 
+
+    protected function getComponentName($componentName)
     {
-       $version = explode(".", $this->app->version());
-       if( (int)$version[0] <= 6 ) {
-          $componentName = str_replace("-", "_", $componentName);
-       }
-        
-       return $componentName;
+        $version = explode('.', $this->app->version());
+        if ((int) $version[0] <= 6) {
+            $componentName = str_replace('-', '_', $componentName);
+        }
+
+        return $componentName;
     }
 
-    protected function bootCommands()
+    protected function bootCommands(): void
     {
         /**
          * Register Laravel Cloudinary Artisan commands
@@ -124,7 +113,7 @@ class CloudinaryServiceProvider extends ServiceProvider
                     FetchFilesCommand::class,
                     RenameFilesCommand::class,
                     GenerateArchiveCommand::class,
-                    DeleteFilesCommand::class
+                    DeleteFilesCommand::class,
                 ]
             );
         }
@@ -132,13 +121,11 @@ class CloudinaryServiceProvider extends ServiceProvider
 
     /**
      * Boot the package's publishable resources.
-     *
-     * @return void
      */
-    protected function bootPublishing()
+    protected function bootPublishing(): void
     {
         if ($this->app->runningInConsole()) {
-            $config = dirname(__DIR__) . '/config/cloudinary.php';
+            $config = dirname(__DIR__).'/config/cloudinary.php';
 
             $this->publishes(
                 [
@@ -156,24 +143,24 @@ class CloudinaryServiceProvider extends ServiceProvider
         }
     }
 
-    protected function bootCloudinaryDriver()
+    protected function bootCloudinaryDriver(): void
     {
-        $this->app['config']['filesystems.disks.cloudinary'] = ['driver' => 'cloudinary'];
+        Storage::extend('cloudinary', function ($app, $config) {
 
-        Storage::extend(
-            'cloudinary',
-            function ($app, $config) {
-                return new Filesystem(new CloudinaryAdapter(config('cloudinary.cloud_url')));
-            }
-        );
+            $cloudinaryAdapter = new CloudinaryAdapter(config('cloudinary.cloud_url'));
+
+            return new FilesystemAdapter(
+                new Filesystem($cloudinaryAdapter, $config),
+                $cloudinaryAdapter,
+                $config
+            );
+        });
     }
 
     /**
      * Boot the package routes.
-     *
-     * @return void
      */
-    protected function bootRoutes()
+    protected function bootRoutes(): void
     {
         if (config('cloudinary.upload_route')) {
             Route::post(config('cloudinary.upload_route'), config('cloudinary.upload_action'));
@@ -182,16 +169,14 @@ class CloudinaryServiceProvider extends ServiceProvider
 
     /**
      * Register any package services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         // Register the service the package provides.
         $this->app->singleton(
             CloudinaryEngine::class,
-            function ($app) {
-                return new CloudinaryEngine();
+            function () {
+                return new CloudinaryEngine;
             }
         );
     }
