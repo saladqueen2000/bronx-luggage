@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -43,8 +44,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // tạo token sau khi tạo tài khoản
+        $token = $user->createToken('token')->plainTextToken;
+
         return response()->json([
             'message' => 'Register successfully',
+            'token' => $token,
             'user' => $user
         ]);
     }
