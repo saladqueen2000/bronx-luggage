@@ -84,4 +84,4 @@ export default function ProductList() {
             <Footer />
         </div>
     )
-}
+} 

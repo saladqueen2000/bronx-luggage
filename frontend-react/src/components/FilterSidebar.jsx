@@ -41,13 +41,17 @@ export default function FilterSidebar() {
     const [productType, setProductType] = useState("");
     const [brand, setBrand] = useState("");
     const [size, setSize] = useState("");
-    const [selectedColor, setSelectedColor] = useState(null);
+    const [selectedColor, setSelectedColor] = useState([]);
     const [open, setOpen] = useState(false);
 
     const colors = ["#E53E3E", "#F6AD55", "#ECC94B", "#48BB78", "#38B2AC", "#3182CE", "#805AD5", "#E53E96", "#9AE6B4"];
     //Xử lý khi đổi màu
     const handleColorChange = (color) => {
-        setSelectedColor(color)
+        setSelectedColor((prev) =>
+            prev.includes(color)
+                ? prev.filter((c) => c !== color)   // Nếu có rồi → bỏ
+                : [...prev, color]                  // Nếu chưa có → thêm
+        );
     }
 
     //Xử lý khi đổi các mục
@@ -58,7 +62,7 @@ export default function FilterSidebar() {
     const resetSize = () => setSize("");
 
     //Responsive cho mobile
-    const isMobile = useMediaQuery("(max-width:426px)");
+    const isMobile = useMediaQuery("(max-width:700px)", { noSsr: true});
     const FilterContent = (
         <Box className="productList_filter" sx={{ width: isMobile ? 260 : "auto", p: 2 }}>
             {/* Categories */}
@@ -197,11 +201,9 @@ export default function FilterSidebar() {
                     {colors.map((color, index) => (
                         <Checkbox
                             key={index}
-                            checked={selectedColor === color}
+                            checked={selectedColor.includes(color)}
                             onChange={() => handleColorChange(color)}
-                            icon={
-                                <CircleIcon sx={{ color, fontSize: "1rem" }} />
-                            }
+                            icon={<CircleIcon sx={{ color, fontSize: "1rem" }} />}
                             checkedIcon={
                                 <CircleIcon
                                     sx={{
@@ -270,7 +272,7 @@ export default function FilterSidebar() {
                     sx={{
                         display: { xs: "flex", sm: "none" },
                         position: "fixed",
-                        top: 15,
+                        top: 75,
                         left: 15,
                         zIndex: 2000,
                         backgroundColor: "white",

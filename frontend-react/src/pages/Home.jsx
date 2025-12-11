@@ -79,7 +79,7 @@ export default function Home() {
     );
 }
 
-
+//product list xuống 700px thì xuống luôn
 
 
 //git add .

@@ -303,3 +303,23 @@
         margin: 10px 0px !important;
     }
 }
+
+
+
+/* 375px */
+@media (max-width: 376px) {
+    .home__slides-img {
+        width: 375px;
+        height: 312.5px;
+    }
+
+    .home__sale-container {
+        height: 85px;
+        border-radius: 25px !important;
+    }
+
+    .home__sale-content {
+        right: 25px;
+        top: 37.5px;
+    }
+}

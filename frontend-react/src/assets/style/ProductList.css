@@ -45,3 +45,12 @@
         margin-top: 100px;
     }
 }
+
+
+
+/* 375px */
+@media (max-width: 376px) {
+    .productList_list_display {
+        margin-left: 37.5px;
+    }
+}

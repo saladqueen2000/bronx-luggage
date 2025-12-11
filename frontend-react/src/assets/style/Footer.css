@@ -284,3 +284,12 @@
         gap: 50px;
     }
 }
+
+
+
+/* 375px */
+@media (max-width: 376px) {
+    .footerSearchBar {
+        margin-left: 0px !important;
+    }
+}
