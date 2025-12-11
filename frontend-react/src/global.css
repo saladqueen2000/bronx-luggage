@@ -1,13 +1,13 @@
 * {
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 
 .loadingStyle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .breadcrumb {
@@ -39,11 +39,11 @@
   color: #000;
 }
 .-flexRow {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .-flexColumn {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }

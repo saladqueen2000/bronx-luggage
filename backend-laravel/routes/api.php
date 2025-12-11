@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
@@ -11,6 +10,8 @@ use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\OrderItemController;
 Route::prefix('products')->group(function () {
     Route::get('filter', [ProductController::class, 'filter']);
 });
@@ -24,7 +25,8 @@ Route::apiResource('feedbacks', FeedbackController::class);
 Route::apiResource('galleries', GalleryController::class);
 Route::apiResource('sizes', SizeController::class);
 Route::apiResource('ratings', RatingController::class);
-
+Route::apiResource('orders', OrderController::class);
+Route::apiResource('orderItems', OrderItemController::class);
 
 
 Route::post('/register', [AuthController::class, 'register']);

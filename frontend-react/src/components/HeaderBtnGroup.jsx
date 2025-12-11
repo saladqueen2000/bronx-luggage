@@ -8,36 +8,60 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const CustomBtn1 = styled(IconButton)(({}) => ({
-  border: "none",
-  borderRadius: "0px",
-  width: "125px",
-  height: "50px",
-  "&:hover": {
-    backgroundColor: "rgba(255, 255, 255, 0.125)",
-  },
-}));
+const CustomBtn1 = styled(Button)`
+  border: none;
+  border-radius: 0px;
+  width: 125px;
+  height: 50px;
+  padding: 0;
+  min-width: 0;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 
-const CustomBtn2 = styled(IconButton)(({}) => ({
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.125);
+  }
+`;
+
+const CustomBtn2 = styled(Button)`
   border: "none",
   borderRadius: "0px",
   padding: "0px",
   width: "175px",
   height: "40px",
+  min-width: 0;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
   "&:hover": {
     backgroundColor: "rgba(110, 110, 110, 0.13)",
   },
-}));
+`;
 
 function HeaderBtnGroup() {
   return (
-    <ButtonGroup variant="text" className="headerBtnGroup">
-      <CustomBtn1 className="headerBtn">
+    <ButtonGroup
+      variant="text"
+      className="headerBtnGroup"
+      sx={{
+        "& .MuiButtonGroup-grouped": {
+          borderRight: "none !important",
+          borderLeft: "none !important",
+        },
+      }}
+    >
+      <CustomBtn1 component={Link} to="/login" className="headerBtn">
         <PersonOutlineIcon className="headerBtnGroup-icon" />
         <span className="headerBtnGroup-text">Sign in</span>
       </CustomBtn1>
 
-      <CustomBtn1 className="headerBtn">
+      <CustomBtn1 component={Link} to="/cart" className="headerBtn">
         <ShoppingCartOutlinedIcon className="headerBtnGroup-icon" />
         <span className="headerBtnGroup-text">Cart</span>
       </CustomBtn1>
@@ -47,7 +71,15 @@ function HeaderBtnGroup() {
 
 function StoreBtnGroup() {
   return (
-    <ButtonGroup variant="text" className="storeBtnGroup">
+    <ButtonGroup
+      variant="text"
+      className="storeBtnGroup"
+      sx={{
+        "& .MuiButtonGroup-grouped": {
+          border: "none !important",
+        },
+      }}
+    >
       <CustomBtn2>
         <FmdGoodOutlinedIcon sx={{ fontSize: "1.25rem", color: "black" }} />
         <span className="storeBtnGroup-text">Our store</span>
