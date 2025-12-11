@@ -68,6 +68,11 @@ const CustomSaleBtn = styled(Button)(({ }) => ({
         height: "50px",
         width: "150px",
         margin: "auto"
+    },
+    "@media (max-width: 426px)": {
+        fontSize: "0.75rem",
+        height: "33.3px",
+        width: "100px"
     }
 }));
 

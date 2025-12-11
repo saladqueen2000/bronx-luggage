@@ -59,12 +59,6 @@ function StoreBtnGroup() {
     )
 }
 
-function ReturnBtn() {
-    return (
-        <Button variant='text' className='returnBtn'>30 Days Free Return</Button>
-    )
-}
-
 function LinkBtnGroup() {
     return (
         <ButtonGroup variant='text' className='linkBtnGroup'>
@@ -80,6 +74,5 @@ function LinkBtnGroup() {
 export {
     HeaderBtnGroup,
     StoreBtnGroup,
-    ReturnBtn,
     LinkBtnGroup
 }

@@ -244,3 +244,43 @@
         margin: 0px 25px 0px 25px;
     }
 }
+
+
+
+/* 425px */
+@media (max-width: 426px) {
+    .footer {
+        max-width: 426px;
+        height: 1155px;
+    }
+
+    .footer__subscribe {
+        padding: 20px;
+    }
+
+    .footerSearchBar {
+        width: 300px;
+        max-width: 300px;
+        margin-left: 20px !important;
+    }
+
+    .footer__subscribe-text {
+        display: none;
+    }
+
+    .footer__subscribe-number {
+        display: none;
+    }
+
+    .footer__subscribe-icon {
+        display: none !important;
+    }
+
+    .footer__about {
+        margin-left: 25px;
+        margin-bottom: 12.5px;
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+}

@@ -7,12 +7,8 @@ import { HeaderLogo } from './Logo.jsx'
 import {
     HeaderBtnGroup,
     StoreBtnGroup,
-    ReturnBtn,
     LinkBtnGroup
 } from './HeaderBtnGroup.jsx';
-import {
-    CategoriesDropdown
-} from './HeaderDropdowns.jsx';
 import { Box } from '@mui/material'
 
 
@@ -39,9 +35,7 @@ export default function Header() {
                 <HeaderBtnGroup />
             </div>
             <div className="header-lower">
-                <CategoriesDropdown />
                 <LinkBtnGroup />
-                <ReturnBtn />
             </div>
         </header>
     );

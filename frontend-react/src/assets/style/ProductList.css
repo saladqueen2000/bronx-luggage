@@ -36,3 +36,12 @@
         margin-left: 25px
     }
 }
+
+
+
+/* 425px */
+@media (max-width: 426px) {
+    .productList_list_display {
+        margin-top: 100px;
+    }
+}
