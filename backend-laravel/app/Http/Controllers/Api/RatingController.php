@@ -12,7 +12,7 @@ class RatingController extends Controller
     // ⭐ GET all ratings (admin only)
     public function index()
     {
-        return Rating::with(['user', 'product'])->get();
+        return Rating::with('user')->get();
     }
 
     // ⭐ GET rating detail
@@ -101,10 +101,11 @@ class RatingController extends Controller
         return response()->json(['message' => 'Rating deleted successfully']);
     }
 
-    public function getByProduct($id)
+    // ⭐ GET ratings of a single product
+    public function getByProduct($productId)
     {
         $ratings = Rating::with('user')
-            ->where('product_id', $id)
+            ->where('product_id', $productId)
             ->orderBy('created_at', 'desc')
             ->get();
 

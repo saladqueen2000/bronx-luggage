@@ -208,4 +208,15 @@ class ProductController extends Controller
         return response()->json(['message' => 'OK']);
     }
 
+    // ⭐ GET top 5 products with highest average rating
+    public function topRated()
+    {
+        $products = Product::with(['category', 'brand', 'gallery'])
+            ->withAvg('ratings', 'rating')    // thêm cột ratings_avg_rating
+            ->orderByDesc('ratings_avg_rating')
+            ->take(5)
+            ->get();
+
+        return response()->json($products);
+    }
 }

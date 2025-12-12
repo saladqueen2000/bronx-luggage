@@ -10,6 +10,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import RatingList from "../components/ratings/RatingList";
 import RatingForm from "../components/ratings/RatingForm";
 import RatingStars from "../components/ratings/RatingStars";
+import { Box, Checkbox, Typography, Divider } from "@mui/material";
+import { ProductCard } from "../components/Cards";
+import CircleIcon from "@mui/icons-material/Circle";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -31,6 +34,10 @@ export default function ProductDetail() {
   const [added, setAdded] = useState(false);
   const [mainImage, setMainImage] = useState("");
   const [activeTab, setActiveTab] = useState("description");
+
+  const handleColorChange = (color) => {
+    setSelectedColor(color);
+  };
 
   // FETCH PRODUCT
   useEffect(() => {
@@ -205,23 +212,31 @@ export default function ProductDetail() {
             <div className="pd-section">
               <label className="pd-label">Color</label>
               <div className="pd-options">
-                {product.colors?.map((c) => {
-                  const isSelected = selectedColor?.id === c.id;
-                  return (
-                    <button
-                      key={c.id}
-                      className={`pd-color-btn ${isSelected ? "selected" : ""}`}
-                      onClick={() => setSelectedColor(c)}
-                      style={{
-                        backgroundColor: isSelected ? c.name : "transparent",
-                        color: isSelected ? "#fff" : "#333",
-                        borderColor: c.name,
-                      }}
-                    >
-                      {c.name}
-                    </button>
-                  );
-                })}
+                <Box sx={{ display: "flex", gap: 1.2 }}>
+                  {product.colors?.map((color, index) => (
+                    <Checkbox
+                      key={index}
+                      checked={selectedColor?.id === color.id}
+                      onChange={() => handleColorChange(color)}
+                      icon={
+                        <CircleIcon
+                          sx={{ color: color.name, fontSize: "1rem" }}
+                        />
+                      }
+                      checkedIcon={
+                        <CircleIcon
+                          sx={{
+                            color: color.name,
+                            fontSize: "1rem",
+                            outline: `2px solid ${color.name}`,
+                            borderRadius: "50%",
+                          }}
+                        />
+                      }
+                      sx={{ padding: 0, cursor: "pointer" }}
+                    />
+                  ))}
+                </Box>
               </div>
             </div>
 
@@ -311,8 +326,8 @@ export default function ProductDetail() {
 
           {activeTab === "reviews" && (
             <div className="pd-review-section">
-              <RatingList productId={product.id} />
               <RatingForm productId={product.id} />
+              <RatingList productId={product.id} />
             </div>
           )}
         </div>
@@ -327,14 +342,17 @@ export default function ProductDetail() {
         ) : (
           <div className="pd-related-row">
             {related.map((p) => (
-              <Link to={`/list/${p.id}`} key={p.id} className="pd-related-card">
-                <img
-                  src={p.gallery?.[0]?.image_url}
-                  className="pd-related-img"
-                  alt={p.name}
+              <Link
+                to={`/list/${p.id}`}
+                className="productList-link"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <ProductCard
+                  image={p.gallery?.[0]?.image_url ?? ""}
+                  title={p.name}
+                  price={p.price}
+                  rating={p.rating}
                 />
-                <p className="pd-related-name">{p.name}</p>
-                <p className="pd-related-price">${p.price}</p>
               </Link>
             ))}
           </div>

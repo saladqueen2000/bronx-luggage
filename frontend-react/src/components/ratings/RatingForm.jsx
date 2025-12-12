@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import RatingStars from "./RatingStars";
 import "../../assets/style/Ratings.css";
+import { Link } from "react-router-dom";
 
 export default function RatingForm({ productId, onSubmitted }) {
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
@@ -13,9 +14,11 @@ export default function RatingForm({ productId, onSubmitted }) {
 
   if (!user) {
     return (
-      <div className="rating-login-box">
-        <button className="rating-login-btn">Sign in to review</button>
-      </div>
+      <Link to="/login">
+        <div className="rating-login-box">
+          <button className="rating-login-btn">Sign in to review</button>
+        </div>
+      </Link>
     );
   }
 

@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             SizeSeeder::class,
             ProductSeeder::class,
             FeedbackSeeder::class,
+            RatingSeeder::class
         ]);
     }
 }
+
