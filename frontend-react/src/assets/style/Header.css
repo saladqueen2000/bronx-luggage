@@ -1,77 +1,353 @@
 .header {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    height: 230px;
-    font-family: "poppins";
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 230px;
+  font-family: "poppins";
 }
 
 .header-upper {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    height: 40px;
-    padding: 15px 0px;
-    background-color: #FFFFFF;
-    display: flex;
-    flex-direction: row;
-    color: black
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 40px;
+  padding: 15px 0px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  color: black;
 }
 
 .header-upper-call {
-    margin-left: 40px;
-    margin-top: 7.5px;
+  display: inline-flex;
+  margin-left: 40px;
+  margin-top: 7.5px;
 }
 
 .header-middle {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    height: 50px;
-    padding: 20px 0px;
-    background-color: #003F62;
-    display: flex;
-    flex-direction: row;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 50px;
+  padding: 20px 0px;
+  background-color: #003f62;
+  display: flex;
+  flex-direction: row;
 }
 
 .header-lower {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    height: 70px;
-    background-color: #F4F4F4;
-    display: flex;
-    flex-direction: row;
-    gap: 50px
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 70px;
+  background-color: #f4f4f4;
 }
 
+/* Upper header btn group */
 .storeBtnGroup {
-    margin-left: auto;
-    margin-right: 40px
+  margin-left: auto;
+  margin-right: 40px;
 }
 
 .storeBtnGroup-text {
-    margin-left: 7.5px;
-    font-size: 1rem;
-    color: black;
-    font-family: "Poppins";
+  margin-left: 7.5px;
+  font-size: 1rem;
+  color: black;
+  font-family: "Poppins";
 }
 
+/* Logo header */
+.headerLogo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-right: 100px;
+  margin-left: 40px;
+}
+
+.headerLogo-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.headerLogo-text {
+  padding-left: 7.5px;
+  color: white;
+  font-family: "Poppins";
+  font-size: 1.5rem;
+}
+
+/* Searchbar header */
+.headerSearchBar-container {
+  height: 50px;
+  width: 500px;
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
+}
+
+.headerSearchBar-textfield {
+  height: 50px;
+  max-height: 50px;
+  width: 350px;
+  max-width: 350px;
+  background-color: white;
+  border-radius: 15px;
+  font-family: "Poppins";
+}
+
+.headerSearchBar-textfield .MuiOutlinedInput-root fieldset {
+  border-color: transparent;
+}
+
+.headerSearchBar-textfield .MuiOutlinedInput-root:hover fieldset {
+  border-color: transparent;
+}
+
+.headerSearchBar-textfield .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: transparent;
+}
+
+.headerSearchBar-textfield .MuiInputLabel-root {
+  color: black;
+}
+
+.headerSearchBar-textfield .MuiInputLabel-root.Mui-focused {
+  color: transparent;
+}
+
+.headerSearchBar-textfield .MuiInputLabel-shrink {
+  color: transparent !important;
+}
+
+/* Searchbar btn header */
+.headerSearchBtn {
+  height: 50px;
+  max-height: 50px;
+  width: 150px;
+  max-width: 150px;
+  background-color: #eda415 !important;
+  border-radius: 15px !important;
+  font-family: "Poppins" !important;
+  font-size: 1rem;
+  text-transform: none !important;
+}
+
+/* Middle btn group */
+.headerBtnGroup {
+  margin-left: auto;
+  margin-right: 40px;
+}
+
+.headerBtnGroup-icon {
+  font-size: 1.75rem !important;
+  color: white !important;
+}
+
+.headerBtnGroup-text {
+  margin-left: 10px;
+  font-size: 1.25rem;
+  font-weight: lighter;
+  color: white;
+}
+
+/* Link btn group */
+.linkBtn {
+  width: 175px;
+  height: 70px;
+  color: black !important;
+  font-family: "Poppins" !important;
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+  text-transform: none !important;
+}
+
+.linkBtnGroup {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.linkBtnGroup .MuiButtonGroup-groupedText {
+  border: none !important;
+}
+
+/* 1024px */
 @media (max-width: 1024px) {
-    .header-upper {
-        width: 100%;
-        height: 25px;
-        padding: 10px 0px;
-    }
+  .header {
+    max-width: 1024px;
+  }
 
-    .header-upper-call {
-        margin-top: 2.5px;
-        font-size: 0.85rem;
-    }
+  .header-upper {
+    width: 100%;
+    max-width: 1024px;
+    height: 30px;
+    padding: 0px 0px 7.5px 0px;
+  }
 
-    
+  .header-middle {
+    max-width: 1024px;
+  }
+
+  .header-lower {
+    max-width: 1024px;
+  }
+
+  .header-upper-call {
+    margin-top: 7.5px;
+    font-size: 0.85rem;
+  }
+
+  .storeBtnGroup {
+    margin-right: 15px;
+  }
+
+  .storeBtnGroup-text {
+    margin-left: 5px;
+    font-size: 0.85rem;
+    color: black;
+    font-family: "Poppins";
+  }
+
+  .headerLogo {
+    margin-right: 50px;
+  }
+
+  .headerLogo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+  }
+
+  .headerLogo-text {
+    font-size: 0.9rem;
+    width: 125px;
+  }
+
+  .headerSearchBar-container {
+    width: 450px;
+  }
+
+  .headerSearchBar-textfield {
+    width: 300px;
+    max-width: 300px;
+  }
+
+  .headerBtnGroup {
+    margin-right: 20px;
+  }
+
+  .headerBtnGroup-icon {
+    font-size: 1.25rem !important;
+  }
+
+  .headerBtnGroup-text {
+    font-size: 1rem;
+  }
+
+  .catDropdown {
+    width: 225px;
+  }
+
+  .header-lower {
+    height: 50px;
+  }
+
+  .linkBtn {
+    width: 150px;
+    height: 50px;
+  }
+}
+
+/* 768px */
+@media (max-width: 768px) {
+  .headerSearchBar-container .headerSearchBar-textfield {
+    width: 100%;
+  }
+  .header .header-middle .header-upper .header-lower {
+    max-width: 768px;
+  }
+
+  .headerLogo-text {
+    display: none;
+  }
+
+  .headerBtnGroup-text {
+    display: none;
+  }
+
+  .headerBtn {
+    width: 50px !important;
+  }
+
+  .catDropdown-text {
+    display: none;
+  }
+
+  .catDropdown {
+    width: 50px;
+    height: 70px;
+    padding: 0px;
+  }
+
+  .catDropdown .MuiSelect-icon {
+    font-size: 2rem;
+    position: absolute;
+    left: 10px;
+  }
+
+  .headerSearchBar-container .headerSearchBar-textfield {
+    width: 100% !important;
+  }
+
+  .linkBtn {
+    width: 125px;
+  }
+}
+
+/* 425px */
+@media (max-width: 650px) {
+  .header .header-middle .header-lower {
+    max-width: 426px;
+  }
+
+  .header-upper {
+    display: none !important;
+  }
+
+  .header-lower {
+    height: 200px;
+  }
+
+  .linkBtnGroup {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start;
+  }
+
+  .linkBtnGroup .MuiButtonGroup-grouped {
+    width: 100% !important;
+    justify-content: flex-start;
+    text-align: center !important;
+  }
+
+  .linkBtn {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    height: 40px;
+  }
+}
+
+/* 375px */
+@media (max-width: 376px) {
+  .headerLogo {
+    margin-left: 25px;
+    margin-right: 25px;
+  }
 }

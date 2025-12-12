@@ -50,8 +50,8 @@ class RatingController extends Controller
 
         // Kiểm tra user đã rating chưa
         $alreadyRated = Rating::where('user_id', $request->user_id)
-                              ->where('product_id', $request->product_id)
-                              ->exists();
+            ->where('product_id', $request->product_id)
+            ->exists();
 
         if ($alreadyRated) {
             return response()->json(['message' => 'You have already rated this product.'], 409);
@@ -99,5 +99,15 @@ class RatingController extends Controller
         $rating->delete();
 
         return response()->json(['message' => 'Rating deleted successfully']);
+    }
+
+    public function getByProduct($id)
+    {
+        $ratings = Rating::with('user')
+            ->where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($ratings);
     }
 }

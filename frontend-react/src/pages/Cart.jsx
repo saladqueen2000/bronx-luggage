@@ -10,31 +10,30 @@ import "../assets/style/Cart.css";
 import Breadcrumb from "../components/Breadcrumb";
 import { Link } from "react-router-dom";
 
-const fetchProducts = async () => {
-  try {
-    const res = await axios.get("http://localhost:8000/api/products");
-    const cartData = res.data.map((p) => ({
-      id: p.id,
-      name: p.name,
-      price: p.price,
-      qty: 1,
-      image: p.image,
-      color: p.color ?? "Default",
-      size: p.size ?? "M",
-    }));
-    Cookies.set("cart", JSON.stringify(cartData), { expires: 7 });
-    setCart(cartData);
-  } catch (error) {
-    console.error(error);
-    setCart([]);
-  }
-  setLoading(false);
-};
+// const fetchProducts = async () => {
+//   try {
+//     const res = await axios.get("http://localhost:8000/api/products");
+//     const cartData = res.data.map((p) => ({
+//       id: p.id,
+//       name: p.name,
+//       price: p.price,
+//       qty: 1,
+//       image: p.image,
+//       color: p.color ?? "Default",
+//       size: p.size ?? "M",
+//     }));
+//     Cookies.set("cart", JSON.stringify(cartData), { expires: 7 });
+//     setCart(cartData);
+//   } catch (error) {
+//     console.error(error);
+//     setCart([]);
+//   }
+//   setLoading(false);
+// };
 
 export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
-  fetchProducts();
   useEffect(() => {
     const cookieCart = Cookies.get("cart");
 
@@ -132,7 +131,11 @@ export default function Cart() {
                       className="prod-img"
                     />
                     <div className="info">
-                      <div className="title">{item.name}</div>
+                      <div className="title">
+                        <Link to={`/list/${item.id}`} className="product-link">
+                          {item.name}
+                        </Link>
+                      </div>
                       <div className="sub">Color: {item.color}</div>
                       <div className="sub">Size: {item.size}</div>
                     </div>
@@ -201,7 +204,9 @@ export default function Cart() {
                 <strong>${subtotal.toFixed(2)}</strong>
               </div>
 
-              <Link to='/checkout' ><button className='checkout-btn'>Proceed to checkout</button></Link>
+              <Link to="/checkout">
+                <button className="checkout-btn">Proceed to checkout</button>
+              </Link>
             </div>
           </aside>
         </div>

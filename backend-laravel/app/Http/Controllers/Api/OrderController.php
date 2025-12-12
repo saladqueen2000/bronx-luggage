@@ -9,26 +9,24 @@ use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
-
     public function index()
     {
-        return Order::with('items.product')
+        return Order::with(['items.product'])
             ->orderBy('id', 'DESC')
             ->get();
     }
 
-
     public function show($id)
     {
-        return Order::with('items.product')
+        return Order::with(['items.product'])
             ->findOrFail($id);
     }
-
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
+            'address' => 'required|string|max:255',
 
             'items' => 'required|array|min:1',
 
@@ -46,6 +44,7 @@ class OrderController extends Controller
         // Tạo order
         $order = Order::create([
             'user_id' => $data['user_id'],
+            'address' => $data['address'],
             'total_amount' => $total,
             'status' => 'pending',
         ]);
@@ -66,14 +65,15 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         $data = $request->validate([
-            'status' => 'required|string'
+            'status' => 'nullable|string',
+            'address' => 'nullable|string|max:255',
         ]);
 
         $order->update($data);
 
         return response()->json([
             'message' => 'Order updated successfully',
-            'order' => $order
+            'order' => $order->load('items.product')
         ]);
     }
 
@@ -81,7 +81,8 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        $order->delete(); // order_items tự xoá nhờ ON DELETE CASCADE
+        // Xoá order -> order_items bị xoá theo (cascade)
+        $order->delete();
 
         return response()->json([
             'message' => 'Order deleted successfully'

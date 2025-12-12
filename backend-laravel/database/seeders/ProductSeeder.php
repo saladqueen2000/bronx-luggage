@@ -19,6 +19,8 @@ class ProductSeeder extends Seeder
                 'description' => 'Sample description for product ' . $i,
                 'price' => rand(50, 500),
                 'gender' => rand(0, 1),
+                'quantity' => rand(5, 100),   // thêm quantity
+                'views' => 0,                 // nếu bạn có cột views thì để luôn
                 'created_at' => now(),
             ]);
 

@@ -6,14 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = [
-        'category_id',
-        'brand_id',
-        'name',
-        'description',
-        'price',
-        'gender'
-    ];
+    protected $fillable = ['category_id', 'brand_id', 'name', 'description', 'price', 'gender', 'quantity', 'views'];
 
     public function category()
     {
@@ -44,4 +37,12 @@ class Product extends Model
     {
         return $this->hasMany(Rating::class);
     }
+
+    protected $appends = ['rating'];
+
+    public function getRatingAttribute()
+    {
+        return round($this->ratings()->avg('rating') ?? 0, 1);
+    }
+
 }

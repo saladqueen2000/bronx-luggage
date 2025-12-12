@@ -7,16 +7,14 @@
 @stop
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <form>
-            <div class="form-group">
-                <label>Size Name</label>
-                <input type="text" class="form-control" placeholder="Enter size name">
-            </div>
+<form action="/admin/sizes" method="POST">
+    @csrf
 
-            <button class="btn btn-primary mt-3">Save</button>
-        </form>
+    <div class="mb-3">
+        <label>Size Label</label>
+        <input type="text" name="label" class="form-control" required>
     </div>
-</div>
+
+    <button class="btn btn-success">Save</button>
+</form>
 @stop

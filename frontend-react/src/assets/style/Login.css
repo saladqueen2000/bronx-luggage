@@ -61,7 +61,7 @@
 .btn-login {
   width: 100%;
   padding: 13px;
-  background: #2563eb;
+  background: #1B5A7D;
   border: none;
   border-radius: 10px;
   color: white;
@@ -114,7 +114,7 @@
 }
 
 .signup a {
-  color: #2563eb;
+  color: #1B5A7D;
   font-weight: 600;
 }
 
@@ -125,7 +125,7 @@
   padding: 60px;
   margin-left: 60px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #1f2d5a, #3b82f6);
+  background: linear-gradient(135deg, #1B5A7D);
   color: white;
 }
 

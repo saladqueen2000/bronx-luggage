@@ -3,129 +3,145 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Size;
-use App\Models\ProductGallery;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // List products
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $products = Product::with(['brand', 'category'])->get();
+        $products = Product::with(['category', 'brand', 'colors', 'sizes', 'gallery'])->get();
         return view('admin.products.index', compact('products'));
     }
 
-    // Show create form
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        $brands = Brand::all();
         $categories = Category::all();
+        $brands = Brand::all();
         $colors = Color::all();
         $sizes = Size::all();
-        return view('admin.products.create', compact('brands', 'categories', 'colors', 'sizes'));
+        return view('admin.products.create', compact('categories', 'brands', 'colors', 'sizes'));
     }
 
-    // Store new product
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-            'brand_id' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'gender' => 'required|in:male,female,unisex',
+            'colors' => 'array',
+            'sizes' => 'array',
         ]);
 
-        $product = Product::create($request->only('name', 'price', 'brand_id', 'category_id', 'description', 'gender'));
+        $product = Product::create($request->only(['category_id', 'brand_id', 'name', 'description', 'price', 'gender']));
 
-        // Many-to-many
-        if ($request->colors)
+        // Colors
+        if ($request->has('colors')) {
             $product->colors()->sync($request->colors);
-        if ($request->sizes)
-            $product->sizes()->sync($request->sizes);
-
-        // Gallery
-        if ($request->hasFile('gallery')) {
-            if (isset($product)) {
-                ProductGallery::where('product_id', $product->id)->delete();
-            }
-
-            foreach ($request->file('gallery') as $file) {
-                $path = $file->store('products', 'public');
-                ProductGallery::create([
-                    'product_id' => $product->id,
-                    'image_url' => $path
-                ]);
-            }
         }
 
+        // Sizes
+        if ($request->has('sizes')) {
+            $product->sizes()->sync($request->sizes);
+        }
 
-        return redirect('/admin/products')->with('success', 'Product created successfully.');
+        return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
-    // Show edit form
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit($id)
     {
-        $product = Product::with(['colors', 'sizes', 'gallery'])->findOrFail($id);
-        $brands = Brand::all();
+        $product = Product::findOrFail($id);
         $categories = Category::all();
+        $brands = Brand::all();
         $colors = Color::all();
         $sizes = Size::all();
-        return view('admin.products.edit', compact('product', 'brands', 'categories', 'colors', 'sizes'));
+        return view('admin.products.edit', compact('product', 'categories', 'brands', 'colors', 'sizes'));
     }
 
-    // Update product
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
-        $product->update($request->only(['name', 'price', 'brand_id', 'category_id']));
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'gender' => 'required|in:male,female,unisex',
+        ]);
 
-        // update colors & sizes
+        $product = Product::findOrFail($id);
+        $product->update($request->only([
+            'category_id',
+            'brand_id',
+            'name',
+            'description',
+            'price',
+            'gender'
+        ]));
+
+        // Update colors
         $product->colors()->sync($request->colors ?? []);
+
+        // Update sizes
         $product->sizes()->sync($request->sizes ?? []);
 
-        // upload new gallery images
-        if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $file) {
-                $path = $file->store('products', 'public');
-                ProductGallery::create([
-                    'product_id' => $product->id,
-                    'image_url' => $path
-                ]);
-            }
-        }
-
-        return redirect('/admin/products')->with('success', 'Product updated successfully');
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
-
-    // Delete product
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->colors()->detach();
-        $product->sizes()->detach();
-        ProductGallery::where('product_id', $product->id)->delete();
-        $product->delete();
+        Product::findOrFail($id)->delete();
 
-        return redirect('/admin/products')->with('success', 'Product deleted successfully.');
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 
-    public function deleteGallery($id)
+    public function related($id)
     {
-        $img = ProductGallery::findOrFail($id);
+        $product = Product::find($id);
 
-        // Xóa file trong storage
-        if (\Storage::disk('public')->exists($img->image_url)) {
-            \Storage::disk('public')->delete($img->image_url);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
         }
 
-        $img->delete();
+        $related = Product::with(['gallery'])
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $id)
+            ->limit(8)
+            ->get();
 
-        return back()->with('success', 'Image deleted successfully');
+        return response()->json($related);
     }
 }

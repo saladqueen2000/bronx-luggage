@@ -18,7 +18,7 @@
 .register-title {
   font-size: 30px;
   font-weight: 700;
-  color: #1f2d5a;
+  color: #1B5A7D;
   text-align: center;
 }
 
@@ -49,14 +49,14 @@
 }
 
 .form-group input:focus {
-  border-color: #2563eb;
+  border-color: #1B5A7D;
   box-shadow: 0 0 5px rgba(37,99,235,0.3);
 }
 
 .btn-register {
   width: 100%;
   padding: 13px;
-  background: #2563eb;
+  background: #1B5A7D;
   border: none;
   border-radius: 10px;
   color: white;
@@ -78,7 +78,7 @@
 }
 
 .login-link a {
-  color: #2563eb;
+  color: #1B5A7D;
   font-weight: 600;
 }
 
@@ -87,7 +87,7 @@
   padding: 60px;
   margin-left: 60px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #1f2d5a, #3b82f6);
+  background: linear-gradient(135deg, #1B5A7D);
   color: white;
 }
 

@@ -1,29 +1,9 @@
 import React, { useState } from "react";
 import "../assets/style/Feedback.css";
 
-const Rating = ({ value, onChange }) => {
-  return (
-    <div className="rating" role="radiogroup" aria-label="Rating">
-      {[1, 2, 3, 4, 5].map((n) => (
-        <button
-          key={n}
-          type="button"
-          className={"star " + (n <= value ? "on" : "off")}
-          onClick={() => onChange(n)}
-          aria-checked={n === value}
-          role="radio"
-          title={`${n} stars`}
-        >
-          ★
-        </button>
-      ))}
-    </div>
-  );
-};
-
 export default function Feedback() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [rating, setRating] = useState(0);
+
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(null);
@@ -110,10 +90,7 @@ export default function Feedback() {
             />
           </label>
 
-          <label className="field">
-            <span className="label">Rating</span>
-            <Rating value={rating} onChange={setRating} />
-          </label>
+
 
           <label className="field">
             <span className="label">Message</span>

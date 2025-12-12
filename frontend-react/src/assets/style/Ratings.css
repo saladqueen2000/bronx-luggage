@@ -1,0 +1,61 @@
+.rating-list {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.rating-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.rating-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating-comment {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.rating-date {
+  font-size: 12px;
+  color: #777;
+}
+
+.rating-form {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.rating-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  margin-top: 10px;
+}
+
+.rating-submit-btn {
+  margin-top: 10px;
+  padding: 10px 18px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.rating-login-box {
+  margin-top: 20px;
+}
+
+.rating-login-btn {
+  background: #083f65;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}

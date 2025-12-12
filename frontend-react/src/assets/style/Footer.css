@@ -22,6 +22,45 @@
     flex-direction: row;
 }
 
+.footer__subscribe-text {
+    font-family: "Poppins";
+    font-weight: bold;
+    font-size: 1.75rem;
+    margin-top: 12.5px;
+    color: #1B5A7D
+}
+
+.footerSearchBar {
+    height: 70px;
+    max-height: 70px;
+    width: 500px;
+    max-width: 500px;
+    background-color: #EDA415;
+    border-radius: 22.5px;
+    margin-left: 100px !important;
+    font-family: "Poppins"
+}
+
+.footer__subscribe-contact {
+    margin-left: auto;
+    margin-top: 12.5px;
+    display: flex
+}
+
+.footer__subscribe-icon {
+    font-size: 3.25rem !important;
+    color: #EDA415 !important
+}
+
+.footer__subscribe-number {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    font-weight: bolder;
+    font-size: 1rem;
+    color: #606060
+}
+
 .footer__about {
     margin-top: 37.5px;
     margin-bottom: 25px;
@@ -34,6 +73,22 @@
     flex-direction: column;
     width: 250px;
     margin-left: 75px;
+}
+
+.footer__about-location-text {
+    margin-top: 30px;
+    padding-bottom: 45px;
+    color: #1B5A7D;
+    font-family: "Poppins";
+    font-size: 1rem;
+    border-bottom: 3px solid #BFC8CE
+}
+
+.footer__about-icon-container {
+    display: flex;
+    flex-direction: row;
+    gap: 37.5px;
+    margin-top: 20px
 }
 
 .footer__about-location--icons {
@@ -103,5 +158,138 @@
     to {
         transform: translateX(-33.33%);
         /* CHUẨN CHỈNH */
+    }
+}
+
+
+/* 1024px */
+@media (max-width: 1024px) {
+    .footer {
+        max-width: 1024px;
+    }
+
+    .footer__subscribe {
+        width: 80%;
+        height: 77.5px;
+    }
+
+    .footer__subscribe-text {
+        margin-top: 20px;
+        font-size: 1.25rem;
+    }
+
+    .footer__subscribe-icon {
+        font-size: 2rem !important;
+    }
+
+    .footer__subscribe-number {
+        margin-left: 10px;
+        font-size: 0.75rem;
+    }
+
+    .footerSearchBar {
+        width: 400px;
+        max-width: 400px;
+        margin-left: 25px !important;
+    }
+
+    .footer__about {
+        margin-bottom: 0px;
+    }
+
+    .footer-list {
+        margin: 0px 75px 0px 50px;
+    }
+
+    .footer-list li {
+        font-size: 0.95rem;
+        margin: 10px 0;
+        gap: 7.5px;
+    }
+}
+
+
+
+/* 768px */
+@media (max-width: 768px) {
+    .footer {
+        max-width: 768px;
+    }
+
+    .footer__subscribe {
+        width: 80%;
+        height: 75px;
+    }
+
+    .footer__subscribe-text {
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+
+    .footer__subscribe-number {
+        margin-left: 10px;
+        font-size: 0.6rem;
+    }
+
+    .footer__subscribe-icon {
+        font-size: 1.75rem !important;
+        margin-left: 10px;
+    }
+
+    .footer__about-location {
+        margin-left: 25px;
+    }
+
+    .footer-list {
+        margin: 0px 25px 0px 25px;
+    }
+}
+
+
+
+/* 425px */
+@media (max-width: 426px) {
+    .footer {
+        max-width: 426px;
+        height: 1155px;
+    }
+
+    .footer__subscribe {
+        padding: 20px;
+    }
+
+    .footerSearchBar {
+        width: 300px;
+        max-width: 300px;
+        margin-left: 20px !important;
+    }
+
+    .footer__subscribe-text {
+        display: none;
+    }
+
+    .footer__subscribe-number {
+        display: none;
+    }
+
+    .footer__subscribe-icon {
+        display: none !important;
+    }
+
+    .footer__about {
+        margin-left: 25px;
+        margin-bottom: 12.5px;
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+}
+
+
+
+/* 375px */
+@media (max-width: 376px) {
+    .footerSearchBar {
+        margin-left: 0px !important;
     }
 }
