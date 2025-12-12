@@ -30,19 +30,19 @@ class UserController extends Controller
     // ⭐ CREATE new user (Register)
     public function store(Request $request)
     {
-        $request->validate([
-            'fullname' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
-            'role' => 'required|string'
-        ]);
+     $request->validate([
+    'name' => 'required|string',
+    'email' => 'required|email|unique:users',
+    'password' => 'required|string|min:6',
+    'role' => 'required|string'
+]);
 
-        $user = User::create([
-            'fullname' => $request->fullname,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => Hash::make($request->password)
-        ]);
+      $user = User::create([
+    'name' => $request->name,
+    'email' => $request->email,
+    'role' => $request->role,
+    'password' => Hash::make($request->password)
+]);
 
         return response()->json([
             'message' => 'User created successfully',
@@ -65,7 +65,7 @@ class UserController extends Controller
 
         // Update fields
         $user->update($request->only([
-            'fullname',
+            'name',
             'role',
             'email'
         ]));

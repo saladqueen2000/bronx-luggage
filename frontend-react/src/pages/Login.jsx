@@ -2,48 +2,55 @@ import React, { useState } from "react";
 import "../assets/style/Login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/authSlice";
+import { useNavigate } from "react-router-dom"; // <--- thêm dòng này
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // <--- thêm hook này
   const { loading, error } = useSelector((s) => s.auth);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Form login đã chạy!!!");
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  console.log("Form login đã chạy!!!"); // <--- test bước 1
+    const result = await dispatch(loginUser({ email, password }));
+    console.log("Kết quả login:", result);
 
-  const result = await dispatch(loginUser({ email, password }));
-  console.log("Kết quả login:", result); // <--- test bước 2
-};
+    // Nếu login thành công, Redux Toolkit sẽ trả "fulfilled"
+    if (result.meta.requestStatus === "fulfilled") {
+      console.log("Login OK → Redirect sang Home");
+
+      navigate("/"); // <--- redirect sang home
+    }
+  };
 
   return (
     <div className="login-container">
       <div className="login-card">
-
         <h2 className="login-title">Welcome Back</h2>
         <p className="login-sub">Login to continue shopping</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="form-group">
             <label>Password</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               placeholder="Enter your password"
               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 

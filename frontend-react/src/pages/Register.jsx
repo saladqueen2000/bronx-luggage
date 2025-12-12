@@ -5,7 +5,8 @@ import { registerUser } from "../redux/authSlice";
 
 export default function Register() {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((s) => s.auth);
+const { loading, error, success } = useSelector((s) => s.auth);
+
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -58,6 +59,9 @@ export default function Register() {
             {loading ? "Processing..." : "Sign up"}
           </button>
         </form>
+        {success && (
+  <p style={{ color: "green", textAlign: "center" }}>{success}</p>
+)}
 
         {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
