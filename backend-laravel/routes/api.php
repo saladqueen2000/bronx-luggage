@@ -16,6 +16,22 @@ Route::prefix('products')->group(function () {
     Route::get('filter', [ProductController::class, 'filter']);
 });
 
+Route::get('/products/{id}/related', [ProductController::class, 'related']);
+Route::get('/products/{id}/ratings', [RatingController::class, 'getByProduct']);
+
+Route::apiResource('products', ProductController::class)->names([
+    'index' => 'api.products.index',
+    'store' => 'api.products.store',
+    'show' => 'api.products.show',
+    'update' => 'api.products.update',
+    'destroy' => 'api.products.destroy'
+]);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/products/{id}/increase-view', [ProductController::class, 'increaseView']);
+
+
 Route::apiResource('users', UserController::class);
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('colors', ColorController::class);
@@ -28,15 +44,9 @@ Route::apiResource('orders', OrderController::class);
 Route::apiResource('orderItems', OrderItemController::class);
 
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
 
 
 
-Route::apiResource('products', ProductController::class)->names([
-    'index' => 'api.products.index',
-    'store' => 'api.products.store',
-    'show' => 'api.products.show',
-    'update' => 'api.products.update',
-    'destroy' => 'api.products.destroy'
-]);
+
+
+

@@ -78,6 +78,8 @@ export default function Home() {
   );
 }
 
+//product list xuống 700px thì xuống luôn
+
 //git add .
 //git commit -m "linhtinh"
 //git push

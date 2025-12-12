@@ -5,36 +5,77 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Breadcrumb from "../components/Breadcrumb";
 import "../assets/style/ProductDetail.css";
-import { ImageList, ImageListItem } from "@mui/material";
+import Cookies from "js-cookie";
+import CircularProgress from "@mui/material/CircularProgress";
+import RatingList from "../components/ratings/RatingList";
+import RatingForm from "../components/ratings/RatingForm";
+import RatingStars from "../components/ratings/RatingStars";
 
 export default function ProductDetail() {
   const { id } = useParams();
 
   const [product, setProduct] = useState(null);
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart") || "[]")
-  );
+  const [related, setRelated] = useState([]);
+  const [loadingProduct, setLoadingProduct] = useState(true);
+  const [loadingRelated, setLoadingRelated] = useState(true);
+
+  // CART
+  const [cart, setCart] = useState(() => {
+    const cookieCart = Cookies.get("cart");
+    return cookieCart ? JSON.parse(cookieCart) : [];
+  });
+
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [added, setAdded] = useState(false);
   const [mainImage, setMainImage] = useState("");
-
-  // NEW: TAB STATE
   const [activeTab, setActiveTab] = useState("description");
 
   // FETCH PRODUCT
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoadingProduct(true);
       try {
         const res = await axios.get(`http://localhost:8000/api/products/${id}`);
         setProduct(res.data);
       } catch (err) {
         console.log("ERROR FETCH PRODUCT:", err);
+      } finally {
+        setLoadingProduct(false);
       }
     };
     fetchProduct();
   }, [id]);
+
+  // INCREASE VIEW COUNT
+  useEffect(() => {
+    if (!product) return;
+
+    axios
+      .post(`http://localhost:8000/api/products/${product.id}/increase-view`)
+      .catch((err) => console.log("ERROR INCREASE VIEW:", err));
+  }, [product?.id]);
+
+  // FETCH RELATED
+  useEffect(() => {
+    if (!product) return;
+
+    const fetchRelated = async () => {
+      setLoadingRelated(true);
+      try {
+        const res = await axios.get(
+          `http://localhost:8000/api/products/${product.id}/related`
+        );
+        setRelated(res.data);
+      } catch (err) {
+        console.log("ERROR FETCH RELATED:", err);
+      } finally {
+        setLoadingRelated(false);
+      }
+    };
+    fetchRelated();
+  }, [product?.id]);
 
   // SET MAIN IMAGE
   useEffect(() => {
@@ -43,28 +84,24 @@ export default function ProductDetail() {
     }
   }, [product]);
 
+  // SAVE CART TO COOKIE
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    Cookies.set("cart", JSON.stringify(cart), { expires: 7 });
     window.dispatchEvent(new CustomEvent("cartUpdated"));
   }, [cart]);
 
+  // ADD TO CART
   const handleAddToCart = () => {
-    if (!selectedSize) {
-      alert("Please select size.");
-      return;
-    }
-    if (!selectedColor) {
-      alert("Please select color.");
-      return;
-    }
+    if (!selectedSize) return alert("Please select size.");
+    if (!selectedColor) return alert("Please select color.");
 
     const item = {
       id: product.id,
-      title: product.name,
+      name: product.name,
       price: product.price,
       color: selectedColor.name,
       size: selectedSize.label,
-      quantity,
+      quantity: quantity,
       image: mainImage,
     };
 
@@ -87,7 +124,16 @@ export default function ProductDetail() {
     setTimeout(() => setAdded(false), 2000);
   };
 
-  if (!product) return <div>Loading...</div>;
+  // LOADING UI
+  if (loadingProduct) {
+    return (
+      <div className="loadingStyle">
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (!product) return <div>Product not found</div>;
 
   return (
     <div className="pd-wrapper">
@@ -96,74 +142,90 @@ export default function ProductDetail() {
       <div className="pd-container">
         <Breadcrumb />
 
-        {/* MAIN PRODUCT SECTION */}
+        {/* MAIN ROW */}
         <div className="pd-main-row">
-          {/* LEFT IMAGE COLUMN */}
+          {/* LEFT IMAGE */}
           <div className="pd-left">
             <div className="pd-main-image-box">
-              <img src={mainImage} className="pd-main-image" />
+              <img src={mainImage} className="pd-main-image" alt="" />
             </div>
 
-            <ImageList
-              cols={4}
-              rowHeight={80}
-              gap={10}
-              className="pd-thumb-list"
-            >
+            {/* GALLERY */}
+            <div className="pd-thumb-grid">
               {product.gallery?.map((img) => (
-                <ImageListItem key={img.id}>
-                  <img
-                    src={img.image_url}
-                    className={`pd-thumb ${
-                      mainImage === img.image_url ? "active" : ""
-                    }`}
-                    onClick={() => setMainImage(img.image_url)}
-                  />
-                </ImageListItem>
+                <img
+                  key={img.id}
+                  src={img.image_url}
+                  className={`pd-thumb ${
+                    mainImage === img.image_url ? "active" : ""
+                  }`}
+                  onClick={() => setMainImage(img.image_url)}
+                  alt=""
+                />
               ))}
-            </ImageList>
+            </div>
           </div>
 
-          {/* RIGHT INFO COLUMN */}
+          {/* RIGHT INFO */}
           <div className="pd-right">
             <h2 className="pd-title">{product.name}</h2>
+
+            <RatingStars value={product.rating} readOnly={true} />
 
             <div className="pd-price">${product.price}</div>
 
             <div className="pd-meta">
               <p>
-                <b>Availability:</b> In stock
+                <b>Availability: </b>
+                {product.quantity > 0 ? (
+                  <span style={{ color: "green", fontWeight: "bold" }}>
+                    ✔ In stock
+                  </span>
+                ) : (
+                  <span style={{ color: "red", fontWeight: "bold" }}>
+                    Out of stock
+                  </span>
+                )}
               </p>
-              <p>
-                <b>SKU:</b> {product.sku || "N/A"}
-              </p>
-              <p>
-                <b>Category:</b> {product.category?.name}
-              </p>
-              <p>
-                <b>Brand:</b> {product.brand?.name}
-              </p>
+
+              <div className="pd-stock-warning">
+                {product.quantity > 0 ? (
+                  <p className="pd-hurry">
+                    Hurry up! Only {product.quantity} products left in stock!
+                  </p>
+                ) : (
+                  <p className="pd-out">Out of stock</p>
+                )}
+              </div>
+
+              <div className="pd-divider"></div>
             </div>
 
-            {/* COLOR SELECTOR */}
+            {/* COLOR */}
             <div className="pd-section">
               <label className="pd-label">Color</label>
               <div className="pd-options">
-                {product.colors?.map((c) => (
-                  <button
-                    key={c.id}
-                    className={`pd-color-btn ${
-                      selectedColor?.id === c.id ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedColor(c)}
-                  >
-                    {c.name}
-                  </button>
-                ))}
+                {product.colors?.map((c) => {
+                  const isSelected = selectedColor?.id === c.id;
+                  return (
+                    <button
+                      key={c.id}
+                      className={`pd-color-btn ${isSelected ? "selected" : ""}`}
+                      onClick={() => setSelectedColor(c)}
+                      style={{
+                        backgroundColor: isSelected ? c.name : "transparent",
+                        color: isSelected ? "#fff" : "#333",
+                        borderColor: c.name,
+                      }}
+                    >
+                      {c.name}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* SIZE SELECTOR */}
+            {/* SIZE */}
             <div className="pd-section">
               <label className="pd-label">Size</label>
               <div className="pd-options">
@@ -195,7 +257,7 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* ACTION BUTTONS */}
+            {/* BUTTONS */}
             <div className="pd-buttons">
               <button className="pd-add-btn" onClick={handleAddToCart}>
                 {added ? "Added Successfully" : "Add to cart"}
@@ -204,16 +266,23 @@ export default function ProductDetail() {
               <Link to="/cart">
                 <button className="pd-buy-btn">Buy it now</button>
               </Link>
-
-              <button className="pd-wishlist-btn">♡</button>
+            </div>
+            <div className="pd-divider"></div>
+            <div className="pd-views">
+              <p>
+                <b>Views:</b> {product.views} views
+              </p>
+              <p>
+                <b>Category:</b> {product.category?.name}
+              </p>
+              <p>
+                <b>Brand:</b> {product.brand?.name}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* ========================= */}
-        {/* NEW TAB TOGGLE SECTION   */}
-        {/* ========================= */}
-
+        {/* TABS */}
         <div className="pd-tabs">
           <button
             className={`pd-tab-btn ${
@@ -232,6 +301,7 @@ export default function ProductDetail() {
           </button>
         </div>
 
+        {/* TAB CONTENT */}
         <div className="pd-tab-content">
           {activeTab === "description" && (
             <div>
@@ -240,25 +310,35 @@ export default function ProductDetail() {
           )}
 
           {activeTab === "reviews" && (
-            <div>
-              <p>No reviews yet</p>
-              <button className="pd-review-btn">Write a review</button>
+            <div className="pd-review-section">
+              <RatingList productId={product.id} />
+              <RatingForm productId={product.id} />
             </div>
           )}
         </div>
 
-        {/* RELATED PRODUCTS */}
+        {/* RELATED */}
         <h3 className="pd-related-title">Related products</h3>
 
-        <div className="pd-related-row">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="pd-related-card">
-              <img src={mainImage} className="pd-related-img" />
-              <p className="pd-related-name">{product.name}</p>
-              <p className="pd-related-price">${product.price}</p>
-            </div>
-          ))}
-        </div>
+        {loadingRelated ? (
+          <div className="loadingStyle">
+            <CircularProgress />
+          </div>
+        ) : (
+          <div className="pd-related-row">
+            {related.map((p) => (
+              <Link to={`/list/${p.id}`} key={p.id} className="pd-related-card">
+                <img
+                  src={p.gallery?.[0]?.image_url}
+                  className="pd-related-img"
+                  alt={p.name}
+                />
+                <p className="pd-related-name">{p.name}</p>
+                <p className="pd-related-price">${p.price}</p>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />

@@ -152,35 +152,10 @@
   color: white;
 }
 
-/* Dropdown */
-.catDropdown {
-  border: none;
-  border-radius: 0px;
-  width: 237.5px;
-  height: 70px;
-  margin-left: 40px;
-  padding: 10px 20px;
-  background-color: #eda415;
-  color: white;
-  font-family: "Poppins" !important;
-  font-weight: 500 !important;
-}
-
-.catDropdown-text {
-  color: white;
-}
-
-.catDropdown:hover {
-  color: white;
-}
-
-.catDropdown .MuiSelect-icon {
-  color: white;
-}
-
 /* Link btn group */
 .linkBtn {
   width: 175px;
+  height: 70px;
   color: black !important;
   font-family: "Poppins" !important;
   font-weight: 500 !important;
@@ -189,7 +164,6 @@
 }
 
 .linkBtnGroup {
-  margin: auto;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
@@ -281,6 +255,7 @@
 
   .linkBtn {
     width: 150px;
+    height: 50px;
   }
 }
 
@@ -331,7 +306,7 @@
 }
 
 /* 425px */
-@media (max-width: 500px) {
+@media (max-width: 650px) {
   .header .header-middle .header-lower {
     max-width: 426px;
   }
@@ -361,5 +336,14 @@
     justify-content: center !important;
     align-items: center !important;
     text-align: center !important;
+    height: 40px;
+  }
+}
+
+/* 375px */
+@media (max-width: 376px) {
+  .headerLogo {
+    margin-left: 25px;
+    margin-right: 25px;
   }
 }

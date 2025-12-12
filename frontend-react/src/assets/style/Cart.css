@@ -294,7 +294,10 @@
 }
 
 /* Mobile */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
+  .cart-inner {
+    margin-top: 20px;
+  }
   .col-price,
   .col-sub {
     font-size: 12px;
