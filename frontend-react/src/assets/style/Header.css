@@ -121,6 +121,10 @@
   color: transparent;
 }
 
+.headerSearchBar-textfield .MuiInputLabel-shrink {
+  color: transparent !important;
+}
+
 /* Searchbar btn header */
 .headerSearchBtn {
   height: 50px;
