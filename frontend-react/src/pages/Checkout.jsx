@@ -1,6 +1,8 @@
 import React, { useReducer } from 'react';
 import '../assets/style/Checkout.css';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
   // import Logo from '../assets/images/logo_images.png';
 
 
@@ -30,26 +32,31 @@ const Checkout = () => {
 
   return (
     <div className="checkout-page-wrapper">
+      <Header />
       <div className="checkout-container">
         
-        {/* Phần cột chính - Thông tin giao hàng */}
+        {/* Phần cột chính - Delivery information
+ */}
         <div className="checkout-main-column">
           <header className="checkout-header">
             <img src={1} alt="Logo" className="logo" />
             <nav className="breadcrumb">
-              <a href="/cart">Giỏ hàng</a> 
+              <a href="/cart">Cart</a> 
               <span className="separator">&gt;</span> 
-              <span className="current">Thông tin giao hàng</span>
+              <span className="current">Delivery information
+</span>
             </nav>
           </header>
 
           <main className="form-content">
             <form action="">
-            {/* 1. Thông tin giao hàng */}
+            {/* 1. Delivery information
+ */}
             <section className="shipping-form-section">
-              <h2 className="section-title">Thông tin giao hàng</h2>
+              <h2 className="section-title">Delivery information
+</h2>
               <p className="login-prompt">
-                Bạn đã có tài khoản? <a href="/login">Đăng nhập</a>
+                Already have an account? <a href="/login">Login</a>
               </p>
               
               {/* Form Fields */}
@@ -68,23 +75,24 @@ const Checkout = () => {
               
               <div className="form-row split-3 address-dropdowns">
                 <select value={selectedProvince} onChange={handleChange}>
-                  <option value="" disabled>Chọn tỉnh / thành</option>
-                  <option value="Hà Nội">Hà Nội</option>
-                  <option value="Hồ Chí Minh" >Hồ Chí Minh / thành</option>
-                  <option value="Đà Nẵng">Đà Nẵng</option>
+                  <option value="" disabled>State</option>
+                  <option value="New York">New York</option>
+                  <option value="Pennsylvania" >Pennsylvania</option>
+                  <option value="New Jersey">New Jersey</option>
                 </select>
                 <select value="{selectedDistricts}">
-                  <option value="" disabled>Chọn quận / huyện</option>
-                  <option value="Hà Nội">Cầu Giấy</option>
-                  <option value="Hồ Chí Minh" >Quận 1</option>
-                  <option value="Đà Nẵng">Hải Châu</option>
+                  <option value="" disabled>County</option>
+                  <option value="Los Angeles">Harris</option>
+                  <option value="Orange" >Orange</option>
+                  <option value="Cook">Cook</option>
+                  <option value="King">King</option>
 
                 </select>
                 <select value="selectedWard">
-                  <option value="" disabled>Chọn phường / xã</option>
-                  <option value="Hà Nội">Dịch Vọng</option>
-                  <option value="Hồ Chí Minh" >Bến Thành</option>
-                  <option value="Đà Nẵng">Thank Bình</option>
+                  <option value="" disabled>Local</option>
+                  <option value="Washington">Washington</option>
+                  <option value="Los Angeles" >Los Angeles</option>
+                  <option value="Texas">Texas</option>
                 </select>
               </div>
             </section>
@@ -112,7 +120,7 @@ const Checkout = () => {
             </section>
           {/* Footer Action Bar */}
           <footer className="checkout-footer">
-            <a href="/cart" className="back-to-cart">Giỏ hàng</a>
+            <a href="/cart" className="back-to-cart">Cart</a>
             <button type="submit" className="btn-primary">Hoàn tất đơn hàng</button>
           </footer>
 
@@ -178,7 +186,9 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
+    
   );
 };
 

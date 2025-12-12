@@ -10,11 +10,6 @@ import { useState, useEffect } from 'react';
 
 
 
-
-  
-  
-
-
 const CustomBtn1 = styled(IconButton)(({ }) => ({
     border: "none",
     borderRadius: "0px",
@@ -36,6 +31,13 @@ const CustomBtn2 = styled(IconButton)(({ }) => ({
 }));
 
 function HeaderBtnGroup() {
+    const [cartLength, setCartLength] = useState(0);
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartLength(cart.length);
+  }, [cartLength]);
+
     return (
         <ButtonGroup
             variant='text'
@@ -60,7 +62,7 @@ function HeaderBtnGroup() {
             <CustomBtn1>
                 <Link to="/cart" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
                 <ShoppingCartOutlinedIcon sx={{ fontSize: "1.75rem", color: "white", }} />
-                <span
+                <div
                     style={{
                         marginLeft: "10px",
                         fontSize: "1.25rem",
@@ -68,7 +70,7 @@ function HeaderBtnGroup() {
                         color: "white",
                     }}
                 >
-                    Cart </span>
+                    ({cartLength}) Cart </div>
                 </Link>
             </CustomBtn1>
         </ButtonGroup>

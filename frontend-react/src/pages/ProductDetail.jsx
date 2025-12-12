@@ -8,6 +8,12 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../assets/style/ProductDetail.css'; // IMPORT TỆP CSS MỚI
 import { FaFacebookSquare } from 'react-icons/fa';
+import { FcGoogle } from "react-icons/fc";
+import { FaInstagram } from "react-icons/fa";
+import { SiTiktok } from "react-icons/si";
+
+
+
 
 // Hằng số cho key localStorage
 
@@ -80,7 +86,6 @@ export default function ProductDetail() {
     });
 
     setAdded(true);
-
     
 
     setTimeout(() => {
@@ -90,13 +95,39 @@ export default function ProductDetail() {
       setAdded(false);
     }, 3000);
   };
+
+  const [isLiked, setIsLiked] = useState(false); 
+  
+  const handleLike = () => {
+      setIsLiked(!isLiked); 
+  };
+
   useEffect(() => {
   localStorage.setItem("cart", JSON.stringify(cart));
   window.dispatchEvent(new CustomEvent('cartUpdated'));
   }, [cart]);
 
 
+const [loggedIn,setLoggedIn]= useState(false);
+const [reviewForm,setReviewForm]=useState(false);
+const writeView = ()=>{
+  setLoggedIn=localStorage.getItem('login');
+    if(!loggedIn){
+      alert('Please Login');
+      return;
+      }
+    setReviewForm(true);
+    }
+
+
+
+
+
   if (!product) return <div>Loading...</div>;
+  
+  
+  
+  
 
   return (
     <div className="product-detail-wrapper">
@@ -123,13 +154,13 @@ export default function ProductDetail() {
             
             {/* Thumbnail */}
             <div className="thumbnail-container">
-              {[1, 2, 3].map((n) => (
+              {[1, 2].map((n) => (
+                <div  className="thumbnail-image" key={n}>
                 <img
-                  key={n}
                   src={product.image}
-                  width={80}
-                  className="thumbnail-image"
+                  width={100}
                 />
+                </div>
               ))}
             </div>
           </div>
@@ -142,12 +173,14 @@ export default function ProductDetail() {
               ★★★★★ (100 reviews)
             </div>
             
-            <p className="availability-status">
-              Availability:✔ In stock
-            </p>
+            <div className="in-stock">
+              <div className="availability">Availability:</div>
+              <div className="availability-status">✔ In stock</div>
+            </div>
+
             <p className="stock-alert">Hurry up! only 34 product left in stock!</p>
 
-            {/* COLOR */}
+            
             <div className="selector-group">
               <b>Color</b>
               <div className="selector-options color-options">
@@ -155,7 +188,7 @@ export default function ProductDetail() {
                   <button
                     key={c}
                     onClick={() => setSelectedColor(c)}
-                    // DÙNG CLASS VÀ INLINE STYLE ĐỘNG
+                    
                     className={`color-button ${selectedColor === c ? 'selected' : ''}`}
                     style={{ 
                         color: selectedColor === c ? '#fff' : '#333' 
@@ -175,7 +208,6 @@ export default function ProductDetail() {
                   <button
                     key={s}
                     onClick={() => setSelectedSize(s)}
-                    // DÙNG CLASS VÀ INLINE STYLE ĐỘNG
                     className={`size-button ${selectedSize === s ? 'selected' : ''}`}
                     style={{ 
                         color: selectedSize === s ? '#fff' : '#333' 
@@ -222,17 +254,21 @@ export default function ProductDetail() {
                   Buy it now
                 </button>
               </Link>
-              <button className="btn-wishlist">
-                ♡
-              </button>
+              
+              <button onClick={handleLike}  className="like-button">
+                {isLiked ? "❤️" : "🤍"} 
+               </button>
             </div>
 
             <div className="meta-info">
               <div className="meta-item">SKU: 01133-9-9</div>
-              <div className="meta-item category">Category: @category</div>
-              <div className="meta-item share">
+              <div className="meta-item-category">Category: @category</div>
+              <div className="meta-item-share">
                 Share: 
-                <FaFacebookSquare size={24} style={{ marginLeft: 10, color: '#3b5998' }} />
+                <a href="facebook.com"><FaFacebookSquare size={24}/></a>
+                <a href="instagram"><FaInstagram size={24}/></a>
+                <a href="google.com"><FcGoogle size={24}/></a>
+                <a href="tiktok.com"><SiTiktok size={24}/></a>
               </div>
             </div>
           </div>
@@ -241,21 +277,33 @@ export default function ProductDetail() {
         {/* DESCRIPTION + REVIEW */}
         <div className="tab-section">
           <div className="tab-buttons">
-            <button className="tab-button active">Description</button>
-            <button className="tab-button">Reviews</button>
+            <button className="tab-button-description">Description</button>
+            <button className="tab-button-review">Reviews</button>
           </div>
           
           <div className="review-box">
-            <h3>Customer reviews</h3>
-            <p>No reviews yet.</p>
-            <button className="btn-write-review">
+            <div className='customer-review'>Customer reviews</div>
+            <div className='review-number'>No reviews yet.</div>
+            <button className="btn-write-review" onClick={writeView}>
               Write a review
             </button>
+          
+          {reviewForm ? (
+            <div className="review-form-container">
+            <h4>Write your review</h4>
+            <form className="review-form">
+            <textarea placeholder="Write your review here..." />
+            <button type="submit">Submit Review</button>
+            </form>
+            </div>
+          ) : null}
+          
           </div>
         </div>
 
         {/* RELATED PRODUCTS */}
-        <h3 className="related-products-title">Related products</h3>
+
+        <div className="related-products-title">Related products</div>
         
         <div className="related-products-row">
           {[1, 2, 3, 4].map((i) => (

@@ -158,6 +158,8 @@
 
 /* Cart Total Section */
 .cart-total-header {
+    justify-content: center;
+    background-color: #E2F4FF;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
     margin-bottom: 15px;

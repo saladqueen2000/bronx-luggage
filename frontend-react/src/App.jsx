@@ -9,6 +9,11 @@ import Checkout from './pages/Checkout';
 import Login from './pages/login';
 import Register from './pages/Register';
 import List from './components/List';
+import Counter from './pages/Counter';
+
+import CartPage from './pages/caaaa';
+import StateSelector from './components/USAddressForm';
+import USAddressForm from './components/USAddressForm';
 
 
 // const find = async () => {
@@ -34,6 +39,11 @@ function App() {
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/count" element={<Counter />} />
+      <Route path="/caaa" element={<CartPage />} />
+      <Route path="/states" element={<USAddressForm />} />
+      
+
       
 
     </Routes>
