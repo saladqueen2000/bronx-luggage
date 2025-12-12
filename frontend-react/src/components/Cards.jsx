@@ -9,11 +9,8 @@ import {
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import StarIcon from "@mui/icons-material/Star";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import RatingStars from "../components/ratings/RatingStars";
 
-// ResponsiveCard giữ nguyên
 function ResponsiveCard({ image }) {
   return (
     <Card
@@ -98,31 +95,7 @@ function ResponsiveCard({ image }) {
   );
 }
 
-// ProductCard với rating động
 function ProductCard({ image, title, price, rating = 0 }) {
-  const renderStars = () => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      if (i <= Math.floor(rating)) {
-        stars.push(
-          <StarIcon key={i} sx={{ fontSize: "1.1rem", color: "#FFD700" }} />
-        );
-      } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
-        stars.push(
-          <StarHalfIcon key={i} sx={{ fontSize: "1.1rem", color: "#FFD700" }} />
-        );
-      } else {
-        stars.push(
-          <StarOutlineIcon
-            key={i}
-            sx={{ fontSize: "1.1rem", color: "#ACACAC" }}
-          />
-        );
-      }
-    }
-    return stars;
-  };
-
   return (
     <Card
       sx={{
@@ -182,8 +155,8 @@ function ProductCard({ image, title, price, rating = 0 }) {
               ${price}
             </Typography>
 
-            <Box sx={{ display: "flex", gap: "3px", mb: 2 }}>
-              {renderStars()}
+            <Box sx={{ display: "flex", mb: 2 }}>
+              <RatingStars value={Number(rating)} />
             </Box>
           </div>
 
@@ -196,7 +169,7 @@ function ProductCard({ image, title, price, rating = 0 }) {
               marginRight: "5px",
               borderRadius: "20px",
               "&:hover": {
-                backgroundColor: "rgba(237, 165, 21, 0.85) ",
+                backgroundColor: "rgba(237, 165, 21, 0.85)",
               },
             }}
           >

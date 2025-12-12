@@ -1,13 +1,18 @@
-import React from "react";
-import Rating from "@mui/material/Rating";
+import { Rating } from "@mui/material";
 
-export default function RatingStars({ value, onChange, readOnly = false }) {
+function RatingStars({ value }) {
   return (
     <Rating
-      value={value}
-      onChange={(_, v) => onChange && onChange(v)}
-      readOnly={readOnly}
-      precision={1}
+      name="product-rating"
+      value={Number(value)}
+      precision={0.5}
+      readOnly
+      sx={{
+        fontSize: "1.3rem",
+        color: "#FFD700",
+      }}
     />
   );
 }
+
+export default RatingStars;
