@@ -15,6 +15,8 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
-        "bootstrap": "^5.3.8"
+        "@reduxjs/toolkit": "^2.11.1",
+        "bootstrap": "^5.3.8",
+        "react-redux": "^9.2.0"
     }
 }

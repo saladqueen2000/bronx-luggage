@@ -40,7 +40,7 @@ export default function Feedback() {
 
       setSent(true);
       setForm({ name: "", email: "", message: "" });
-      setRating(0);
+   
     } catch (err) {
       console.error(err);
       setError("Sending failed — please try again later.");
@@ -117,7 +117,7 @@ export default function Feedback() {
               className="btn ghost"
               onClick={() => {
                 setForm({ name: "", email: "", message: "" });
-                setRating(0);
+               
                 setError(null);
               }}
             >

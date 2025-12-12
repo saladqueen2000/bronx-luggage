@@ -56,3 +56,15 @@ Route::prefix('admin')->group(function () {
     Route::delete('/products/gallery/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'deleteGallery'])
         ->name('admin.products.gallery.delete');
 });
+use App\Http\Controllers\Api\AuthController;
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);

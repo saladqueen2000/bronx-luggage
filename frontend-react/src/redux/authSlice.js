@@ -11,9 +11,11 @@ export const loginUser = createAsyncThunk(
         password,
       });
 
-      return res.data; // API phải trả token + user
+      return res.data; // token + user
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.message);
+      return thunkAPI.rejectWithValue(
+        err.response?.data?.message || "Login failed"
+      );
     }
   }
 );
@@ -29,9 +31,11 @@ export const registerUser = createAsyncThunk(
         password,
       });
 
-      return res.data;
+      return res.data; // message + token + user
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.message);
+      return thunkAPI.rejectWithValue(
+        err.response?.data?.message || "Register failed"
+      );
     }
   }
 );
@@ -43,12 +47,14 @@ const authSlice = createSlice({
     token: null,
     loading: false,
     error: null,
+    success: null, // ⚡ QUAN TRỌNG
   },
 
   reducers: {
     logout(state) {
       state.user = null;
       state.token = null;
+      state.success = null;
       localStorage.removeItem("token");
     },
   },
@@ -60,11 +66,13 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.success = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.success = "Login successfully";
 
         localStorage.setItem("token", action.payload.token);
       })
@@ -77,11 +85,13 @@ const authSlice = createSlice({
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.success = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.success = action.payload.message || "Register successfully";
 
         localStorage.setItem("token", action.payload.token);
       })

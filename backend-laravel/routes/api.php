@@ -27,12 +27,12 @@ Route::apiResource('ratings', RatingController::class);
 
 
 
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-use App\Http\Controllers\ContactController;
 
-Route::post('/contact', [ContactController::class, 'store']);
+
 
 
 
