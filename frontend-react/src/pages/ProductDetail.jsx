@@ -111,7 +111,8 @@ export default function ProductDetail() {
 const [loggedIn,setLoggedIn]= useState(false);
 const [reviewForm,setReviewForm]=useState(false);
 const writeView = ()=>{
-  setLoggedIn=localStorage.getItem('login');
+  // setLoggedIn=localStorage.getItem('login');
+  setLoggedIn(true);
     if(!loggedIn){
       alert('Please Login');
       return;
@@ -296,7 +297,8 @@ const writeView = ()=>{
             <button type="submit">Submit Review</button>
             </form>
             </div>
-          ) : null}
+            ) : null}
+           
           
           </div>
         </div>

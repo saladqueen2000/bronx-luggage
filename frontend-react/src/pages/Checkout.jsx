@@ -1,15 +1,10 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import '../assets/style/Checkout.css';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Logo from '../assets/images/logo_images.jpg'
   // import Logo from '../assets/images/logo_images.png';
-
-
-
-
-const COD_ICON_URL = '/path/to/cod-icon.png';
-
 
 const Checkout = () => {
   const bronxData = JSON.parse(localStorage.getItem('cart'));
@@ -22,7 +17,7 @@ const Checkout = () => {
     setSelectedProvince(event.target.value);
   };
 
-
+const [selectedPayment,setSelectedPayment]=useState('cod')
 
 
 
@@ -39,7 +34,7 @@ const Checkout = () => {
  */}
         <div className="checkout-main-column">
           <header className="checkout-header">
-            <img src={1} alt="Logo" className="logo" />
+            <img src={Logo} alt="Logo" className="logo" />
             <nav className="breadcrumb">
               <a href="/cart">Cart</a> 
               <span className="separator">&gt;</span> 
@@ -61,16 +56,16 @@ const Checkout = () => {
               
               {/* Form Fields */}
               <div className="form-row">
-                <input type="text" placeholder="Họ và tên" className="full-width" />
+                <input type="text" placeholder="Fullname" className="full-width" />
               </div>
 
               <div className="form-row split-2">
                 <input type="email" placeholder="Email" />
-                <input type="tel" placeholder="Số điện thoại" />
+                <input type="tel" placeholder="Phone number" />
               </div>
 
               <div className="form-row">
-                <input type="text" placeholder="Địa chỉ" className="full-width" />
+                <input type="text" placeholder="Address" className="full-width" />
               </div>
               
               <div className="form-row split-3 address-dropdowns">
@@ -97,31 +92,51 @@ const Checkout = () => {
               </div>
             </section>
 
-            {/* 2. Phương thức vận chuyển */}
+            {/* 2. Shipping method */}
             <section className="shipping-method-section">
-              <h2 className="section-title">Phương thức vận chuyển</h2>
+              <h2 className="section-title">Shipping method</h2>
               <div className="shipping-method-box">
                 
-                <p>Vui lòng chọn tỉnh / thành để có danh sách phương thức vận chuyển.</p>
+                <p>Please select a province / city to get a list of Shipping methods.</p>
               </div>
             </section>
 
-            {/* 3. Phương thức thanh toán */}
+            {/* 3. Payment method*/}
             <section className="payment-method-section">
-              <h2 className="section-title">Phương thức thanh toán</h2>
+              <h2 className="section-title">Payment method</h2>
               <div className="payment-option selected">
                 <label>
-                  <input type="radio" name="payment-method" defaultChecked />
-                  <img src={COD_ICON_URL} alt="COD Icon" />
-                  Thanh toán khi giao hàng (COD)
+                  <select 
+                    name="payment-method"
+                    value={selectedPayment}
+                    onChange={(e) => setSelectedPayment(e.target.value)}
+                    className="payment-select"
+                    required
+                  >
+                    <option value="" disabled>Select payment method</option>
+                    <option value="cod">
+                      💰 Payment upon delivery (COD)
+                    </option>
+                    <option value="transfer">
+                      🏦 Bank Transfer
+                    </option>
+                    <option value="qr">
+                      📱 QR Payment
+                    </option>
+                    <option value="card">
+                      💳 Credit/Debit Card
+                    </option>
+                  </select>
+                  
+                  
                 </label>
               </div>
-              <textarea placeholder="Nhận hàng rồi thanh toán tiền" rows="2"></textarea>
+              <textarea placeholder="Note" rows="2"></textarea>
             </section>
           {/* Footer Action Bar */}
           <footer className="checkout-footer">
             <a href="/cart" className="back-to-cart">Cart</a>
-            <button type="submit" className="btn-primary">Hoàn tất đơn hàng</button>
+            <button type="submit" className="btn-primary">Complete your order</button>
           </footer>
 
           </form>
@@ -146,7 +161,10 @@ const Checkout = () => {
 
                   <div className="item-details">
                     <div className="item-name">{item.title}</div>
-                    <div className="item-variant">{item.size}</div>
+                    <div className="item-variant">
+                      <div>{item.size}</div>
+                      <div>{item.color}</div>
+                    </div>
                     
                   </div>
                 </div>
@@ -163,23 +181,23 @@ const Checkout = () => {
 
             {/* Discount Code */}
             <div className="discount-input-group">
-              <input type="text" placeholder="Mã giảm giá" />
-              <button>SỬ DỤNG</button>
+              <input type="text" placeholder="discount code" />
+              <button>USE</button>
             </div>
 
             {/* Totals */}
             <div className="summary-totals">
               <div className="summary-row">
-                <span className="label">Tạm tính</span>
+                <span className="label">Temporarily calculated</span>
                 <span className="value">{totalAmount} $</span>
               </div>
               <div className="summary-row">
-                <span className="label">Phí vận chuyển</span>
+                <span className="label">Shipping Cost</span>
                 <span className="shipping-cost">{shippingCost} $</span>
               </div>
               <hr/>
               <div className="summary-row total-row">
-                <span className="label">Tổng cộng</span>
+                <span className="label">Total</span>
                 <span className="value">{grandTotal} $</span>
               </div>
             </div>
