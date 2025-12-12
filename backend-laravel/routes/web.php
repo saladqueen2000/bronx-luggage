@@ -34,3 +34,15 @@ Route::prefix('admin')->group(function () {
     Route::delete('gallery/{id}', [ProductGalleryController::class, 'destroy'])->name('products.gallery.delete');
 
 });
+use App\Http\Controllers\Api\AuthController;
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
