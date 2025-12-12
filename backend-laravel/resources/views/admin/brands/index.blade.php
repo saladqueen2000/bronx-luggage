@@ -23,7 +23,7 @@
                 <tr>
                     <th>#</th>
                     <th>Brand Name</th>
-                    <th width="180px">Action</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
