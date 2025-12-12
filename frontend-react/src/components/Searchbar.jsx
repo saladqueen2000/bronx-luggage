@@ -1,16 +1,42 @@
+import React from 'react'
 import '@fontsource/roboto/400.css';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Autocomplete } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import axios from "axios";
 
 function HeaderSearchBar() {
+    const [list, setList] = React.useState([]);
+    const find = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/products');
+            const data = response.data.slice(0, 8);
+            setList(data)
+        } catch (error) {
+            console.error('Error:', error.response?.data);
+        }
+    };
+    React.useEffect(() => {
+        find();
+    }, [])
+
+    const suggestions = list.map((p) => p.name)
+
     return (
         <div className='headerSearchBar-container'>
-            <TextField
-                noValidate
-                autoComplete="off"
-                variant="outlined"
-                label="Search any things"
-                className='headerSearchBar-textfield '
+            <Autocomplete
+                disablePortal
+                freeSolo
+                options={suggestions}
+                className='headerSearchBar-textfield'
+                renderInput={(params) =>
+                    <TextField
+                        {...params}
+                        noValidate
+                        autoComplete="off"
+                        variant="outlined"
+                        label="Search any things"
+                        className='headerSearchBar-textfield'
+                    />}
             />
             <Button variant="contained" className='headerSearchBtn'>Search</Button>
         </div>

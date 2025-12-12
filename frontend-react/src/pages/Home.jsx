@@ -4,7 +4,6 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import SaleBanner from '../components/SaleBanner'
 import SliderHero from '../components/HomeSlides'
-import { CatBtnGroup } from '../components/HomeBtnGroup'
 import { ResponsiveCard, ProductCard } from '../components/Cards'
 import CircularProgress from "@mui/material/CircularProgress";
 import '../global.css';
@@ -49,7 +48,6 @@ export default function Home() {
                 <section className="home__popular">
                     <div style={{ display: "flex" }}>
                         <span className='home__popular-text'>Popular products</span>
-                        <CatBtnGroup />
                     </div>
 
                     <Grid container spacing={5} className="home__popular-list">
@@ -79,7 +77,7 @@ export default function Home() {
     );
 }
 
-//product list xuống 700px thì xuống luôn
+//phần popular product hiện ra sản phẩm có rating cao nhất
 
 
 //git add .

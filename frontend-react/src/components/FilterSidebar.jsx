@@ -37,7 +37,7 @@ const FilterSection = ({ title, children, onReset }) => {
 
 export default function FilterSidebar() {
     const [category, setCategory] = useState("all");
-    const [availability, setAvailability] = useState("");
+    const [gendered, setGendered] = useState("");
     const [productType, setProductType] = useState("");
     const [brand, setBrand] = useState("");
     const [size, setSize] = useState("");
@@ -56,7 +56,7 @@ export default function FilterSidebar() {
 
     //Xử lý khi đổi các mục
     const resetCategory = () => setCategory("");
-    const resetAvailability = () => setAvailability("");
+    const resetGendered = () => setGendered("");
     const resetProductType = () => setProductType("");
     const resetBrand = () => setBrand("");
     const resetSize = () => setSize("");
@@ -103,18 +103,18 @@ export default function FilterSidebar() {
                 ))}
             </FilterSection>
 
-            {/* Availability */}
-            <FilterSection title="Availability" onReset={resetAvailability}>
+            {/* Gender */}
+            <FilterSection title="Gender" onReset={resetGendered}>
                 {[
-                    { label: "In stock", value: "in", count: 5 },
-                    { label: "Out of stock", value: "out", count: 0 },
+                    { label: "For men", value: "men", count: 5 },
+                    { label: "For women", value: "women", count: 0 },
                 ].map((item) => (
                     <Box key={item.value} sx={rowStyle}>
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={availability === item.value}
-                                    onChange={() => setAvailability(item.value)}
+                                    checked={gendered === item.value}
+                                    onChange={() => setGendered(item.value)}
                                     icon={
                                         <Box
                                             sx={checkboxStyle}
