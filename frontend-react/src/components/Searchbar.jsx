@@ -1,90 +1,111 @@
-import React from 'react'
-import '@fontsource/roboto/400.css';
-import { TextField, Button, Autocomplete } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
+import React, { useState, useEffect } from "react";
+import "@fontsource/roboto/400.css";
+import { TextField, Button, Autocomplete } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 function HeaderSearchBar() {
-    const [list, setList] = React.useState([]);
-    const find = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/products');
-            const data = response.data.slice(0, 8);
-            setList(data)
-        } catch (error) {
-            console.error('Error:', error.response?.data);
-        }
-    };
-    React.useEffect(() => {
-        find();
-    }, [])
+  const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
 
-    const suggestions = list.map((p) => p.name)
+  // Gọi API search khi input thay đổi
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (inputValue.trim() === "") {
+        setSuggestions([]);
+        return;
+      }
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/products/search",
+          {
+            params: { keyword: inputValue },
+          }
+        );
+        // Lấy tối đa 8 gợi ý
+        setSuggestions(
+          response.data.slice(0, 8).map((p) => ({
+            name: p.name,
+            id: p.id,
+          }))
+        );
+      } catch (error) {
+        console.error(
+          "Error fetching search:",
+          error.response?.data || error.message
+        );
+      }
+    }, 300); // debounce 300ms
 
-    return (
-        <div className='headerSearchBar-container'>
-            <Autocomplete
-                disablePortal
-                freeSolo
-                options={suggestions}
-                className='headerSearchBar-textfield'
-                renderInput={(params) =>
-                    <TextField
-                        {...params}
-                        noValidate
-                        autoComplete="off"
-                        variant="outlined"
-                        label="Search any things"
-                        className='headerSearchBar-textfield'
-                    />}
-            />
-            <Button variant="contained" className='headerSearchBtn'>Search</Button>
-        </div>
-    )
+    return () => clearTimeout(delayDebounceFn);
+  }, [inputValue]);
+
+  return (
+    <div className="headerSearchBar-container">
+      <Autocomplete
+        freeSolo
+        disablePortal
+        options={suggestions}
+        getOptionLabel={(option) => option.name}
+        inputValue={inputValue}
+        onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+        onChange={(event, selectedOption) => {
+          if (selectedOption?.id) {
+            navigate(`/list/${selectedOption.id}`);
+          }
+        }}
+        className="headerSearchBar-textfield"
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            label="Search any things"
+            className="headerSearchBar-textfield"
+            autoComplete="off"
+          />
+        )}
+      />
+    </div>
+  );
 }
 
 function FooterSearchBar() {
-    return (
-        <div>
-            <TextField
-                noValidate
-                autoComplete="off"
-                variant="outlined"
-                label="Email address"
-                InputProps={{
-                    endAdornment: (
-                        <SendIcon style={{ color: "white", marginRight: "10px", marginTop: "10px" }} />
-                    )
-                }}
-                className='footerSearchBar'
-                sx={{
-                    "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                            borderColor: "transparent", // màu viền bình thường
-                        },
-                        "&:hover fieldset": {
-                            borderColor: "transparent", // viền khi hover
-                        },
-                        "&.Mui-focused fieldset": {
-                            borderColor: "transparent", // màu viền khi focus
-                        },
-                    },
-                    // đổi màu label
-                    "& .MuiInputLabel-root": {
-                        color: "white", // màu label bình thường
-                        top: "7.5px",
-                        left: "10px",
-                    },
-                    "& .MuiInputLabel-root.Mui-focused": {
-                        color: "transparent", // màu label khi focus
-                    },
-                }}
-            />
-        </div>
-    )
+  return (
+    <Button
+      component={Link}
+      to="/contact-us"
+      className="footerSearchBar"
+      endIcon={<SendIcon />}
+      sx={{
+        width: "500px",
+        height: "70px",
+        borderRadius: "22.5px",
+
+        backgroundColor: "#EDA415", // ⭐ BẮT BUỘC
+        color: "#fff",
+
+        textTransform: "none",
+        justifyContent: "space-between",
+        padding: "0 25px",
+        fontSize: "1rem",
+        fontWeight: 500,
+
+        "& svg": {
+          color: "#fff",
+          fontSize: "1.4rem",
+        },
+
+        "&:hover": {
+          backgroundColor: "#e19a0f",
+        },
+      }}
+    >
+      Contact us
+    </Button>
+  );
 }
 
-export {
-    HeaderSearchBar,
-    FooterSearchBar
-}
+export { HeaderSearchBar, FooterSearchBar };

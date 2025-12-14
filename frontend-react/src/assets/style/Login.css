@@ -1,11 +1,35 @@
 /* --- Layout chính --- */
+.btn-back-home {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 3000;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  border: none;
+}
+
+.btn-back-home:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: translateX(-2px);
+}
+
 .login-container {
-   font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f7f9fc;
+  background: #cacdcf;
 }
 
 .login-card {
@@ -13,7 +37,7 @@
   padding: 40px;
   border-radius: 16px;
   background: #fff;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
 }
 
 /* --- Tiêu đề --- */
@@ -54,14 +78,14 @@
 
 .form-group input:focus {
   border-color: #2563eb;
-  box-shadow: 0 0 5px rgba(37,99,235,0.3);
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
 }
 
 /* --- Button login --- */
 .btn-login {
   width: 100%;
   padding: 13px;
-  background: #1B5A7D;
+  background: #003f62;
   border: none;
   border-radius: 10px;
   color: white;
@@ -73,7 +97,7 @@
 }
 
 .btn-login:hover {
-  background: #1e4fcc;
+  background: #00324d;
 }
 
 /* --- Social login --- */
@@ -114,10 +138,9 @@
 }
 
 .signup a {
-  color: #1B5A7D;
+  color: #1b5a7d;
   font-weight: 600;
 }
-
 
 /* --- Banner bên phải (layout giống figma) --- */
 .login-banner {
@@ -125,7 +148,7 @@
   padding: 60px;
   margin-left: 60px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #1B5A7D);
+  background: linear-gradient(135deg, #003f62);
   color: white;
 }
 
@@ -137,4 +160,46 @@
 .login-banner p {
   font-size: 18px;
   opacity: 0.9;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1100px) {
+  .login-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .login-banner {
+    width: 100%;
+    max-width: 500px;
+    margin-left: 0;
+    margin-top: 30px;
+    padding: 40px 20px;
+    border-radius: 16px;
+  }
+  .login-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-title {
+    font-size: 24px;
+  }
+  .login-banner h1 {
+    font-size: 24px;
+  }
+  .login-banner p {
+    font-size: 16px;
+  }
+  .btn-back-home {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  .btn-login {
+    font-size: 16px;
+    padding: 12px;
+  }
 }

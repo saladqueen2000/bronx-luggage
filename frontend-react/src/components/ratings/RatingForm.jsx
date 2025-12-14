@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
 import RatingStars from "./RatingStars";
 import "../../assets/style/Ratings.css";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function RatingForm({ productId, onSubmitted }) {
-  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
+  const { user } = useSelector((state) => state.auth);
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Nếu chưa login
   if (!user) {
     return (
       <Link to="/login">
@@ -23,26 +24,42 @@ export default function RatingForm({ productId, onSubmitted }) {
   }
 
   const submitRating = async () => {
-    if (rating === 0) return alert("Please select a rating (1–5 stars)");
+    if (rating === 0) {
+      alert("Please select a rating (1–5 stars)");
+      return;
+    }
 
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:8000/api/ratings", {
-        user_id: user.id,
-        product_id: productId,
-        rating,
-        comment,
-      });
+      // Lấy token từ localStorage
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("You must be logged in to submit a review");
+
+      await axios.post(
+        "http://localhost:8000/api/ratings",
+        {
+          product_id: productId,
+          rating,
+          comment,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // gửi token
+          },
+        }
+      );
 
       alert("Review submitted!");
-      setComment("");
       setRating(0);
+      setComment("");
 
       if (onSubmitted) onSubmitted();
     } catch (err) {
-      console.log(err);
-      alert(err.response?.data?.message || "Error submitting review");
+      alert(
+        err.response?.data?.message || err.message || "Error submitting review"
+      );
     } finally {
       setLoading(false);
     }

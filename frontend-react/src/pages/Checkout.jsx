@@ -1,183 +1,249 @@
-import React, { useReducer } from 'react';
-import '../assets/style/Checkout.css';
-import { Link } from 'react-router-dom';
-  // import Logo from '../assets/images/logo_images.png';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Breadcrumbs from "../components/Breadcrumb";
+import Logo from "../assets/images/logo_images.jpg";
 
-
-
-const COD_ICON_URL = '/path/to/cod-icon.png';
-
+import "../assets/style/Checkout.css";
 
 const Checkout = () => {
-  const bronxData = JSON.parse(localStorage.getItem('cart'));
-  // Dữ liệu sản phẩm giả định
-  const [items, setItems] = React.useState(bronxData || []);
-  
-  const [selectedProvince, setSelectedProvince] = React.useState("");
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
 
-  const handleChange = (event) => {
-    setSelectedProvince(event.target.value);
+  // ---------- CART ----------
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    const cartCookie = Cookies.get("cart");
+    if (cartCookie) setItems(JSON.parse(cartCookie));
+  }, []);
+
+  // ---------- FORM STATE ----------
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [note, setNote] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // ---------- FILL FULLNAME AND EMAIL IF USER LOGGED IN ----------
+  useEffect(() => {
+    if (user) {
+      setFullname(user.fullname || "");
+      setEmail(user.email || "");
+      setPhone(user.phone || "");
+    }
+  }, [user]);
+
+  // ---------- TOTAL ----------
+  const subtotal = items.reduce(
+    (total, item) => total + item.price * item.qty,
+    0
+  );
+  const shippingCost = 5;
+  const grandTotal = (subtotal + shippingCost).toFixed(2);
+
+  // ---------- SUBMIT ----------
+
+  // Generate guest token if not exist
+  let guestToken = Cookies.get("guest_token");
+  if (!guestToken) {
+    guestToken =
+      crypto.randomUUID?.() || Math.random().toString(36).substring(2, 15);
+    Cookies.set("guest_token", guestToken, { expires: 7 });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!fullname || !email || !phone || !address) {
+      alert("Please fill in all required fields");
+      return;
+    }
+    if (items.length === 0) {
+      alert("Your cart is empty");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const payload = {
+        user_id: user?.id || null,
+        fullname,
+        email,
+        phonenumber: phone,
+        address,
+        note,
+        items: items.map((item) => ({
+          product_id: item.id,
+          color: item.color || null,
+          size: item.size || null,
+          quantity: item.qty,
+          price: item.price,
+        })),
+      };
+
+      await axios.post("http://127.0.0.1:8000/api/orders", payload, {
+        headers: {
+          "Content-Type": "application/json",
+          ...(user ? {} : { "X-Guest-Token": guestToken }),
+        },
+      });
+
+      Cookies.remove("cart");
+      alert("Order placed successfully");
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Order failed");
+    } finally {
+      setLoading(false);
+    }
   };
-
-
-
-
-
-  const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-  const shippingCost = 5.00; // Giả sử phí vận chuyển là 5 đô la
-  const grandTotal = (parseFloat(totalAmount) + shippingCost).toFixed(2);
 
   return (
     <div className="checkout-page-wrapper">
+      <Header />
+
       <div className="checkout-container">
-        
-        {/* Phần cột chính - Thông tin giao hàng */}
+        {/* ================= LEFT ================= */}
         <div className="checkout-main-column">
           <header className="checkout-header">
-            <img src={1} alt="Logo" className="logo" />
-            <nav className="breadcrumb">
-              <a href="/cart">Giỏ hàng</a> 
-              <span className="separator">&gt;</span> 
-              <span className="current">Thông tin giao hàng</span>
-            </nav>
+            <img src={Logo} alt="Logo" className="logo" />
           </header>
 
+          <Breadcrumbs />
+
           <main className="form-content">
-            <form action="">
-            {/* 1. Thông tin giao hàng */}
-            <section className="shipping-form-section">
-              <h2 className="section-title">Thông tin giao hàng</h2>
-              <p className="login-prompt">
-                Bạn đã có tài khoản? <a href="/login">Đăng nhập</a>
-              </p>
-              
-              {/* Form Fields */}
-              <div className="form-row">
-                <input type="text" placeholder="Họ và tên" className="full-width" />
-              </div>
+            <form onSubmit={handleSubmit} noValidate>
+              <section className="shipping-form-section">
+                <h2 className="section-title">Delivery information</h2>
 
-              <div className="form-row split-2">
-                <input type="email" placeholder="Email" />
-                <input type="tel" placeholder="Số điện thoại" />
-              </div>
+                {!user && (
+                  <p className="login-prompt">
+                    Already have an account? <Link to="/login">Login</Link>
+                  </p>
+                )}
 
-              <div className="form-row">
-                <input type="text" placeholder="Địa chỉ" className="full-width" />
-              </div>
-              
-              <div className="form-row split-3 address-dropdowns">
-                <select value={selectedProvince} onChange={handleChange}>
-                  <option value="" disabled>Chọn tỉnh / thành</option>
-                  <option value="Hà Nội">Hà Nội</option>
-                  <option value="Hồ Chí Minh" >Hồ Chí Minh / thành</option>
-                  <option value="Đà Nẵng">Đà Nẵng</option>
-                </select>
-                <select value="{selectedDistricts}">
-                  <option value="" disabled>Chọn quận / huyện</option>
-                  <option value="Hà Nội">Cầu Giấy</option>
-                  <option value="Hồ Chí Minh" >Quận 1</option>
-                  <option value="Đà Nẵng">Hải Châu</option>
+                <div className="form-row">
+                  <input
+                    type="text"
+                    placeholder="Full name *"
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
+                    readOnly={!!user} // guest có thể nhập
+                  />
+                </div>
 
-                </select>
-                <select value="selectedWard">
-                  <option value="" disabled>Chọn phường / xã</option>
-                  <option value="Hà Nội">Dịch Vọng</option>
-                  <option value="Hồ Chí Minh" >Bến Thành</option>
-                  <option value="Đà Nẵng">Thank Bình</option>
-                </select>
-              </div>
-            </section>
+                <div className="form-row split-2">
+                  <input
+                    type="email"
+                    placeholder="Email *"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    readOnly={!!user}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Phone number *"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
 
-            {/* 2. Phương thức vận chuyển */}
-            <section className="shipping-method-section">
-              <h2 className="section-title">Phương thức vận chuyển</h2>
-              <div className="shipping-method-box">
-                
-                <p>Vui lòng chọn tỉnh / thành để có danh sách phương thức vận chuyển.</p>
-              </div>
-            </section>
+                <div className="form-row">
+                  <input
+                    type="text"
+                    placeholder="Address *"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
 
-            {/* 3. Phương thức thanh toán */}
-            <section className="payment-method-section">
-              <h2 className="section-title">Phương thức thanh toán</h2>
-              <div className="payment-option selected">
-                <label>
-                  <input type="radio" name="payment-method" defaultChecked />
-                  <img src={COD_ICON_URL} alt="COD Icon" />
-                  Thanh toán khi giao hàng (COD)
-                </label>
-              </div>
-              <textarea placeholder="Nhận hàng rồi thanh toán tiền" rows="2"></textarea>
-            </section>
-          {/* Footer Action Bar */}
-          <footer className="checkout-footer">
-            <a href="/cart" className="back-to-cart">Giỏ hàng</a>
-            <button type="submit" className="btn-primary">Hoàn tất đơn hàng</button>
-          </footer>
+                <textarea
+                  placeholder="Note (optional)"
+                  rows="2"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                />
+              </section>
 
-          </form>
+              <footer className="checkout-footer">
+                <Link to="/cart" className="back-to-cart">
+                  Cart
+                </Link>
+
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Complete your order"}
+                </button>
+              </footer>
+            </form>
           </main>
-          
-          
-
         </div>
 
-        {/* Phần cột phụ - Tóm tắt đơn hàng */}
+        {/* ================= RIGHT ================= */}
         <div className="checkout-sidebar-column">
           <div className="order-summary">
-            
-            {/* item List */}
-            {items.map((item, index) => (
-              <div key={`${item.id}-${item.color}-${item.size}-${index}`} className="summary-item-item">
-                <div className="item-count">
-                  <div className='=item-image'>
-                    <span className="count-badge">{index + 1}</span>
-                    <img src={item.image} alt={item.title} className="transparent-image" />
-                  </div>
+            {items.length === 0 && (
+              <p className="empty-cart">Your cart is empty</p>
+            )}
 
+            {items.map((item, index) => (
+              <div key={`${item.id}-${index}`} className="summary-item-item">
+                <div className="item-count">
+                  <img src={item.image} alt={item.name} />
                   <div className="item-details">
-                    <div className="item-name">{item.title}</div>
-                    <div className="item-variant">{item.size}</div>
-                    
+                    <div className="item-name">{item.name}</div>
+                    <div className="item-variant">
+                      {item.size && <div>{item.size}</div>}
+                      {item.color && <div>{item.color}</div>}
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                <div className="item-quantity">{item.quantity}</div>
-                <div className="item-sum">{item.price*item.quantity}$</div>   
-                </div>    
+                <div className="item-price-box">
+                  <div className="item-qty">× {item.qty}</div>
+                  <div className="item-sum">
+                    ${(item.price * item.qty).toFixed(2)}
+                  </div>
+                </div>
+              </div>
+            ))}
 
-              </div>)
-              )}
+            <hr />
 
-            <hr/>
-
-            {/* Discount Code */}
-            <div className="discount-input-group">
-              <input type="text" placeholder="Mã giảm giá" />
-              <button>SỬ DỤNG</button>
-            </div>
-
-            {/* Totals */}
             <div className="summary-totals">
               <div className="summary-row">
-                <span className="label">Tạm tính</span>
-                <span className="value">{totalAmount} $</span>
+                <span>Subtotal</span>
+                <span>{subtotal.toFixed(2)} $</span>
               </div>
+
               <div className="summary-row">
-                <span className="label">Phí vận chuyển</span>
-                <span className="shipping-cost">{shippingCost} $</span>
+                <span>Shipping</span>
+                <span>{shippingCost} $</span>
               </div>
-              <hr/>
+
+              <hr />
+
               <div className="summary-row total-row">
-                <span className="label">Tổng cộng</span>
-                <span className="value">{grandTotal} $</span>
+                <span>Total</span>
+                <span>{grandTotal} $</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

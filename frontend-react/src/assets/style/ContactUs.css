@@ -1,26 +1,27 @@
-.feedback-page {
-  padding: 28px;
+.contact-wrapper {
+  min-height: 100vh;
+  background: #cacdcf; /* giống feedback background */
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 40px 24px;
   font-family: "Poppins", sans-serif;
-  padding-top: 120px;
-  background: #cacdcf; /* background tối */
-  min-height: 100vh;
 }
 
-.feedback-card {
+.contact-card {
   width: 100%;
   max-width: 1100px;
   display: grid;
   grid-template-columns: 420px 1fr;
   gap: 28px;
-  background: #1c2937; /* nền tối hơn */
+  background: #1c2937; /* nền tối */
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 
-.left-visual {
+/* Left info panel */
+.contact-info {
   padding: 34px;
   background: linear-gradient(180deg, #0f4b63 0%, #0b3550 100%);
   color: white;
@@ -30,43 +31,61 @@
   align-items: flex-start;
   gap: 16px;
 }
-.left-visual .brand {
+
+.contact-info .brand {
   font-weight: 700;
   background: rgba(255, 255, 255, 0.08);
   padding: 6px 10px;
   border-radius: 8px;
+  font-size: 14px;
 }
-.left-visual h1 {
+
+.contact-info h1 {
   margin: 0;
   font-size: 26px;
 }
-.left-visual .muted {
+
+.contact-info .muted {
   opacity: 0.85;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-.form {
+.contact-info ul {
+  list-style: none;
+  padding: 0;
+  font-size: 16px;
+}
+
+.contact-info li {
+  margin-bottom: 12px;
+}
+
+/* Form panel */
+.contact-form {
   padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
-.form-header h2 {
-  margin: 0;
+
+.contact-form h2 {
+  margin: 0 0 12px 0;
   color: #cfd4da;
   font-size: 20px;
 }
-.muted {
-  color: #cfd4da;
-}
-.field {
+
+.contact-form .field {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-.label {
+
+.contact-form .label {
   font-size: 13px;
   color: #cfd4da;
 }
+
 .input,
 .textarea {
   width: 100%;
@@ -81,65 +100,63 @@
   transition: box-shadow 0.15s, border-color 0.15s;
 }
 
-.input {
-  width: 80%;
-}
-
-.input:focus,
-.textarea:focus {
+.contact-form .input:focus,
+.contact-form .textarea:focus {
   border-color: #76b0c6;
   box-shadow: 0 6px 18px rgba(12, 84, 104, 0.15);
 }
-.textarea {
+
+.contact-form .textarea {
   min-height: 120px;
   resize: vertical;
 }
 
-.actions {
+.contact-form .actions {
   display: flex;
   gap: 12px;
   margin-top: 8px;
 }
-.btn {
+
+.contact-form .btn {
   padding: 10px 14px;
   border-radius: 12px;
   cursor: pointer;
   border: 1px solid transparent;
   font-weight: 600;
 }
-.btn.primary {
+
+.contact-form .btn.primary {
   background: linear-gradient(90deg, #ffb74d, #ff9f1c);
-  color: #092230;
+  color: #ffffff;
 }
-.btn.ghost {
+
+.contact-form .btn.ghost {
   background: transparent;
   border-color: #cfd4da;
   color: #cfd4da;
 }
-.btn.small {
-  padding: 8px 10px;
-  border-radius: 8px;
-}
 
-.error {
+.contact-form .error {
   color: #ff6b6b;
   background: #3a1e1e;
   padding: 10px 12px;
   border-radius: 8px;
 }
-.note {
+
+.contact-form .note {
   margin-top: 8px;
   font-size: 13px;
   color: #cfd4da;
 }
 
-/* toast */
+/* Toast */
 .toast {
   position: fixed;
   right: 20px;
   bottom: 20px;
   z-index: 2000;
 }
+
 .toast-inner {
   background: #062b36;
   color: white;
@@ -151,7 +168,7 @@
   align-items: center;
 }
 
-/* Back to Home mũi tên */
+/* Back button */
 .btn-back-home {
   position: fixed;
   top: 20px;
@@ -170,28 +187,31 @@
   transition: background 0.2s, transform 0.1s;
   border: none;
 }
+
 .btn-back-home:hover {
   background: rgba(0, 0, 0, 0.8);
   transform: translateX(-2px);
 }
 
-/* responsive */
+/* ================= RESPONSVIE ================= */
 @media (max-width: 980px) {
-  .feedback-card {
+  .contact-card {
     grid-template-columns: 1fr;
-    padding: 0;
   }
-  .left-visual {
+
+  .contact-info {
     order: 2;
     padding: 20px;
   }
-  .form {
+
+  .contact-form {
     order: 1;
     padding: 20px;
   }
 }
+
 @media (max-width: 420px) {
-  .left-visual h1 {
+  .contact-info h1 {
     font-size: 20px;
   }
 }

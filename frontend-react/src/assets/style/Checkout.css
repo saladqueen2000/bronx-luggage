@@ -2,339 +2,358 @@
 /* 1. LAYOUT VÀ TỔNG QUAN */
 /* ========================================================================= */
 .checkout-page-wrapper {
-    background-color: #f7f7f7; /* Màu nền xám nhạt */
-    min-height: 100vh;
-    padding: 30px 0;
-    font-family: Arial, sans-serif;
-    color: #333;
+  background-color: #f7f7f7; /* Màu nền xám nhạt */
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
 .checkout-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    gap: 40px; /* Khoảng cách giữa 2 cột */
-    align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 40px; /* Khoảng cách giữa 2 cột */
+  align-items: flex-start;
 }
 
 .checkout-main-column {
-    flex: 3; /* Cột chính rộng hơn */
-    background-color: #fff;
-    padding: 30px 40px;
+  flex: 3; /* Cột chính rộng hơn */
+  background-color: #fff;
+  padding: 30px 40px;
 }
 
 .checkout-sidebar-column {
-    flex: 2; /* Cột phụ hẹp hơn */
-    background-color: #f9f9f9; /* Màu nền xám nhạt hơn cho sidebar */
-    padding: 30px;
-    border-left: 1px solid #eee;
-    height: 100%;
+  flex: 2; /* Cột phụ hẹp hơn */
+  background-color: #f9f9f9; /* Màu nền xám nhạt hơn cho sidebar */
+  padding: 30px;
+  border-left: 1px solid #eee;
+  height: 100%;
 }
-
 
 /* ========================================================================= */
 /* 2. HEADER & BREADCRUMB */
 /* ========================================================================= */
 .checkout-header {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .checkout-header .logo {
-    max-width: 120px;
-    height: auto;
-    display: block;
-    margin-bottom: 20px;
+  max-width: 120px;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
 }
 
-.breadcrumb a, .breadcrumb .current {
-    font-size: 14px;
-    color: #666;
-    text-decoration: none;
+.breadcrumb a,
+.breadcrumb .current {
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
 }
 
 .breadcrumb a:hover {
-    color: #007bff;
+  color: #007bff;
 }
 
 .breadcrumb .separator {
-    margin: 0 5px;
-    color: #ccc;
+  margin: 0 5px;
+  color: #ccc;
 }
 
 .breadcrumb .current {
-    font-weight: bold;
-    color: #333;
+  font-weight: bold;
+  color: #333;
 }
 
 /* ========================================================================= */
 /* 3. FORM CHÍNH (Thông tin giao hàng) */
 /* ========================================================================= */
 .section-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  color: #333;
 }
 
 .login-prompt {
-    font-size: 14px;
-    margin-bottom: 25px;
+  font-size: 14px;
+  margin-bottom: 25px;
 }
 
 .login-prompt a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .form-row {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
 .form-row input,
 .form-row select,
 .form-row .full-width {
-    flex: 1;
-    padding: 12px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 15px;
-    box-sizing: border-box;
+  flex: 1;
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 15px;
+  box-sizing: border-box;
 }
 
-.form-row.split-2 > *, .form-row.split-3 > * {
-    flex: 1;
+.form-row.split-2 > *,
+.form-row.split-3 > * {
+  flex: 1;
 }
 
 /* ========================================================================= */
 /* 4. VẬN CHUYỂN & THANH TOÁN */
 /* ========================================================================= */
-.shipping-method-section, .payment-method-section {
-    margin-top: 30px;
+.shipping-method-section,
+.payment-method-section {
+  margin-top: 30px;
 }
 
 .shipping-method-box {
-    text-align: center;
-    padding: 40px 20px;
-    border: 1px dashed #ccc;
-    border-radius: 4px;
-    background-color: #fcfcfc;
+  text-align: center;
+  padding: 40px 20px;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  background-color: #fcfcfc;
 }
 
 .shipping-method-box img {
-    width: 60px;
-    height: auto;
-    margin-bottom: 15px;
+  width: 60px;
+  height: auto;
+  margin-bottom: 15px;
 }
 
 .shipping-method-box p {
-    color: #666;
-    font-size: 14px;
+  color: #666;
+  font-size: 14px;
 }
 
 .payment-option {
-    border: 1px solid #eee;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
+  border: 1px solid #eee;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .payment-option.selected {
-    border-color: #007bff; /* Viền xanh khi chọn */
+  border-color: #007bff; /* Viền xanh khi chọn */
 }
 
 .payment-option label {
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-    font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .payment-option input[type="radio"] {
-    margin-right: 10px;
-    accent-color: #007bff;
+  margin-right: 10px;
+  accent-color: #007bff;
 }
 
 .payment-option img {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
 }
 
 textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-    min-height: 80px;
-    font-size: 14px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 80px;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
 /* ========================================================================= */
 /* 5. FOOTER VÀ BUTTONS */
 /* ========================================================================= */
 .checkout-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
 }
 
 .back-to-cart {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 15px;
+  background-color: #eda415;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
 }
 
 .btn-primary {
-    background-color: #007bff; /* Màu xanh của nút Hoàn tất đơn hàng */
-    color: #fff;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s;
+  background-color: #083f65;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
-
 
 /* ========================================================================= */
 /* 6. ORDER SUMMARY (SIDEBAR) */
 /* ========================================================================= */
-.transparent-image{
-    background-color: transparent;
-    width:50px;
-    height:50px;
-}
 .summary-item-item {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
-.item-count{
-    display: flex;
-    font-size: 14px;
-    color: #666;
-    margin-left: 10px;
-}
-.item-quantity{ 
-    text-align: right;
-}
-.item-sum{
-    text-align: right;
+.item-count {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
+.item-count img {
+  padding: 6px;
+  background-color: #fff;
+  border-radius: 6px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+.item-price-box {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
+.item-qty {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.item-sum {
+  font-weight: 600;
+}
+
+.item-details {
+  justify-content: space-between;
+}
+.item-variant {
+  display: flex;
+  gap: 20px;
+}
 
 .count-badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background-color: #666; /* Màu nền badge */
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 999px;
 }
 
 .product-details {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .product-name {
-    font-size: 15px;
-    font-weight: 500;
-    margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
 }
 
 .product-variant {
-    font-size: 13px;
-    color: #777;
-    margin: 3px 0 0 0;
+  font-size: 13px;
+  color: #777;
+  margin: 3px 0 0 0;
 }
 
 .product-price {
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
 }
 
 .order-summary hr {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 15px 0;
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 15px 0;
 }
 
 /* Discount */
 .discount-input-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
 }
 
 .discount-input-group input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .discount-input-group button {
-    background-color: #ccc; /* Nền xám cho nút SỬ DỤNG */
-    color: #333;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: 600;
+  background-color: #ccc;
+  color: #333;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 /* Totals */
 .summary-totals {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 15px;
 }
 
 .summary-row.total-row {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
 }
 
 .summary-row .label {
-    color: #666;
+  color: #666;
 }
 
 .summary-row .value {
-    font-weight: 500;
+  font-weight: 500;
 }

@@ -15,28 +15,20 @@ function ResponsiveCard({ image }) {
   return (
     <Card
       sx={{
-        width: 300,
-        height: 285,
-        borderRadius: "30px",
+        width: 220,
+        height: 300,
+        borderRadius: "20px",
         position: "relative",
-        overflow: "visible",
-        paddingBottom: "15px",
         border: "1px solid #B6B6B6",
+        cursor: "pointer",
+        flexShrink: 0,
       }}
     >
       <CardMedia
-        component="img"
-        image={image}
         sx={{
-          height: 180,
-          width: 260,
-          margin: "0px 20px",
-          marginTop: "20px",
-          borderRadius: "10px",
-          "&:hover": {
-            opacity: "0.9",
-            cursor: "pointer",
-          },
+          width: 180,
+          height: 160,
+          margin: "20px auto 0",
         }}
       />
 
@@ -95,9 +87,10 @@ function ResponsiveCard({ image }) {
   );
 }
 
-function ProductCard({ image, title, price, rating = 0 }) {
+function ProductCard({ image, title, price, rating = 0, onClick }) {
   return (
     <Card
+      onClick={onClick}
       sx={{
         width: 300,
         height: 300,
@@ -106,6 +99,10 @@ function ProductCard({ image, title, price, rating = 0 }) {
         overflow: "visible",
         paddingBottom: "15px",
         border: "1px solid #B6B6B6",
+        cursor: "pointer", // hover giống link
+        "&:hover": {
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+        },
       }}
     >
       <CardMedia
@@ -120,7 +117,6 @@ function ProductCard({ image, title, price, rating = 0 }) {
           borderRadius: "10px",
           "&:hover": {
             opacity: "0.9",
-            cursor: "pointer",
           },
         }}
       />
@@ -134,7 +130,6 @@ function ProductCard({ image, title, price, rating = 0 }) {
             fontSize: "1.1rem",
             mb: 1,
             marginBottom: "5px",
-            cursor: "pointer",
           }}
         >
           {title}

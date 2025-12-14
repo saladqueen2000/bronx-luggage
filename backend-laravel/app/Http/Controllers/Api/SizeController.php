@@ -8,22 +8,34 @@ use Illuminate\Http\Request;
 
 class SizeController extends Controller
 {
-    // ⭐ GET all sizes
+    // ⭐ GET all sizes + product count
     public function index()
     {
-        return Size::with('products')->get();
+        return Size::withCount('products')
+            ->get()
+            ->map(function ($size) {
+                return [
+                    'id' => $size->id,
+                    'label' => $size->label,
+                    'count' => $size->products_count,
+                ];
+            });
     }
 
-    // ⭐ GET size detail
+    // ⭐ GET size detail + product count
     public function show($id)
     {
-        $size = Size::with('products')->find($id);
+        $size = Size::withCount('products')->find($id);
 
         if (!$size) {
             return response()->json(['message' => 'Size not found'], 404);
         }
 
-        return $size;
+        return [
+            'id' => $size->id,
+            'label' => $size->label,
+            'count' => $size->products_count,
+        ];
     }
 
     // ⭐ CREATE new size
@@ -33,11 +45,17 @@ class SizeController extends Controller
             'label' => 'required|string|unique:sizes,label',
         ]);
 
-        $size = Size::create($request->only(['label']));
+        $size = Size::create([
+            'label' => $request->label
+        ]);
 
         return response()->json([
             'message' => 'Size created successfully',
-            'data' => $size
+            'data' => [
+                'id' => $size->id,
+                'label' => $size->label,
+                'count' => 0
+            ]
         ], 201);
     }
 
@@ -54,11 +72,17 @@ class SizeController extends Controller
             'label' => 'required|string|unique:sizes,label,' . $id,
         ]);
 
-        $size->update($request->only(['label']));
+        $size->update([
+            'label' => $request->label
+        ]);
 
         return response()->json([
             'message' => 'Size updated successfully',
-            'data' => $size
+            'data' => [
+                'id' => $size->id,
+                'label' => $size->label,
+                'count' => $size->products()->count()
+            ]
         ]);
     }
 
@@ -71,9 +95,7 @@ class SizeController extends Controller
             return response()->json(['message' => 'Size not found'], 404);
         }
 
-        // Nếu muốn, detach các sản phẩm trước khi xóa
         $size->products()->detach();
-
         $size->delete();
 
         return response()->json(['message' => 'Size deleted successfully']);

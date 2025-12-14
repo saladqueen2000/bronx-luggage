@@ -1,35 +1,66 @@
-import React from "react";
-import { Grid } from "@mui/material";
+import React, { useEffect, useState, useRef } from "react";
+import { CircularProgress, IconButton } from "@mui/material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SaleBanner from "../components/SaleBanner";
 import SliderHero from "../components/HomeSlides";
-import { ResponsiveCard, ProductCard } from "../components/Cards";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import { ProductCard } from "../components/Cards";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+
+import "swiper/css";
 import "../global.css";
 import "../assets/style/Home.css";
-import axios from "axios";
+
+const NORMAL_SPEED = 3000;
+const FAST_SPEED = 400;
+
+const API_URL = "http://localhost:8000/api/products/top-rated";
 
 export default function Home() {
-  const [list, setList] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-  const find = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/api/products");
-      const data = response.data.slice(0, 8);
-      setList(data);
-    } catch (error) {
-      console.error("Error:", error.response?.data);
-    } finally {
-      setLoading(false);
-    }
-  };
-  React.useEffect(() => {
-    find();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const swiperRef = useRef(null);
+  const rafRef = useRef(null);
+  const navigate = useNavigate();
+
+  /* =====================
+     FETCH PRODUCTS
+  ====================== */
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(API_URL);
+        if (!Array.isArray(res.data)) throw new Error("Invalid API");
+
+        if (mounted) setProducts(res.data.slice(0, 8));
+      } catch {
+        if (mounted) setError("Can't load product list");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    fetchProducts();
+    return () => {
+      mounted = false;
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
-  //Phần hiện lên trong lúc loading
+  /* =====================
+     RENDER STATES
+  ====================== */
   if (loading) {
     return (
       <div className="loadingStyle">
@@ -38,46 +69,63 @@ export default function Home() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="loadingStyle">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  /* =====================
+     RENDER UI
+  ====================== */
   return (
     <div className="home">
       <Header />
+
       <main className="home__content">
         <SliderHero />
 
         <section className="home__popular">
-          <div style={{ display: "flex" }}>
-            <span className="home__popular-text">Popular products</span>
+          <div className="home__popular-header">
+            <span className="home__popular-text">Top Rated Products</span>
           </div>
 
-          <Grid container spacing={5} className="home__popular-list">
-            <Grid item xs={12} sm={6} md={3}>
-              <ResponsiveCard
-                image={list[0].gallery?.[0]?.image_url ?? ""}
-                title={list[0].name}
-                price={list[0].price}
-              />
-            </Grid>
-            {list.slice(1).map((p) => (
-              <Grid item xs={12} sm={6} md={3} key={p.id}>
-                <ProductCard
-                  image={p.gallery?.[0]?.image_url ?? ""}
-                  title={p.name}
-                  price={p.price}
-                />
-              </Grid>
+          <Swiper
+            modules={[Autoplay]}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            slidesPerView="auto"
+            spaceBetween={20}
+            freeMode={{ enabled: true, momentum: false }}
+            loop={true}
+            speed={3000} // QUAN TRỌNG
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+            }}
+            allowTouchMove={true}
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id}>
+                <div className="home__popular-slide">
+                  <ProductCard
+                    image={product.gallery?.[0]?.image_url || ""}
+                    title={product.name}
+                    price={product.price}
+                    rating={product.ratings_avg_rating || 0}
+                    onClick={() => navigate(`/list/${product.id}`)}
+                  />
+                </div>
+              </SwiperSlide>
             ))}
-          </Grid>
+          </Swiper>
         </section>
 
         <SaleBanner />
       </main>
+
       <Footer />
     </div>
   );
 }
-
-//phần popular product hiện ra sản phẩm có rating cao nhất
-
-//git add .
-//git commit -m "linhtinh"
-//git push

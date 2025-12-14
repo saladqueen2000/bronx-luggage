@@ -3,8 +3,8 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f7f9fc;
-   font-family: "Poppins", sans-serif;
+  background: #cacdcf;
+  font-family: "Poppins", sans-serif;
 }
 
 .register-card {
@@ -12,13 +12,13 @@
   padding: 40px;
   border-radius: 16px;
   background: #fff;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
 }
 
 .register-title {
   font-size: 30px;
   font-weight: 700;
-  color: #1B5A7D;
+  color: #1b5a7d;
   text-align: center;
 }
 
@@ -49,14 +49,14 @@
 }
 
 .form-group input:focus {
-  border-color: #1B5A7D;
-  box-shadow: 0 0 5px rgba(37,99,235,0.3);
+  border-color: #1b5a7d;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
 }
 
 .btn-register {
   width: 100%;
   padding: 13px;
-  background: #1B5A7D;
+  background: #003f62;
   border: none;
   border-radius: 10px;
   color: white;
@@ -68,7 +68,7 @@
 }
 
 .btn-register:hover {
-  background: #1e4fcc;
+  background: #00314b;
 }
 
 .login-link {
@@ -78,7 +78,7 @@
 }
 
 .login-link a {
-  color: #1B5A7D;
+  color: #003f62;
   font-weight: 600;
 }
 
@@ -87,7 +87,7 @@
   padding: 60px;
   margin-left: 60px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #1B5A7D);
+  background: linear-gradient(135deg, #003f62);
   color: white;
 }
 

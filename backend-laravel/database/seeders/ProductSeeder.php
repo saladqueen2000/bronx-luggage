@@ -10,7 +10,7 @@ class ProductSeeder extends Seeder
 {
     public function run()
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
 
             $product = Product::create([
                 'category_id' => rand(1, 4),

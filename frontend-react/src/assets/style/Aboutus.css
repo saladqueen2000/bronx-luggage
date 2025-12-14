@@ -1,0 +1,126 @@
+/* Page base
+.about-page {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 0 !important;
+} */
+
+/* ================= HERO HEADER ================= */
+.about-header {
+  background-image: url("https://puolotrip.com/uploads/images/2013/02/Hnah-trang-cho-chuyen-di-du-lich-jpg.webp");
+  background-size: cover;
+  background-position: center;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-header-content {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 40px 60px;
+  border-radius: 12px;
+}
+
+.aboutLogo-img img {
+  height: 180px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.slogan-about {
+  font-size: 48px;
+  color: #eda415;
+  font-weight: 600;
+}
+
+/* ================= CONTAINER ================= */
+.about-container {
+  padding: 60px 20px;
+}
+
+/* ================= CONTENT SECTIONS ================= */
+.about-content-section {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 70px;
+}
+
+.about-content-section.reverse {
+  flex-direction: row-reverse;
+}
+
+.content-left,
+.content-right {
+  flex: 1;
+}
+
+.about-image {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Text */
+.content-right h2 {
+  font-size: 32px;
+  color: #eda415;
+  margin-bottom: 20px;
+}
+
+.content-right p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* Stats */
+.about-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.stat-item span {
+  font-size: 36px;
+  font-weight: 700;
+  color: #cc0000;
+}
+
+.stat-item p {
+  color: #777;
+  margin-top: 6px;
+}
+
+/* ================= FINAL ================= */
+.final-wishes {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.final-wishes h2 {
+  font-size: 40px;
+  color: #eda415;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .about-header {
+    height: 450px;
+  }
+
+  .slogan-about {
+    font-size: 32px;
+  }
+
+  .about-content-section,
+  .about-content-section.reverse {
+    flex-direction: column;
+  }
+
+  .final-wishes h2 {
+    font-size: 28px;
+  }
+}

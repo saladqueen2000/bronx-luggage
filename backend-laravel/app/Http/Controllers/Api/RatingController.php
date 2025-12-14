@@ -30,17 +30,26 @@ class RatingController extends Controller
     // ⭐ CREATE new rating (user only)
     public function store(Request $request)
     {
+        $user = auth()->user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated'
+            ], 401);
+        }
+
         $request->validate([
-            'user_id' => 'required|integer',
             'product_id' => 'required|integer',
-            'rating' => 'required|integer|min:1|max:5',
+            'rating' => 'required|numeric|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
 
-        // Kiểm tra user đã mua sản phẩm chưa
-        $hasPurchased = OrderItem::whereHas('order', function ($q) use ($request) {
-            $q->where('user_id', $request->user_id);
-        })->where('product_id', $request->product_id)->exists();
+        /* ================= CHECK PURCHASE ================= */
+        $hasPurchased = OrderItem::where('product_id', $request->product_id)
+            ->whereHas('order', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->exists();
 
         if (!$hasPurchased) {
             return response()->json([
@@ -48,22 +57,31 @@ class RatingController extends Controller
             ], 403);
         }
 
-        // Kiểm tra user đã rating chưa
-        $alreadyRated = Rating::where('user_id', $request->user_id)
+        /* ================= CHECK DUPLICATE ================= */
+        $alreadyRated = Rating::where('user_id', $user->id)
             ->where('product_id', $request->product_id)
             ->exists();
 
         if ($alreadyRated) {
-            return response()->json(['message' => 'You have already rated this product.'], 409);
+            return response()->json([
+                'message' => 'You have already rated this product.'
+            ], 409);
         }
 
-        $rating = Rating::create($request->only(['user_id', 'product_id', 'rating', 'comment']));
+        /* ================= CREATE ================= */
+        $rating = Rating::create([
+            'user_id' => $user->id,
+            'product_id' => $request->product_id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
 
         return response()->json([
             'message' => 'Rating submitted successfully',
             'data' => $rating
         ], 201);
     }
+
 
     // ⭐ UPDATE rating (admin only)
     public function update(Request $request, $id)

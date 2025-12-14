@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "../assets/style/Login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/authSlice";
-import { useNavigate } from "react-router-dom"; // <--- thêm dòng này
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // <--- thêm hook này
+  const navigate = useNavigate();
   const { loading, error } = useSelector((s) => s.auth);
 
   const [email, setEmail] = useState("");
@@ -14,21 +15,33 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form login đã chạy!!!");
 
     const result = await dispatch(loginUser({ email, password }));
-    console.log("Kết quả login:", result);
 
-    // Nếu login thành công, Redux Toolkit sẽ trả "fulfilled"
     if (result.meta.requestStatus === "fulfilled") {
-      console.log("Login OK → Redirect sang Home");
+      const token = result.payload.token;
+      const user = result.payload.user;
 
-      navigate("/"); // <--- redirect sang home
+      // Lưu token và user vào localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Cấu hình default header cho axios
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      navigate("/"); // redirect
     }
   };
 
   return (
     <div className="login-container">
+      <button
+        className="btn-back-home"
+        onClick={() => navigate("/")}
+        aria-label="Back to Home"
+      >
+        ←
+      </button>
       <div className="login-card">
         <h2 className="login-title">Welcome Back</h2>
         <p className="login-sub">Login to continue shopping</p>
