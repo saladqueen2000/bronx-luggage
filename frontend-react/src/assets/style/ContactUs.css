@@ -1,44 +1,54 @@
 .contact-wrapper {
   min-height: 100vh;
-  background-color: #003f62;
+  background: #cacdcf; /* giống feedback background */
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 24px;
+  align-items: center;
+  padding: 40px 24px;
+  font-family: "Poppins", sans-serif;
 }
 
-.contact-container {
-  max-width: 1100px;
+.contact-card {
   width: 100%;
+  max-width: 1100px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 420px 1fr;
+  gap: 28px;
+  background: #1c2937; /* nền tối */
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
+/* Left info panel */
 .contact-info {
-  color: #ffffff;
+  padding: 34px;
+  background: linear-gradient(180deg, #0f4b63 0%, #0b3550 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.contact-info .brand {
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
 .contact-info h1 {
-  font-size: 40px;
-  margin-bottom: 16px;
+  margin: 0;
+  font-size: 26px;
 }
 
-.button-contact {
-  padding: 10px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  font-weight: 600;
-  background: linear-gradient(90deg, #ffb74d, #ff9f1c);
-  color: #ffffff;
-}
-
-.contact-info p {
-  font-size: 18px;
-  line-height: 1.6;
-  margin-bottom: 24px;
-  opacity: 0.9;
+.contact-info .muted {
+  opacity: 0.85;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .contact-info ul {
@@ -51,29 +61,157 @@
   margin-bottom: 12px;
 }
 
+/* Form panel */
 .contact-form {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.contact-form h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-}
-
-.contact-form form {
+  padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.contact-form input,
-.contact-form textarea {
+.contact-form h2 {
+  margin: 0 0 12px 0;
+  color: #cfd4da;
+  font-size: 20px;
+}
+
+.contact-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-form .label {
+  font-size: 13px;
+  color: #cfd4da;
+}
+
+.input,
+.textarea {
   width: 100%;
+  max-width: 500px;
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  border: 1px solid #3a4a5a;
+  background: #1f2c3a;
+  font-size: 14px;
+  color: white;
+  outline: none;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.contact-form .input:focus,
+.contact-form .textarea:focus {
+  border-color: #76b0c6;
+  box-shadow: 0 6px 18px rgba(12, 84, 104, 0.15);
+}
+
+.contact-form .textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.contact-form .actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.contact-form .btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+
+.contact-form .btn.primary {
+  background: linear-gradient(90deg, #ffb74d, #ff9f1c);
+  color: #ffffff;
+}
+
+.contact-form .btn.ghost {
+  background: transparent;
+  border-color: #cfd4da;
+  color: #cfd4da;
+}
+
+.contact-form .error {
+  color: #ff6b6b;
+  background: #3a1e1e;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.contact-form .note {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #cfd4da;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2000;
+}
+
+.toast-inner {
+  background: #062b36;
+  color: white;
+  padding: 16px 18px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.4);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Back button */
+.btn-back-home {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 3000;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  border: none;
+}
+
+.btn-back-home:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: translateX(-2px);
+}
+
+/* ================= RESPONSVIE ================= */
+@media (max-width: 980px) {
+  .contact-card {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info {
+    order: 2;
+    padding: 20px;
+  }
+
+  .contact-form {
+    order: 1;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact-info h1 {
+    font-size: 20px;
+  }
 }

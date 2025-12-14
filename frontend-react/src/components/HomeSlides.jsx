@@ -73,13 +73,14 @@ export default function SliderHero() {
         </Typography>
 
         <Box className="home__slides-btn-container" sx={{ mb: 5 }}>
-          <Link to={`/products/${current.id}`}>
+          <Link to={`/list`}>
             {" "}
             {/* Link đến chi tiết sản phẩm */}
             <Button className="home__slides-btn-shop">Shop now</Button>
           </Link>
-
-          <Button className="home__slides-btn-view">View more</Button>
+          <Link to={`/list/${current.id}`}>
+            <Button className="home__slides-btn-view">View more</Button>
+          </Link>
         </Box>
 
         <Box className="home__slides-dots-container">
