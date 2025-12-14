@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderItemController;
+use App\Http\Controllers\Api\ContactController;
 Route::prefix('products')->group(function () {
     Route::get('filter', [ProductController::class, 'filter']);
 });
@@ -20,6 +21,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/products/{id}/increase-view', [ProductController::class, 'increaseView']);
 Route::get('/products/top-rated', [ProductController::class, 'topRated']);
+
+Route::post('/contact', [ContactController::class, 'store']);
 
 Route::get('/products/{id}/related', [ProductController::class, 'related']);
 Route::get('/products/{id}/ratings', [RatingController::class, 'getByProduct']);
@@ -31,6 +34,7 @@ Route::apiResource('products', ProductController::class)->names([
     'update' => 'api.products.update',
     'destroy' => 'api.products.destroy'
 ]);
+
 
 
 Route::apiResource('users', UserController::class);

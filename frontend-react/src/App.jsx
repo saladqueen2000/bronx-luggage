@@ -12,7 +12,7 @@ import Register from "./pages/Register";
 import Feedback from "./pages/Feedback";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
-
+import ContactUs from "./pages/ContactUs";
 // const find = async () => {
 //   try {
 //     const response = await axios.get("http://localhost:8000/api/products/1");
@@ -32,7 +32,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/list" element={<ProductList />} />
       <Route path="/cart" element={<Cart />} />
-
+      <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/list/:id" element={<ProductDetail />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/login" element={<Login />} />
