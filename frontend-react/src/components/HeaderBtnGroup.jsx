@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { ButtonGroup, Button, Menu, MenuItem } from "@mui/material";
+import {
+  ButtonGroup,
+  Button,
+  Menu,
+  MenuItem,
+  useMediaQuery,
+} from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import styled from "@emotion/styled";
@@ -26,18 +32,9 @@ const CustomBtn = styled(Button)`
     background-color: rgba(255, 255, 255, 0.125);
   }
 
-  /* Ẩn dropdown-btn desktop */
-  @media (min-width: 650px) {
-    &.dropdown-btn {
-      display: none;
-    }
-  }
-
   /* Mobile dropdown width */
-  @media (max-width: 650px) {
-    &.dropdown-btn {
-      width: 100px; /* giảm width */
-    }
+  &.dropdown-btn {
+    width: 100px;
   }
 `;
 
@@ -45,15 +42,14 @@ const CustomBtn = styled(Button)`
 function HeaderBtnGroup() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const isDesktop = useMediaQuery("(min-width:650px)");
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -71,44 +67,41 @@ function HeaderBtnGroup() {
           "& .MuiButtonGroup-grouped": { border: "none" },
         }}
       >
-        <CustomBtn
-          className="dropdown-btn"
-          aria-controls={open ? "dropdown-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          onClick={handleClick}
-        >
-          <PersonOutlineIcon fontSize="medium" />
-          <ShoppingCartOutlinedIcon fontSize="medium" />
-        </CustomBtn>
-        {/* Desktop buttons */}
-        {user ? (
+        {/* ---------- MOBILE (<650px) ---------- */}
+        {!isDesktop && (
           <CustomBtn
-            component={Button}
-            onClick={handleLogout}
-            sx={{ display: { xs: "none", sm: "flex" } }}
+            className="dropdown-btn"
+            aria-controls={open ? "dropdown-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
           >
-            {user.fullname} <br /> Sign out
-          </CustomBtn>
-        ) : (
-          <CustomBtn
-            component={Link}
-            to="/login"
-            sx={{ display: { xs: "none", sm: "flex" } }}
-          >
-            Sign in
+            <PersonOutlineIcon />
+            <ShoppingCartOutlinedIcon />
           </CustomBtn>
         )}
-        <CustomBtn
-          component={Link}
-          to="/cart"
-          sx={{ display: { xs: "none", sm: "flex" } }}
-        >
-          Cart
-        </CustomBtn>
+
+        {/* ---------- DESKTOP (>=650px) ---------- */}
+        {isDesktop && (
+          <>
+            {user ? (
+              <CustomBtn onClick={handleLogout}>
+                {user.fullname} <br /> Sign out
+              </CustomBtn>
+            ) : (
+              <CustomBtn component={Link} to="/login">
+                Sign in
+              </CustomBtn>
+            )}
+
+            <CustomBtn component={Link} to="/cart">
+              Cart
+            </CustomBtn>
+          </>
+        )}
       </ButtonGroup>
 
-      {/* Dropdown menu for mobile */}
+      {/* ---------- MOBILE DROPDOWN ---------- */}
       <Menu
         id="dropdown-menu"
         anchorEl={anchorEl}
@@ -124,6 +117,7 @@ function HeaderBtnGroup() {
             Sign in
           </MenuItem>
         )}
+
         <MenuItem component={Link} to="/cart" onClick={handleClose}>
           Cart
         </MenuItem>
@@ -162,7 +156,7 @@ function LinkBtnGroup() {
       <Button className="linkBtn" component={Link} to="/about">
         About
       </Button>
-      <Button className="linkBtn" component={Link} to="/contact">
+      <Button className="linkBtn" component={Link} to="/contact-us">
         Contact
       </Button>
     </ButtonGroup>

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\{
     RatingController,
     SizeController,
     AuthController,
+    ContactController,
     OrderController,
     OrderItemController
 };
@@ -49,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('orderItems', OrderItemController::class);
 
+
 /* ================= RESOURCES ================= */
 Route::apiResources([
     'users' => UserController::class,
@@ -58,4 +60,5 @@ Route::apiResources([
     'feedbacks' => FeedbackController::class,
     'galleries' => GalleryController::class,
     'sizes' => SizeController::class,
+    'contact' => ContactController::class
 ]);

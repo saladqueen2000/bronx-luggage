@@ -15,28 +15,20 @@ function ResponsiveCard({ image }) {
   return (
     <Card
       sx={{
-        width: 300,
-        height: 285,
-        borderRadius: "30px",
+        width: 220,
+        height: 300,
+        borderRadius: "20px",
         position: "relative",
-        overflow: "visible",
-        paddingBottom: "15px",
         border: "1px solid #B6B6B6",
+        cursor: "pointer",
+        flexShrink: 0,
       }}
     >
       <CardMedia
-        component="img"
-        image={image}
         sx={{
-          height: 180,
-          width: 260,
-          margin: "0px 20px",
-          marginTop: "20px",
-          borderRadius: "10px",
-          "&:hover": {
-            opacity: "0.9",
-            cursor: "pointer",
-          },
+          width: 180,
+          height: 160,
+          margin: "20px auto 0",
         }}
       />
 
@@ -98,7 +90,7 @@ function ResponsiveCard({ image }) {
 function ProductCard({ image, title, price, rating = 0, onClick }) {
   return (
     <Card
-      onClick={onClick} // thêm sự kiện click
+      onClick={onClick}
       sx={{
         width: 300,
         height: 300,

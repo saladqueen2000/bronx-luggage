@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Grid, CircularProgress } from "@mui/material";
+import React, { useEffect, useState, useRef } from "react";
+import { CircularProgress, IconButton } from "@mui/material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +11,15 @@ import SaleBanner from "../components/SaleBanner";
 import SliderHero from "../components/HomeSlides";
 import { ProductCard } from "../components/Cards";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+
+import "swiper/css";
 import "../global.css";
 import "../assets/style/Home.css";
+
+const NORMAL_SPEED = 3000;
+const FAST_SPEED = 400;
 
 const API_URL = "http://localhost:8000/api/products/top-rated";
 
@@ -19,49 +28,58 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const swiperRef = useRef(null);
+  const rafRef = useRef(null);
   const navigate = useNavigate();
 
+  /* =====================
+     FETCH PRODUCTS
+  ====================== */
   useEffect(() => {
-    let isMounted = true;
+    let mounted = true;
 
     const fetchProducts = async () => {
       try {
-        setLoading(true);
         const res = await axios.get(API_URL);
+        if (!Array.isArray(res.data)) throw new Error("Invalid API");
 
-        if (!Array.isArray(res.data)) {
-          throw new Error("Invalid API response format");
-        }
-
-        if (isMounted) setProducts(res.data.slice(0, 8));
-      } catch (err) {
-        console.error("Fetch products failed:", err);
-        if (isMounted) setError("Không thể tải danh sách sản phẩm");
+        if (mounted) setProducts(res.data.slice(0, 8));
+      } catch {
+        if (mounted) setError("Can't load product list");
       } finally {
-        if (isMounted) setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
 
     fetchProducts();
-
     return () => {
-      isMounted = false;
+      mounted = false;
+      cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  if (loading)
+  /* =====================
+     RENDER STATES
+  ====================== */
+  if (loading) {
     return (
       <div className="loadingStyle">
         <CircularProgress />
       </div>
     );
-  if (error)
+  }
+
+  if (error) {
     return (
       <div className="loadingStyle">
         <p>{error}</p>
       </div>
     );
+  }
 
+  /* =====================
+     RENDER UI
+  ====================== */
   return (
     <div className="home">
       <Header />
@@ -74,10 +92,23 @@ export default function Home() {
             <span className="home__popular-text">Top Rated Products</span>
           </div>
 
-          {products.length > 0 ? (
-            <Grid container spacing={5} className="home__popular-list">
-              {products.map((product) => (
-                <Grid item xs={12} sm={6} md={3} key={product.id}>
+          <Swiper
+            modules={[Autoplay]}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            slidesPerView="auto"
+            spaceBetween={20}
+            freeMode={{ enabled: true, momentum: false }}
+            loop={true}
+            speed={3000} // QUAN TRỌNG
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+            }}
+            allowTouchMove={true}
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id}>
+                <div className="home__popular-slide">
                   <ProductCard
                     image={product.gallery?.[0]?.image_url || ""}
                     title={product.name}
@@ -85,12 +116,10 @@ export default function Home() {
                     rating={product.ratings_avg_rating || 0}
                     onClick={() => navigate(`/list/${product.id}`)}
                   />
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <p>Không có sản phẩm nào</p>
-          )}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </section>
 
         <SaleBanner />

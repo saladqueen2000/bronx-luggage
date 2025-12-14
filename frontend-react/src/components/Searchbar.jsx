@@ -3,6 +3,7 @@ import "@fontsource/roboto/400.css";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 function HeaderSearchBar() {
@@ -73,35 +74,37 @@ function HeaderSearchBar() {
 
 function FooterSearchBar() {
   return (
-    <div>
-      <TextField
-        noValidate
-        autoComplete="off"
-        variant="outlined"
-        label="Email address"
-        InputProps={{
-          endAdornment: (
-            <SendIcon
-              style={{ color: "white", marginRight: "10px", marginTop: "10px" }}
-            />
-          ),
-        }}
-        className="footerSearchBar"
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "transparent" },
-            "&:hover fieldset": { borderColor: "transparent" },
-            "&.Mui-focused fieldset": { borderColor: "transparent" },
-          },
-          "& .MuiInputLabel-root": {
-            color: "white",
-            top: "7.5px",
-            left: "10px",
-          },
-          "& .MuiInputLabel-root.Mui-focused": { color: "transparent" },
-        }}
-      />
-    </div>
+    <Button
+      component={Link}
+      to="/contact-us"
+      className="footerSearchBar"
+      endIcon={<SendIcon />}
+      sx={{
+        width: "500px",
+        height: "70px",
+        borderRadius: "22.5px",
+
+        backgroundColor: "#EDA415", // ⭐ BẮT BUỘC
+        color: "#fff",
+
+        textTransform: "none",
+        justifyContent: "space-between",
+        padding: "0 25px",
+        fontSize: "1rem",
+        fontWeight: 500,
+
+        "& svg": {
+          color: "#fff",
+          fontSize: "1.4rem",
+        },
+
+        "&:hover": {
+          backgroundColor: "#e19a0f",
+        },
+      }}
+    >
+      Contact us
+    </Button>
   );
 }
 

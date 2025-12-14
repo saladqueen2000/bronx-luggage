@@ -247,9 +247,9 @@ class ProductController extends Controller
     public function topRated()
     {
         $products = Product::with(['category', 'brand', 'gallery'])
-            ->withAvg('ratings', 'rating')    // thêm cột ratings_avg_rating
+            ->withAvg('ratings', 'rating')
             ->orderByDesc('ratings_avg_rating')
-            ->take(5)
+            ->take(10)
             ->get();
 
         return response()->json($products);

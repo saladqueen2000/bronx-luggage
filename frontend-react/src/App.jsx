@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-// import reactLogo from './assets/react.svg'
-import viteLogo from "/vite.svg";
-import { useEffect } from "react";
-import axios from "axios";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
@@ -13,6 +9,7 @@ import Feedback from "./pages/Feedback";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import PublicRoute from "./routes/PublicRoute";
+import ContactUs from "./pages/ContactUs";
 
 // const find = async () => {
 //   try {
@@ -33,7 +30,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/list" element={<ProductList />} />
       <Route path="/cart" element={<Cart />} />
-
+      <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/list/:id" element={<ProductDetail />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route
