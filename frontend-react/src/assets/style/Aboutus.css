@@ -1,0 +1,131 @@
+/* AboutUs.css */
+
+.about-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-header {
+    background-image: url('https://puolotrip.com/uploads/images/2013/02/Hnah-trang-cho-chuyen-di-du-lich-jpg.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 600px;
+    display: flex;
+    margin-bottom: 50px;
+    align-items: center;
+    justify-content:flex-end;
+}
+
+.Logo-img{
+    
+    justify-content: center; /* Căn ngang */
+    align-items: center; /* Căn dọc */
+    
+    text-align: center;
+}
+
+
+.aboutLogo-img{
+    align-items: center;
+margin-bottom: 20px;
+ height: 200px;
+ width: auto;
+ justify-content: center;
+ align-items: center;
+}
+.aboutLogo-img img{
+    display: block;
+    border-radius: 50%;
+    height: 200px;
+    width: auto; 
+    margin: 0 auto;
+}
+.slogan-about{
+    font-size: 50px;
+    color: #EDA415;
+
+}
+
+.about-content-section {
+    border-bottom: 1px solid #232323;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 40px;
+    align-items: flex-start;
+    margin-bottom: 50px;
+}
+
+.content-left {
+    flex: 1;
+    min-width: 300px; 
+}
+
+.about-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.content-right {
+    flex: 2;
+    min-width: 300px;
+}
+
+.content-right h2 {
+    font-size: 1.8em;
+    color: #EDA415;
+    margin-bottom: 20px;
+}
+.content-right h3 {
+    font-size: 1em;
+    color: #EDA415;
+    margin-bottom: 20px;
+}
+
+.content-right p {
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+.about-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.stat-item span {
+    font-size: 2em;
+    font-weight: 700;
+    color: #cc0000; /* Màu nhấn */
+    display: block;
+}
+
+.stat-item p {
+    margin: 5px 0 0 0;
+    color: #777;
+    font-size: 0.9em;
+}
+.final-wishes {
+    align-items: center;
+    text-align: center;
+}
+
+.final-wishes h2{
+    color: #EDA415;
+    font-family: Poppins;
+    font-size: 3em;
+}
+
+/* Responsive: Chuyển sang bố cục một cột trên màn hình nhỏ */
+@media (max-width: 768px) {
+    .about-content-section {
+        flex-direction: column;
+    }
+    .content-left, .content-right {
+        min-width: 100%;
+    }
+}
