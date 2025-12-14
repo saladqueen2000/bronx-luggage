@@ -7,11 +7,12 @@ import axios from "axios";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Feedback from "./pages/Feedback";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
+import PublicRoute from "./routes/PublicRoute";
 
 // const find = async () => {
 //   try {
@@ -35,7 +36,14 @@ function App() {
 
       <Route path="/list/:id" element={<ProductDetail />} />
       <Route path="/checkout" element={<Checkout />} />
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
       <Route path="/register" element={<Register />} />
     </Routes>
   );

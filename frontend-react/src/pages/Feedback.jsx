@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/style/Feedback.css";
 
 export default function Feedback() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const navigate = useNavigate();
 
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(null);
@@ -34,13 +36,12 @@ export default function Feedback() {
     setSending(true);
 
     try {
-      // Thay bằng API endpoint thật của bạn nếu có
-      // await fetch('/api/feedback', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ ...form, rating }) });
+      // Call API here
+      // await fetch('/api/feedback', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(form) });
       await new Promise((res) => setTimeout(res, 900));
 
       setSent(true);
       setForm({ name: "", email: "", message: "" });
-   
     } catch (err) {
       console.error(err);
       setError("Sending failed — please try again later.");
@@ -51,18 +52,28 @@ export default function Feedback() {
 
   return (
     <div className="feedback-page">
+      {/* Back to Home mũi tên */}
+      <button
+        className="btn-back-home"
+        onClick={() => navigate("/")}
+        aria-label="Back to Home"
+      >
+        ←
+      </button>
+
       <div className="feedback-card">
         <div className="left-visual">
           <div className="brand">Bronx-Luggage</div>
           <h1>Share your feedback</h1>
-          <p >Help us improve your shopping experience.</p>
-          
+          <p className="muted">Help us improve your shopping experience.</p>
         </div>
 
         <form className="form" onSubmit={handleSubmit} noValidate>
           <div className="form-header">
             <h2>Feedback</h2>
-            <p className="muted">Only takes a few minutes — we appreciate all feedback.</p>
+            <p className="muted">
+              Only takes a few minutes — we appreciate all feedback.
+            </p>
           </div>
 
           <label className="field">
@@ -90,8 +101,6 @@ export default function Feedback() {
             />
           </label>
 
-
-
           <label className="field">
             <span className="label">Message</span>
             <textarea
@@ -117,15 +126,16 @@ export default function Feedback() {
               className="btn ghost"
               onClick={() => {
                 setForm({ name: "", email: "", message: "" });
-               
                 setError(null);
               }}
             >
-              Cancel  
+              Cancel
             </button>
           </div>
 
-          <div className="note muted">We are committed to protecting your information.</div>
+          <div className="note muted">
+            We are committed to protecting your information.
+          </div>
         </form>
       </div>
 

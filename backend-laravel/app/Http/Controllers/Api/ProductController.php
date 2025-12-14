@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     // ⭐ GET all products
-    public function index()
+    public function index(Request $request)
     {
-        return Product::with(['category', 'brand', 'colors', 'sizes', 'gallery'])->get();
+        return Product::with(['category', 'brand', 'colors', 'sizes', 'gallery'])
+            ->paginate($request->get('per_page', 12));
     }
 
     // ⭐ GET product detail
@@ -147,49 +148,83 @@ class ProductController extends Controller
     {
         $products = Product::query();
 
-        // Filter by brand
-        if ($request->brand_id) {
-            $products->where('brand_id', $request->brand_id);
+        /* ---------- Brand (MULTI) ---------- */
+        if ($request->filled('brand_ids')) {
+            $brandIds = is_array($request->brand_ids)
+                ? $request->brand_ids
+                : explode(',', $request->brand_ids);
+
+            $products->whereIn('brand_id', $brandIds);
         }
 
-        // Filter by category
-        if ($request->category_id) {
-            $products->where('category_id', $request->category_id);
+        /* ---------- Category (MULTI) ---------- */
+        if ($request->filled('category_ids')) {
+            $categoryIds = is_array($request->category_ids)
+                ? $request->category_ids
+                : explode(',', $request->category_ids);
+
+            $products->whereIn('category_id', $categoryIds);
         }
 
-        // Filter by price range
-        if ($request->min_price) {
+        /* ---------- Gender ---------- */
+        if ($request->filled('gender')) {
+            $products->where('gender', $request->gender);
+        }
+
+        /* ---------- Price ---------- */
+        if ($request->filled('min_price')) {
             $products->where('price', '>=', $request->min_price);
         }
 
-        if ($request->max_price) {
+        if ($request->filled('max_price')) {
             $products->where('price', '<=', $request->max_price);
         }
 
-        // Filter by multiple colors
-        if ($request->color_ids) {
-            $products->whereHas('colors', function ($q) use ($request) {
-                $q->whereIn('colors.id', $request->color_ids);
+        /* ---------- Colors (MULTI) ---------- */
+        if ($request->filled('color_ids')) {
+            $colorIds = is_array($request->color_ids)
+                ? $request->color_ids
+                : explode(',', $request->color_ids);
+
+            $products->whereHas('colors', function ($q) use ($colorIds) {
+                $q->whereIn('colors.id', $colorIds);
             });
         }
 
-        // Filter by multiple sizes
-        if ($request->size_ids) {
-            $products->whereHas('sizes', function ($q) use ($request) {
-                $q->whereIn('sizes.id', $request->size_ids);
+        /* ---------- Sizes (MULTI) ---------- */
+        if ($request->filled('size_ids')) {
+            $sizeIds = is_array($request->size_ids)
+                ? $request->size_ids
+                : explode(',', $request->size_ids);
+
+            $products->whereHas('sizes', function ($q) use ($sizeIds) {
+                $q->whereIn('sizes.id', $sizeIds);
             });
         }
 
-        // Search by product name
-        if ($request->keyword) {
+        /* ---------- Keyword ---------- */
+        if ($request->filled('keyword')) {
             $products->where('name', 'LIKE', '%' . $request->keyword . '%');
         }
 
-        // Load relationships
-        $products = $products->with(['brand', 'category', 'colors', 'sizes', 'gallery'])->get();
+        /* ---------- LOAD RELATIONS ---------- */
+        $products->with(['brand', 'category', 'colors', 'sizes', 'gallery']);
 
-        return response()->json($products);
+        /* ---------- NO PAGINATION (FOR COUNT) ---------- */
+        if ($request->boolean('no_paginate')) {
+            return response()->json([
+                'data' => $products->get()
+            ]);
+        }
+
+        /* ---------- PAGINATION ---------- */
+        $perPage = (int) $request->get('per_page', 12);
+
+        return response()->json(
+            $products->paginate($perPage)
+        );
     }
+
     public function related($id)
     {
         $product = Product::findOrFail($id);
@@ -198,7 +233,7 @@ class ProductController extends Controller
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $id)
             ->orderBy('id', 'DESC')
-            ->take(6)
+            ->take(4)
             ->get();
     }
     public function increaseView($id)
@@ -219,4 +254,23 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
+
+    // ⭐ SEARCH products by name
+    public function search(Request $request)
+    {
+        $keyword = $request->get('keyword');
+        if (!$keyword || trim($keyword) === '') {
+            return response()->json([
+                'message' => 'Keyword is required',
+                'data' => []
+            ]);
+        }
+
+        $products = Product::where('name', 'LIKE', "%{$keyword}%")
+            ->with(['category', 'brand', 'colors', 'sizes', 'gallery'])
+            ->get();
+
+        return response()->json($products);
+    }
+
 }

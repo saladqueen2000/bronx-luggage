@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\GuestUser;
+use Illuminate\Support\Facades\DB;
+
 
 class OrderController extends Controller
 {
@@ -24,41 +27,82 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'address' => 'required|string|max:255',
+        DB::beginTransaction();
 
-            'items' => 'required|array|min:1',
+        try {
+            // ================= IDENTIFY USER =================
+            $user = auth()->user(); // có thể null
+            $guestUserId = null;
 
-            'items.*.product_id' => 'required|exists:products,id',
-            'items.*.color' => 'nullable|string',
-            'items.*.size' => 'nullable|string',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price' => 'required|numeric|min:0',
-        ]);
+            // Lấy guest token từ header hoặc payload
+            $guestToken = $request->header('X-Guest-Token') ?? $request->input('guest_token');
 
-        // Tính tổng tiền
-        $total = collect($data['items'])
-            ->sum(fn($item) => $item['price'] * $item['quantity']);
+            if (!$user) {
+                if (!$guestToken) {
+                    throw new \Exception('Guest token missing');
+                }
 
-        // Tạo order
-        $order = Order::create([
-            'user_id' => $data['user_id'],
-            'address' => $data['address'],
-            'total_amount' => $total,
-            'status' => 'pending',
-        ]);
+                $guestUser = GuestUser::firstOrCreate([
+                    'guest_token' => $guestToken
+                ]);
 
-        // Tạo order items
-        foreach ($data['items'] as $item) {
-            $order->items()->create($item);
+                $guestUserId = $guestUser->id;
+            }
+
+            // ================= VALIDATE ITEMS =================
+            if (!$request->items || count($request->items) === 0) {
+                throw new \Exception('Cart is empty');
+            }
+
+            // ================= CALCULATE TOTAL =================
+            $total = 0;
+            foreach ($request->items as $item) {
+                $total += $item['price'] * $item['quantity'];
+            }
+
+            $shipping = 5;
+            $total += $shipping;
+
+            // ================= CREATE ORDER =================
+            $order = Order::create([
+                'user_id' => $user?->id,
+                'guest_user_id' => $guestUserId,
+                'fullname' => $request->fullname,
+                'email' => $request->email,
+                'phonenumber' => $request->phonenumber,
+                'address' => $request->address,
+                'note' => $request->note,
+                'status' => 'pending',
+                'total_amount' => $total,
+            ]);
+
+            // ================= ORDER ITEMS =================
+            foreach ($request->items as $item) {
+                $order->items()->create([
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'color' => $item['color'] ?? null,
+                    'size' => $item['size'] ?? null,
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Order created successfully',
+                'order' => $order->load('items.product')
+            ], 201);
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 400);
         }
-
-        return response()->json([
-            'message' => 'Order created successfully',
-            'order' => $order->load('items.product')
-        ], 201);
     }
+
 
     public function update(Request $request, $id)
     {

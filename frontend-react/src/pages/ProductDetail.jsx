@@ -108,7 +108,7 @@ export default function ProductDetail() {
       price: product.price,
       color: selectedColor.name,
       size: selectedSize.label,
-      quantity: quantity,
+      qty: quantity,
       image: mainImage,
     };
 

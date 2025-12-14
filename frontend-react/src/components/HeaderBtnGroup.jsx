@@ -1,116 +1,168 @@
-import React from "react";
-import { ButtonGroup, IconButton, Button } from "@mui/material";
+import React, { useState } from "react";
+import { ButtonGroup, Button, Menu, MenuItem } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
-import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const CustomBtn1 = styled(Button)`
+/* ---------- CUSTOM BUTTON ---------- */
+const CustomBtn = styled(Button)`
   border: none;
-  border-radius: 0px;
-  width: 125px;
-  height: 50px;
+  border-radius: 0;
+  width: 150px;
+  height: 56px;
   padding: 0;
   min-width: 0;
   text-transform: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  color: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.125);
   }
+
+  /* Ẩn dropdown-btn desktop */
+  @media (min-width: 650px) {
+    &.dropdown-btn {
+      display: none;
+    }
+  }
+
+  /* Mobile dropdown width */
+  @media (max-width: 650px) {
+    &.dropdown-btn {
+      width: 100px; /* giảm width */
+    }
+  }
 `;
 
-const CustomBtn2 = styled(Button)`
-  border: "none",
-  borderRadius: "0px",
-  padding: "0px",
-  width: "175px",
-  height: "40px",
-  min-width: 0;
-  text-transform: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-
-  "&:hover": {
-    backgroundColor: "rgba(110, 110, 110, 0.13)",
-  },
-`;
-
+/* ---------- HEADER BUTTON GROUP ---------- */
 function HeaderBtnGroup() {
-  return (
-    <ButtonGroup
-      variant="text"
-      className="headerBtnGroup"
-      sx={{
-        "& .MuiButtonGroup-grouped": {
-          borderRight: "none !important",
-          borderLeft: "none !important",
-        },
-      }}
-    >
-      <CustomBtn1 component={Link} to="/login" className="headerBtn">
-        <PersonOutlineIcon className="headerBtnGroup-icon" />
-        <span className="headerBtnGroup-text">Sign in</span>
-      </CustomBtn1>
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-      <CustomBtn1 component={Link} to="/cart" className="headerBtn">
-        <ShoppingCartOutlinedIcon className="headerBtnGroup-icon" />
-        <span className="headerBtnGroup-text">Cart</span>
-      </CustomBtn1>
-    </ButtonGroup>
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/login");
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <ButtonGroup
+        variant="text"
+        className="headerBtnGroup"
+        sx={{
+          "& .MuiButton-root": { color: "#fff" },
+          "& .MuiButtonGroup-grouped": { border: "none" },
+        }}
+      >
+        <CustomBtn
+          className="dropdown-btn"
+          aria-controls={open ? "dropdown-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <PersonOutlineIcon fontSize="medium" />
+          <ShoppingCartOutlinedIcon fontSize="medium" />
+        </CustomBtn>
+        {/* Desktop buttons */}
+        {user ? (
+          <CustomBtn
+            component={Button}
+            onClick={handleLogout}
+            sx={{ display: { xs: "none", sm: "flex" } }}
+          >
+            {user.fullname} <br /> Sign out
+          </CustomBtn>
+        ) : (
+          <CustomBtn
+            component={Link}
+            to="/login"
+            sx={{ display: { xs: "none", sm: "flex" } }}
+          >
+            Sign in
+          </CustomBtn>
+        )}
+        <CustomBtn
+          component={Link}
+          to="/cart"
+          sx={{ display: { xs: "none", sm: "flex" } }}
+        >
+          Cart
+        </CustomBtn>
+      </ButtonGroup>
+
+      {/* Dropdown menu for mobile */}
+      <Menu
+        id="dropdown-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        {user ? (
+          <MenuItem onClick={handleLogout}>Sign out ({user.fullname})</MenuItem>
+        ) : (
+          <MenuItem component={Link} to="/login" onClick={handleClose}>
+            Sign in
+          </MenuItem>
+        )}
+        <MenuItem component={Link} to="/cart" onClick={handleClose}>
+          Cart
+        </MenuItem>
+      </Menu>
+    </>
   );
 }
 
+/* ---------- STORE BUTTON GROUP ---------- */
 function StoreBtnGroup() {
   return (
     <ButtonGroup
       variant="text"
       className="storeBtnGroup"
       sx={{
-        "& .MuiButtonGroup-grouped": {
-          border: "none !important",
-        },
+        "& .MuiButton-root": { color: "#fff" },
+        "& .MuiButtonGroup-grouped": { border: "none" },
       }}
-    >
-      <CustomBtn2>
-        <FmdGoodOutlinedIcon sx={{ fontSize: "1.25rem", color: "black" }} />
-        <span className="storeBtnGroup-text">Our store</span>
-      </CustomBtn2>
-
-      <CustomBtn2>
-        <LocalShippingOutlinedIcon
-          sx={{ fontSize: "1.25rem", color: "black" }}
-        />
-        <span className="storeBtnGroup-text">Track your order</span>
-      </CustomBtn2>
-    </ButtonGroup>
+    />
   );
 }
 
+/* ---------- LINK BUTTON GROUP ---------- */
 function LinkBtnGroup() {
   return (
     <ButtonGroup variant="text" className="linkBtnGroup">
-      <Button variant="text" className="linkBtn">
+      <Button className="linkBtn" component={Link} to="/">
         Home
       </Button>
-      <Button variant="text" className="linkBtn">
+      <Button className="linkBtn" component={Link} to="/list">
         Products
       </Button>
-      <Button variant="text" className="linkBtn">
+      <Button className="linkBtn" component={Link} to="/feedback">
         Feedback
       </Button>
-      <Button variant="text" className="linkBtn">
+      <Button className="linkBtn" component={Link} to="/about">
         About
       </Button>
-      <Button variant="text" className="linkBtn">
+      <Button className="linkBtn" component={Link} to="/contact">
         Contact
       </Button>
     </ButtonGroup>

@@ -8,10 +8,16 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
-        'total_amount',
+        'guest_user_id',
+        'fullname',
+        'email',
+        'phonenumber',
+        'address',
+        'note',
         'status',
-        'address'
+        'total_amount',
     ];
+
 
     public function items()
     {
@@ -22,4 +28,10 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function guestUser()
+    {
+        return $this->belongsTo(GuestUser::class);
+    }
+
 }

@@ -1,3 +1,10 @@
+/* Hover effect cho dropdown product */
+.MuiAutocomplete-option:hover,
+.MuiAutocomplete-option[data-focus="true"] {
+  background-color: #f0f0f0;
+  color: #003f62;
+  cursor: pointer;
+}
 .header {
   background-position: center;
   background-repeat: no-repeat;
@@ -85,7 +92,7 @@
 /* Searchbar header */
 .headerSearchBar-container {
   height: 50px;
-  width: 500px;
+  width: 400px;
   background-color: white;
   border-radius: 15px;
   display: flex;
@@ -94,8 +101,8 @@
 .headerSearchBar-textfield {
   height: 50px;
   max-height: 50px;
-  width: 350px;
-  max-width: 350px;
+  width: 400px;
+  max-width: 400px;
   background-color: white;
   border-radius: 15px;
   font-family: "Poppins";
@@ -152,7 +159,7 @@
 .headerBtnGroup-text {
   margin-left: 10px;
   font-size: 1.25rem;
-  font-weight: lighter;
+  font-weight: 400;
   color: white;
 }
 
@@ -311,10 +318,10 @@
 
 /* 425px */
 @media (max-width: 650px) {
-  .header .header-middle .header-lower {
-    max-width: 426px;
+  .headerSearchBar-container .headerSearchBar-textfield {
+    width: 100%;
+    min-width: 100px;
   }
-
   .header-upper {
     display: none !important;
   }
@@ -346,6 +353,10 @@
 
 /* 375px */
 @media (max-width: 376px) {
+  .headerSearchBar-container .headerSearchBar-textfield {
+    width: 100%;
+    min-width: none;
+  }
   .headerLogo {
     margin-left: 25px;
     margin-right: 25px;

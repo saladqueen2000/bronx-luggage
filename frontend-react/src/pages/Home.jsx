@@ -1,83 +1,102 @@
-import React from "react";
-import { Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Grid, CircularProgress } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SaleBanner from "../components/SaleBanner";
 import SliderHero from "../components/HomeSlides";
-import { ResponsiveCard, ProductCard } from "../components/Cards";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import { ProductCard } from "../components/Cards";
+
 import "../global.css";
 import "../assets/style/Home.css";
-import axios from "axios";
+
+const API_URL = "http://localhost:8000/api/products/top-rated";
 
 export default function Home() {
-  const [list, setList] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-  const find = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/api/products");
-      const data = response.data.slice(0, 8);
-      setList(data);
-    } catch (error) {
-      console.error("Error:", error.response?.data);
-    } finally {
-      setLoading(false);
-    }
-  };
-  React.useEffect(() => {
-    find();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(API_URL);
+
+        if (!Array.isArray(res.data)) {
+          throw new Error("Invalid API response format");
+        }
+
+        if (isMounted) setProducts(res.data.slice(0, 8));
+      } catch (err) {
+        console.error("Fetch products failed:", err);
+        if (isMounted) setError("Không thể tải danh sách sản phẩm");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  //Phần hiện lên trong lúc loading
-  if (loading) {
+  if (loading)
     return (
       <div className="loadingStyle">
         <CircularProgress />
       </div>
     );
-  }
+  if (error)
+    return (
+      <div className="loadingStyle">
+        <p>{error}</p>
+      </div>
+    );
 
   return (
     <div className="home">
       <Header />
+
       <main className="home__content">
         <SliderHero />
 
         <section className="home__popular">
-          <div style={{ display: "flex" }}>
-            <span className="home__popular-text">Popular products</span>
+          <div className="home__popular-header">
+            <span className="home__popular-text">Top Rated Products</span>
           </div>
 
-          <Grid container spacing={5} className="home__popular-list">
-            <Grid item xs={12} sm={6} md={3}>
-              <ResponsiveCard
-                image={list[0].gallery?.[0]?.image_url ?? ""}
-                title={list[0].name}
-                price={list[0].price}
-              />
+          {products.length > 0 ? (
+            <Grid container spacing={5} className="home__popular-list">
+              {products.map((product) => (
+                <Grid item xs={12} sm={6} md={3} key={product.id}>
+                  <ProductCard
+                    image={product.gallery?.[0]?.image_url || ""}
+                    title={product.name}
+                    price={product.price}
+                    rating={product.ratings_avg_rating || 0}
+                    onClick={() => navigate(`/list/${product.id}`)}
+                  />
+                </Grid>
+              ))}
             </Grid>
-            {list.slice(1).map((p) => (
-              <Grid item xs={12} sm={6} md={3} key={p.id}>
-                <ProductCard
-                  image={p.gallery?.[0]?.image_url ?? ""}
-                  title={p.name}
-                  price={p.price}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          ) : (
+            <p>Không có sản phẩm nào</p>
+          )}
         </section>
 
         <SaleBanner />
       </main>
+
       <Footer />
     </div>
   );
 }
-
-//phần popular product hiện ra sản phẩm có rating cao nhất
-
-//git add .
-//git commit -m "linhtinh"
-//git push
