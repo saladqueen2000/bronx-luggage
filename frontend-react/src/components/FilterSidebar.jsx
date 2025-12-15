@@ -6,6 +6,7 @@ import {
   Divider,
   Drawer,
   IconButton,
+  Slider,
   useMediaQuery,
 } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -14,38 +15,36 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
 
 /* ---------- Section ---------- */
-const FilterSection = ({ title, children, onReset }) => {
-  return (
-    <Box sx={{ mb: 3 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-        <Typography
-          sx={{
-            fontWeight: 600,
-            fontFamily: "Poppins",
-            fontSize: "1rem",
-            color: "#003F62",
-          }}
-        >
-          {title}
-        </Typography>
+const FilterSection = ({ title, children, onReset }) => (
+  <Box sx={{ mb: 3 }}>
+    <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+      <Typography
+        sx={{
+          fontWeight: 600,
+          fontFamily: "Poppins",
+          fontSize: "1rem",
+          color: "#003F62",
+        }}
+      >
+        {title}
+      </Typography>
 
-        <Typography
-          sx={{
-            fontFamily: "Poppins",
-            fontSize: "0.85rem",
-            color: "#595959",
-            cursor: "pointer",
-          }}
-          onClick={onReset}
-        >
-          Reset
-        </Typography>
-      </Box>
-      {children}
-      <Divider sx={{ mt: 2 }} />
+      <Typography
+        sx={{
+          fontFamily: "Poppins",
+          fontSize: "0.85rem",
+          color: "#595959",
+          cursor: "pointer",
+        }}
+        onClick={onReset}
+      >
+        Reset
+      </Typography>
     </Box>
-  );
-};
+    {children}
+    <Divider sx={{ mt: 2 }} />
+  </Box>
+);
 
 /* ---------- Main ---------- */
 export default function FilterSidebar({
@@ -64,11 +63,15 @@ export default function FilterSidebar({
   setSelectedColors,
   selectedSize,
   setSelectedSize,
+  maxPrice,
+  setMaxPrice,
+  minPrice = 0, // cố định
 }) {
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width:700px)", { noSsr: true });
 
   const safeProducts = allProducts || [];
+
   /* ---------- Counts ---------- */
   const maleCount = safeProducts.filter((p) => String(p.gender) === "1").length;
   const femaleCount = safeProducts.filter(
@@ -88,9 +91,14 @@ export default function FilterSidebar({
     );
   };
 
+  const handlePriceChange = (event, value) => {
+    setMaxPrice(value); // chỉ update maxPrice
+  };
+
   const resetCategory = () => setCategory([]);
   const resetBrand = () => setBrand([]);
   const resetGender = () => setGender(null);
+  const resetPrice = () => setMaxPrice(1000);
 
   /* ---------- Content ---------- */
   const FilterContent = (
@@ -191,6 +199,24 @@ export default function FilterSidebar({
             </Typography>
           </Box>
         ))}
+      </FilterSection>
+
+      {/* Price (chỉ kéo max) */}
+      <FilterSection title="Price" onReset={resetPrice}>
+        <Box sx={{ px: 1, py: 2 }}>
+          <Slider
+            value={maxPrice}
+            onChange={handlePriceChange}
+            valueLabelDisplay="auto"
+            min={minPrice}
+            max={1000} // tùy chỉnh max sản phẩm
+            sx={{ color: "#003F62" }}
+          />
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+            <Typography sx={{ fontSize: "0.85rem" }}>${minPrice}</Typography>
+            <Typography sx={{ fontSize: "0.85rem" }}>${maxPrice}</Typography>
+          </Box>
+        </Box>
       </FilterSection>
 
       {/* Color */}

@@ -172,14 +172,13 @@ class ProductController extends Controller
         }
 
         /* ---------- Price ---------- */
-        if ($request->filled('min_price')) {
-            $products->where('price', '>=', $request->min_price);
+        if ($request->filled('price_min')) {
+            $products->where('price', '>=', $request->price_min);
         }
 
-        if ($request->filled('max_price')) {
-            $products->where('price', '<=', $request->max_price);
+        if ($request->filled('price_max')) {
+            $products->where('price', '<=', $request->price_max);
         }
-
         /* ---------- Colors (MULTI) ---------- */
         if ($request->filled('color_ids')) {
             $colorIds = is_array($request->color_ids)

@@ -13,6 +13,9 @@ import "../assets/style/ProductList.css";
 
 export default function ProductList() {
   /* ---------- FILTER STATES ---------- */
+  const [minPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
+
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
   const [gender, setGender] = useState(null);
@@ -64,6 +67,8 @@ export default function ProductList() {
       const params = {
         page,
         per_page: itemsPerPage,
+        price_min: minPrice,
+        price_max: maxPrice,
       };
 
       if (category.length) params.category_ids = category.join(",");
@@ -90,6 +95,8 @@ export default function ProductList() {
     try {
       const params = {
         no_paginate: true,
+        price_min: minPrice,
+        price_max: maxPrice,
       };
 
       if (category.length) params.category_ids = category.join(",");
@@ -112,7 +119,7 @@ export default function ProductList() {
     setPage(1);
     fetchFilteredProducts(1);
     fetchProductsForCount();
-  }, [category, brand, gender, selectedColor, selectedSize]);
+  }, [category, brand, gender, selectedColor, selectedSize, maxPrice]);
 
   /* ---------- PAGE CHANGE ---------- */
   useEffect(() => {
@@ -149,6 +156,9 @@ export default function ProductList() {
           setSelectedColors={setSelectedColors}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          setMaxPrice={setMaxPrice}
         />
 
         <div className="-flexColumn">
