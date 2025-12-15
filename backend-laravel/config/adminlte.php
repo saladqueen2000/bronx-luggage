@@ -366,9 +366,14 @@ return [
             'icon' => 'fas fa-fw fa-users',
         ],
         [
-            'text' => 'Ratings & Feedback',
+            'text' => 'Ratings',
             'url'  => 'admin/ratings',
             'icon' => 'fas fa-fw fa-star',
+        ],
+        [
+            'text' => 'Feedback',
+            'url'  => 'admin/feedback',
+            'icon' => 'fas fa-fw fa-comment',
         ],
     ],
 
