@@ -392,6 +392,11 @@ return [
             'url'  => 'admin/feedback',
             'icon' => 'fas fa-fw fa-comment',
         ],
+        [
+            'text' => 'Contact',
+            'url'  => 'admin/contact',
+            'icon' => 'fas fa-fw fa-envelope',
+        ],
     ],
 
     /*
