@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Admin\RatingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +62,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     Route::resource('ratings', RatingController::class)
         ->only(['index', 'show', 'destroy']);
+
+    Route::get('feedback', [FeedbackController::class, 'index'])
+        ->name('feedback.index');
+
+    Route::get('contact', [ContactController::class, 'index'])
+        ->name('contact.index');
 
     Route::resource('users', UserController::class)
         ->only(['index', 'show', 'destroy']);

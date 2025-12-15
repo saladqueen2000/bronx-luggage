@@ -19,7 +19,6 @@
             <th>User</th>
             <th>Product</th>
             <th>Stars</th>
-            <th>Rating</th>
             <th>Comment</th>
             <th width="150px">Action</th>
         </tr>
