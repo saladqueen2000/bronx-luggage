@@ -105,7 +105,7 @@ export default function Register() {
 
         {success && (
           <p style={{ color: "green", textAlign: "center" }}>
-            {success} – Redirecting to login...
+            {success} – Redirecting...
           </p>
         )}
 

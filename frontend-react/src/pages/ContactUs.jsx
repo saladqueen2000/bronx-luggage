@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/style/ContactUs.css";
 
 export default function ContactUs() {
@@ -7,7 +8,7 @@ export default function ContactUs() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(""); // thông báo nhỏ dạng toast
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -35,6 +36,13 @@ export default function ContactUs() {
 
   return (
     <div className="contact-wrapper">
+      <button
+        className="btn-back-home"
+        onClick={() => navigate("/")}
+        aria-label="Back to Home"
+      >
+        ←
+      </button>
       <div className="contact-card">
         {/* LEFT INFO */}
         <div className="contact-info">

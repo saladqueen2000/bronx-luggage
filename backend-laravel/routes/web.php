@@ -29,7 +29,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('order-items', OrderItemController::class)->only(['index', 'show', 'destroy']);
     Route::resource('ratings', RatingController::class)->only(['index', 'show', 'destroy']);
     Route::resource('users', UserController::class)->only(['index', 'show', 'destroy']);
-    // Product gallery upload + delete
     Route::post('products/{id}/gallery', [ProductGalleryController::class, 'store'])->name('products.gallery.store');
     Route::delete('gallery/{id}', [ProductGalleryController::class, 'destroy'])->name('products.gallery.delete');
 
