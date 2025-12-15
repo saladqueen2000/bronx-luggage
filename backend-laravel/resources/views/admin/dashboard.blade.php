@@ -7,5 +7,5 @@
 @stop
 
 @section('content')
-    <p>Xin chào, {{ auth()->user()->fullname }}</p>
+    <p>Welcome, {{ auth()->user()->fullname }}</p>
 @stop
