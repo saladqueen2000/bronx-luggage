@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends Authenticatable
 {
+    use Notifiable;
     protected $fillable = [
         'fullname',
         'email',
         'password',
-        'gender'
+        'role',
     ];
-
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
     public function ratings()
     {
         return $this->hasMany(Rating::class);
@@ -22,4 +27,10 @@ class User extends Model
     {
         return $this->hasMany(Order::class);
     }
+    
+    public function getNameAttribute()
+    {
+        return $this->fullname;
+    }
+
 }
