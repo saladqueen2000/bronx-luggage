@@ -29,11 +29,11 @@ export default function Footer() {
           <div className="footer__about-location-text">
             285 Doi Can street, Ba Dinh ward, Ha Noi city
           </div>
-          <div className="footer__about-icon-container">
+          {/* <div className="footer__about-icon-container">
             <GoogleIcon className="footer__about-location--icons" />
             <FacebookIcon className="footer__about-location--icons" />
             <LocalPhoneRoundedIcon className="footer__about-location--icons" />
-          </div>
+          </div> */}
         </div>
 
         <div className="footer-list">
@@ -66,6 +66,16 @@ export default function Footer() {
             <li>Our policy</li>
             <li>Customer care</li>
             <li>Faq's</li>
+          </ul>
+        </div>
+
+        <div className="footer-list">
+          <h3>Company</h3>
+          <ul>
+            <li>Careers</li>
+            <li>Press</li>
+            <li>Blog</li>
+            <li>Customer Service</li>
           </ul>
         </div>
       </section>

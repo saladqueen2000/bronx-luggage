@@ -3,6 +3,9 @@ import "../assets/style/AboutUs.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Logo from "../assets/images/logo_images.jpg";
+import Pic3 from "../assets/images/bronx-luggage3.jpg";
+import Pic1 from "../assets/images/bronx-luggage1.jpg";
+import Pic2 from "../assets/images/bronx-luggage2.jpg";
 
 const AboutUs = () => {
   return (
@@ -24,11 +27,7 @@ const AboutUs = () => {
         {/* Section 1 */}
         <section className="about-content-section">
           <div className="content-left">
-            <img
-              src="https://scontent.fhph1-2.fna.fbcdn.net/v/t39.30808-6/515310884_1267200052082303_1119338314304141939_n.jpg"
-              alt="store"
-              className="about-image"
-            />
+            <img src={Pic1} alt="store" className="about-image" />
           </div>
 
           <div className="content-right">
@@ -65,22 +64,14 @@ const AboutUs = () => {
           </div>
 
           <div className="content-left">
-            <img
-              src="https://cdn-ildojdg.nitrocdn.com/ezwpfHTKHWJsbjdfVxgscYUFuXgCtWBD/assets/images/optimized/rev-76009d0/bronxluggage.com/wp-content/uploads/2025/06/bronx-luggage3.jpg"
-              alt="expert"
-              className="about-image"
-            />
+            <img src={Pic3} alt="expert" className="about-image" />
           </div>
         </section>
 
         {/* Section 3 */}
         <section className="about-content-section">
           <div className="content-left">
-            <img
-              src="https://scontent.fhph1-3.fna.fbcdn.net/v/t39.30808-6/514483636_1267200078748967_2383330853763402754_n.jpg"
-              alt="products"
-              className="about-image"
-            />
+            <img src={Pic2} alt="products" className="about-image" />
           </div>
 
           <div className="content-right">

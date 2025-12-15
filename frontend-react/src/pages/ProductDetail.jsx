@@ -154,20 +154,25 @@ export default function ProductDetail() {
           {/* LEFT IMAGE */}
           <div className="pd-left">
             <div className="pd-main-image-box">
-              <img src={mainImage} className="pd-main-image" alt="" />
+              {mainImage && (
+                <img
+                  src={mainImage}
+                  className="pd-main-image"
+                  alt={product.name}
+                />
+              )}
             </div>
-
             {/* GALLERY */}
             <div className="pd-thumb-grid">
-              {product.gallery?.map((img) => (
+              {product.gallery?.slice(0, 4).map((img) => (
                 <img
                   key={img.id}
-                  src={img.image_url}
+                  src={img.image_url || null} // tránh src=""
                   className={`pd-thumb ${
                     mainImage === img.image_url ? "active" : ""
                   }`}
                   onClick={() => setMainImage(img.image_url)}
-                  alt=""
+                  alt={product.name}
                 />
               ))}
             </div>
@@ -343,12 +348,13 @@ export default function ProductDetail() {
           <div className="pd-related-row">
             {related.map((p) => (
               <Link
+                key={p.id}
                 to={`/list/${p.id}`}
                 className="productList-link"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <ProductCard
-                  image={p.gallery?.[0]?.image_url ?? ""}
+                  image={p.gallery?.[0]?.image_url ?? null}
                   title={p.name}
                   price={p.price}
                   rating={p.rating}

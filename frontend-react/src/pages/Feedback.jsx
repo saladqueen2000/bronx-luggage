@@ -82,7 +82,7 @@ export default function Feedback() {
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="Nguyễn Văn A"
+              placeholder="John Doe"
               className="input"
               required
             />

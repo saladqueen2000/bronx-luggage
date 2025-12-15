@@ -9,18 +9,17 @@ class RatingSeeder extends Seeder
 {
     public function run()
     {
-        // Lấy toàn bộ product_id và user_id
         $products = DB::table('products')->pluck('id')->toArray();
-        $users = DB::table('users')->pluck('id')->toArray(); // đảm bảo user_id tồn tại
+        $users = DB::table('users')->pluck('id')->toArray();
 
         foreach ($products as $productId) {
 
-            // Số lượng rating ngẫu nhiên cho mỗi sản phẩm
+
             $count = rand(5, 25);
 
             for ($i = 0; $i < $count; $i++) {
                 DB::table('ratings')->insert([
-                    'user_id' => $users[array_rand($users)], // lấy id thực từ users
+                    'user_id' => $users[array_rand($users)],
                     'product_id' => $productId,
                     'rating' => rand(1, 5),
                     'comment' => $this->randomComment(),

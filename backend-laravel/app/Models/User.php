@@ -2,27 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; // ⚠ Quan trọng
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens; // ⚠ Quan trọng
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $fillable = [
         'fullname',
         'email',
         'password',
-        'role'
+        'role',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
     public function ratings()
     {
         return $this->hasMany(Rating::class);
@@ -32,4 +30,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getNameAttribute()
+    {
+        return $this->fullname;
+    }
+
 }

@@ -18,16 +18,13 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // JS check confirm password
     if (password.trim() !== passwordConfirm.trim()) {
       alert("Password and Confirm Password do not match");
       return;
     }
 
-    // Lấy guest token từ cookie (nếu có)
     const guestToken = Cookies.get("guest_token");
 
-    // Dispatch lên slice, gửi thêm guest token trong meta
     dispatch(
       registerUser(
         { fullname, email, password, passwordConfirm },
@@ -36,7 +33,6 @@ export default function Register() {
     );
   };
 
-  // Redirect sau khi register thành công
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
@@ -105,7 +101,7 @@ export default function Register() {
 
         {success && (
           <p style={{ color: "green", textAlign: "center" }}>
-            {success} – Redirecting to login...
+            {success} – Redirecting...
           </p>
         )}
 

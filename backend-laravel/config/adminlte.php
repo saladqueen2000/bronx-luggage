@@ -72,6 +72,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Authentication
+    |--------------------------------------------------------------------------
+    */
+
+    'auth' => [
+        'guards' => [
+            'admin' => [
+                'driver' => 'session',
+                'provider' => 'users',
+            ],
+        ],
+    ],
+
+    'logout_method' => 'POST',
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Logo
     |--------------------------------------------------------------------------
     |
@@ -134,7 +151,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -256,10 +273,10 @@ return [
     |
     */
 
-    'use_route_url' => false,
-    'dashboard_url' => 'home',
-    'logout_url' => 'logout',
-    'login_url' => 'login',
+    'use_route_url' => true,
+    'dashboard_url' => 'admin.dashboard',
+    'logout_url' => 'admin.logout',
+    'login_url' => 'admin.login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
@@ -366,9 +383,19 @@ return [
             'icon' => 'fas fa-fw fa-users',
         ],
         [
-            'text' => 'Ratings & Feedback',
+            'text' => 'Ratings',
             'url'  => 'admin/ratings',
             'icon' => 'fas fa-fw fa-star',
+        ],
+        [
+            'text' => 'Feedback',
+            'url'  => 'admin/feedback',
+            'icon' => 'fas fa-fw fa-comment',
+        ],
+        [
+            'text' => 'Contact',
+            'url'  => 'admin/contact',
+            'icon' => 'fas fa-fw fa-envelope',
         ],
     ],
 
