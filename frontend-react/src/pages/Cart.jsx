@@ -10,27 +10,6 @@ import "../assets/style/Cart.css";
 import Breadcrumb from "../components/Breadcrumb";
 import { Link } from "react-router-dom";
 
-// const fetchProducts = async () => {
-//   try {
-//     const res = await axios.get("http://localhost:8000/api/products");
-//     const cartData = res.data.map((p) => ({
-//       id: p.id,
-//       name: p.name,
-//       price: p.price,
-//       qty: 1,
-//       image: p.image,
-//       color: p.color ?? "Default",
-//       size: p.size ?? "M",
-//     }));
-//     Cookies.set("cart", JSON.stringify(cartData), { expires: 7 });
-//     setCart(cartData);
-//   } catch (error) {
-//     console.error(error);
-//     setCart([]);
-//   }
-//   setLoading(false);
-// };
-
 export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
@@ -183,19 +162,6 @@ export default function Cart() {
                 <span>Subtotal</span>
                 <strong>${subtotal.toFixed(2)}</strong>
               </div>
-
-              <div className="line"></div>
-
-              <div className="coupon-box">
-                <input placeholder="Enter coupon code" />
-                <button>Apply</button>
-              </div>
-
-              <select className="select-country">
-                <option>Country</option>
-                <option>Viet Nam</option>
-                <option>USA</option>
-              </select>
 
               <div className="line"></div>
 

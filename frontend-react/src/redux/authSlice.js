@@ -16,7 +16,7 @@ export const registerUser = createAsyncThunk(
           fullname,
           email,
           password,
-          password_confirmation: passwordConfirm, // map frontend key sang backend
+          password_confirmation: passwordConfirm,
         },
         {
           headers: guestToken ? { "X-Guest-Token": guestToken } : {},
@@ -100,10 +100,15 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          typeof action.payload === "string"
-            ? action.payload
-            : "Register failed";
+
+        if (action.payload?.errors) {
+          const firstKey = Object.keys(action.payload.errors)[0];
+          state.error = action.payload.errors[firstKey][0];
+        } else if (action.payload?.message) {
+          state.error = action.payload.message;
+        } else {
+          state.error = "Register failed";
+        }
       })
 
       /* ===== LOGIN ===== */
