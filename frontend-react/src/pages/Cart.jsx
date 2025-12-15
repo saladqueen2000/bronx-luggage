@@ -10,26 +10,6 @@ import "../assets/style/Cart.css";
 import Breadcrumb from "../components/Breadcrumb";
 import { Link } from "react-router-dom";
 
-// const fetchProducts = async () => {
-//   try {
-//     const res = await axios.get("http://localhost:8000/api/products");
-//     const cartData = res.data.map((p) => ({
-//       id: p.id,
-//       name: p.name,
-//       price: p.price,
-//       qty: 1,
-//       image: p.image,
-//       color: p.color ?? "Default",
-//       size: p.size ?? "M",
-//     }));
-//     Cookies.set("cart", JSON.stringify(cartData), { expires: 7 });
-//     setCart(cartData);
-//   } catch (error) {
-//     console.error(error);
-//     setCart([]);
-//   }
-//   setLoading(false);
-// };
 
 export default function Cart() {
   const [loading, setLoading] = useState(true);
@@ -59,7 +39,7 @@ export default function Cart() {
   // Increase quantity
   const increaseQty = (id) => {
     const updated = cart.map((item) =>
-      item.id === id ? { ...item, qty: item.qty + 1 } : item
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
     );
     saveCart(updated);
   };
@@ -68,9 +48,9 @@ export default function Cart() {
   const decreaseQty = (id) => {
     const updated = cart
       .map((item) =>
-        item.id === id && item.qty > 1 ? { ...item, qty: item.qty - 1 } : item
+        item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
       )
-      .filter((i) => i.qty > 0);
+      .filter((i) => i.quantity > 0);
 
     saveCart(updated);
   };
@@ -87,7 +67,7 @@ export default function Cart() {
     Cookies.set("cart", JSON.stringify([]));
   };
 
-  const subtotal = cart.reduce((t, i) => t + i.qty * i.price, 0);
+  const subtotal = cart.reduce((t, i) => t + i.quantity * i.price, 0);
 
   if (loading) {
     return (
@@ -146,13 +126,13 @@ export default function Cart() {
                   <div className="col-qty">
                     <div className="qty-box">
                       <button onClick={() => decreaseQty(item.id)}>−</button>
-                      <div className="num">{item.qty}</div>
+                      <div className="num">{item.quantity}</div>
                       <button onClick={() => increaseQty(item.id)}>+</button>
                     </div>
                   </div>
 
                   <div className="col-sub">
-                    ${(item.qty * item.price).toFixed(2)}
+                    ${(item.quantity * item.price).toFixed(2)}
                   </div>
 
                   <div
@@ -166,7 +146,9 @@ export default function Cart() {
 
             {cart.length > 0 && (
               <div className="bottom-buttons">
+                <Link to="/">
                 <button className="btn-continue">Continue shopping</button>
+                </Link>
                 <button className="btn-clear" onClick={clearCart}>
                   Clear cart
                 </button>

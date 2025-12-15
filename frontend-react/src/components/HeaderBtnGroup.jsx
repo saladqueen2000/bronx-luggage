@@ -101,15 +101,21 @@ function LinkBtnGroup() {
       <Button variant="text" className="linkBtn">
         Home
       </Button>
+      <Link to={`/list`}>
       <Button variant="text" className="linkBtn">
         Products
       </Button>
+      </Link>
+      <Link to={`/feedback`}>
       <Button variant="text" className="linkBtn">
         Feedback
       </Button>
+      </Link>
+      <Link to={`/aboutus`}>
       <Button variant="text" className="linkBtn">
         About
       </Button>
+      </Link>
       <Button variant="text" className="linkBtn">
         Contact
       </Button>

@@ -128,7 +128,14 @@ export default function ProductDetail() {
     });
 
     setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+
+    setTimeout(() => {
+      setQuantity(1);
+      setSelectedColor('');
+      setSelectedSize('');
+      setAdded(false);
+    }, 2000);
+    
   };
 
   // LOADING UI

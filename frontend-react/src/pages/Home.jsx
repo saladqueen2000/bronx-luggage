@@ -59,11 +59,13 @@ export default function Home() {
             </Grid>
             {list.slice(1).map((p) => (
               <Grid item xs={12} sm={6} md={3} key={p.id}>
+                <Link to={`/list/${p.id}`} style={{ textDecoration: 'none' }}>
                 <ProductCard
                   image={p.gallery?.[0]?.image_url ?? ""}
                   title={p.name}
                   price={p.price}
                 />
+                </Link>
               </Grid>
             ))}
           </Grid>

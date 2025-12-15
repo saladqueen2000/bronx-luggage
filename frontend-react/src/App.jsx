@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Feedback from "./pages/Feedback";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
+import AboutUs from "./pages/AboutUs";
 
 // const find = async () => {
 //   try {
@@ -28,11 +29,11 @@ function App() {
   const [count, setCount] = useState(0);
   return (
     <Routes>
-      <Route path="/feedback" element={<Feedback />} />
       <Route path="/" element={<Home />} />
       <Route path="/list" element={<ProductList />} />
       <Route path="/cart" element={<Cart />} />
-
+      <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/feedback" element={<Feedback />} />
       <Route path="/list/:id" element={<ProductDetail />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/login" element={<Login />} />
